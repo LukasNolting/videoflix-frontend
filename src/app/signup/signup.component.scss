@@ -50,17 +50,10 @@ input {
     cursor: pointer;
 }
 
-
-
 input::placeholder {
     @include DMSans(400, 18px, 23.44px, $main-blue-dark);
 }
 
 p {
     @include DMSans(500, 18px, 23.44px, $black);
-}
-
-.header{
-    @include dFlex(row, center, center);
-    width: 100%;
 }
