@@ -1,4 +1,4 @@
-@import "../../styles.scss";
+@import '../../styles.scss';
 
 .signup-wrapper {
     @include dFlex(row, center, center);
@@ -58,4 +58,9 @@ input::placeholder {
 
 p {
     @include DMSans(500, 18px, 23.44px, $black);
+}
+
+.header{
+    @include dFlex(row, center, center);
+    width: 100%;
 }
