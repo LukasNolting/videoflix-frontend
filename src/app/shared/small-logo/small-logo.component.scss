@@ -1,0 +1,10 @@
+.small-logo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.lower-logo{
+    transform: translate(2px, -2px);
+}
