@@ -1,1 +1,28 @@
-<p>login works!!</p>
+<section>
+    <app-header></app-header>
+</section>
+
+<section class="login-wrapper">
+    <div class="login-container">
+        <h1>Log in</h1>
+        <form>
+            <input type="email" placeholder="Email Address">
+            <input type="password" placeholder="Password">
+            <div class="remember-me-container">
+                <input type="checkbox">
+                <p>Remember me</p>
+            </div>
+            <button>Log in</button>
+        </form>
+        <p class="highlight pointer" [routerLink]="['/resetpassword']">Forgot password?</p>
+        <div class="login-bottom">
+            <p>New to Videoflix?</p>
+            <p>
+            <p class="highlight pointer" [routerLink]="['/signup']">Sign up now</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <app-footer></app-footer>
+</section>
