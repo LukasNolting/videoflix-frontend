@@ -9,10 +9,8 @@
     padding: 0 96px;
 }
 
-.logo_header{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.logo-header{
+     @include dFlex(row, center, center);
 }
 
 button{
