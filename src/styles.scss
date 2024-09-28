@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+    $white : #fff;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+    font-variation-settings: 'wght' 400;
+}
+
+@mixin dFlex($fd: row, $jc: center, $ai: center) {
+    display: flex;
+    flex-direction: $fd;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+//example : @include dFlex(column, flex-start, center);
+@mixin OpenSans($weight, $size, $line-height, $color) {
+    font-family: 'Open Sans', sans-serif;
+    font-variation-settings: 'wght'$weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
+
+//example : @include OpenSans(700, 64px, 76.8px, $main-blue-dark);
+
+@mixin Inter($weight, $size, $line-height, $color) {
+    font-family: 'Inter', inter;
+    font-variation-settings: 'wght'$weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
+
+
