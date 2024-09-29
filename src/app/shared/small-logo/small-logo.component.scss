@@ -1,7 +1,9 @@
-.small-logo{
- @include dFlex(column, center, center);
+@import '../../../styles.scss';
+
+.small-logo {
+    @include dFlex(column, center, center);
 }
 
-.lower-logo{
+.lower-logo {
     transform: translate(2px, -2px);
 }
