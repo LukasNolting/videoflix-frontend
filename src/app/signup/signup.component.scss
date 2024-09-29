@@ -26,10 +26,6 @@
     }
 }
 
-.highlight {
-    @include DMSans(400, 16px, 19.2px, $main-blue-dark);
-}
-
 form {
     @include dFlex(column, center, center);
     width: 408px;
