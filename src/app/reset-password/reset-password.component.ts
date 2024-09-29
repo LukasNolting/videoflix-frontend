@@ -18,14 +18,17 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     CommonModule,
   ],
-  templateUrl: './resetpassword.component.html',
-  styleUrl: './resetpassword.component.scss',
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.scss',
 })
 export class ResetpasswordComponent {
   resetPasswordForm: FormGroup;
+  isPasswordVisible: boolean = false;
+  isConfirmPasswordVisible: boolean = false;
   constructor(private fb: FormBuilder) {
     this.resetPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], // todo validate email check if exists in db
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -33,5 +36,15 @@ export class ResetpasswordComponent {
     console.log(this.resetPasswordForm.value);
 
     // todo connnect with auth service
+  }
+
+  togglePasswordVisibility(): void {
+    console.log(this.isPasswordVisible);
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    console.log(this.isConfirmPasswordVisible);
+    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
   }
 }

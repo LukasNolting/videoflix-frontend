@@ -18,6 +18,8 @@ import {
 })
 export class SignupComponent {
   signupForm: FormGroup;
+  isPasswordVisible: boolean = false;
+  isConfirmPasswordVisible: boolean = false;
   constructor(private fb: FormBuilder) {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -36,5 +38,12 @@ export class SignupComponent {
 
       // todo show error message
     }
+  }
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
   }
 }
