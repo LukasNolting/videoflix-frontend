@@ -18,14 +18,15 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     CommonModule,
   ],
-  templateUrl: './resetpassword.component.html',
-  styleUrl: './resetpassword.component.scss',
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.scss',
 })
 export class ResetpasswordComponent {
   resetPasswordForm: FormGroup;
   constructor(private fb: FormBuilder) {
     this.resetPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], // todo validate email check if exists in db
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 

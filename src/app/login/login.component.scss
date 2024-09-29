@@ -42,7 +42,7 @@ form {
     gap: 16px;
 
     button {
-        @include buttonBlue(99px, 48px, 10px);
+        @include buttonBlue(unset, 48px, 10px);
     }
 
     >.remember-me-container {
@@ -55,8 +55,8 @@ form {
         }
 
         input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
+            width: 16px;
+            height: 16px;
         }
     }
 
