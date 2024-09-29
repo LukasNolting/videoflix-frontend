@@ -22,11 +22,8 @@
 
     h1 {
         @include DMSans(700, 48px, 62.5px, $main-blue-dark);
+        padding-bottom: 48px;
     }
-}
-
-.highlight {
-    @include DMSans(400, 16px, 19.2px, $main-blue-dark);
 }
 
 form {
@@ -37,6 +34,18 @@ form {
 
     button {
         @include buttonBlue(151px, 48px, 10px);
+
+        &:hover {
+            @include btnHover($main-blue-dark);
+        }
+
+        &:active {
+            @include btnActive($main-blue-dark);
+        }
+
+        &:disabled {
+            @include btnDisabled($main-blue-dark);
+        }
     }
 }
 
@@ -56,4 +65,9 @@ input::placeholder {
 
 p {
     @include DMSans(500, 18px, 23.44px, $black);
+}
+
+.header {
+    @include dFlex(row, center, center);
+    width: 100%;
 }
