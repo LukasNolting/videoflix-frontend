@@ -59,6 +59,8 @@ input {
     cursor: pointer;
 }
 
+
+
 input::placeholder {
     @include DMSans(400, 18px, 23.44px, $main-blue-dark);
 }
