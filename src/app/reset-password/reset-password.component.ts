@@ -23,6 +23,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ResetpasswordComponent {
   resetPasswordForm: FormGroup;
+  isPasswordVisible: boolean = false;
+  isConfirmPasswordVisible: boolean = false;
   constructor(private fb: FormBuilder) {
     this.resetPasswordForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -34,5 +36,15 @@ export class ResetpasswordComponent {
     console.log(this.resetPasswordForm.value);
 
     // todo connnect with auth service
+  }
+
+  togglePasswordVisibility(): void {
+    console.log(this.isPasswordVisible);
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    console.log(this.isConfirmPasswordVisible);
+    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
   }
 }
