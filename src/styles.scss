@@ -139,6 +139,22 @@ option:focus {
     width: 100%;
     height: 100%;
     position: relative;
+
+    img {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        background-color: transparent;
+        transition: all 0.1s ease-in;
+
+        &:hover {
+            background-color: lightblue;
+        }
+    }
 }
 
 .error-message {
