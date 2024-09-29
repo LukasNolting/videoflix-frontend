@@ -1,0 +1,24 @@
+@import '../../../styles.scss';
+
+
+.header-wrapper {
+    position: absolute;
+    @include dFlex(row, center, center);
+    width: 100%;
+    height: 108px;
+    .header{
+        width: 100%;
+        color: white;
+        max-width: 1440px;
+        @include dFlex(row, space-between, center);
+        padding: 0 96px;
+    }
+}
+
+.logo-header{
+    @include dFlex(row, center, center);
+}
+
+button{
+    @include buttonBlue(99px, 48px, 10px);
+}
