@@ -32,7 +32,7 @@ body {
 
 @mixin DMSans($weight, $size, $line-height, $color) {
     font-family: 'DM Sans', sans-serif;
-    font-variation-settings: 'wght'$weight;
+    font-weight: $weight;
     font-size: $size;
     line-height: $line-height;
     color: $color;
@@ -84,7 +84,7 @@ body {
 
 @font-face {
     font-family: 'DMSans';
-    src: url('assets/fonts/DMSans-VariableFont_wght.ttf') format('truetype');
+    src: url('../public/assets/fonts/DMSans-VariableFont_wght.ttf') format('truetype');
     font-weight: 125 950;
     font-stretch: 75% 125%;
     font-style: normal;

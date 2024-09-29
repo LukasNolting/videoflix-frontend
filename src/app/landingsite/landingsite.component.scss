@@ -1,0 +1,69 @@
+@import "../../styles.scss";
+
+.signup-wrapper {
+  @include dFlex(row, center, center);
+  height: 100vh;
+  width: 100vw;
+  background-color: $black;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("../../../public/assets/img/backgrounds/background_4.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.signup-container {
+  @include dFlex(column, center, center);
+  gap: 24px;
+
+  h1 {
+    @include DMSans(700, 48px, 40.5px, $white);
+  }
+  h2 {
+    @include DMSans(300, 24px, 40.5px, $white);
+  }
+  h3 {
+    @include DMSans(200, 16px, 40.5px, $white);
+  }
+}
+
+.highlight {
+  @include DMSans(400, 16px, 19.2px, $main-blue-dark);
+}
+
+form {
+  @include dFlex(block, block, block);
+  height: 167px;
+  gap: 16px;
+
+  input[type="email"] {
+    width: 408px;
+    height: 48px;
+    border-radius: 50px;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    border: solid 1px $white;
+    cursor: pointer;
+    color: $white;
+    background-color: transparent;
+  }
+
+  button {
+    @include buttonBlue(151px, 48px, 10px);
+    @include dFlex(row, center, center);
+    border-radius: 50px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+input::placeholder {
+  @include DMSans(400, 18px, 23.44px, $white);
+}
+
+p {
+  @include DMSans(500, 18px, 23.44px, $black);
+}
