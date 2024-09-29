@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { EmailService } from '../services/email.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,13 +21,16 @@ export class SignupComponent {
   signupForm: FormGroup;
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private emailService: EmailService) {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
+
+  emailFromLanding: string = '';
+
 
   onSubmit() {
     if (this.signupForm.valid) {

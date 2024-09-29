@@ -46,12 +46,22 @@ form {
     cursor: pointer;
     color: $white;
     background-color: transparent;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23.44px;
   }
 
   button {
     @include buttonBlue(151px, 48px, 10px);
     @include dFlex(row, center, center);
     border-radius: 50px;
+    &:active {
+      @include btnActive($main-blue-dark);
+    }
+
+    &:disabled {
+      @include btnDisabled($main-blue-dark);
+    }
 
     img {
       width: 16px;
