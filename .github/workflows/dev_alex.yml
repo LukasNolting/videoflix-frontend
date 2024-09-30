@@ -34,5 +34,5 @@ jobs:
         username: ${{secrets.ALEXUSERNAME}}
         password: ${{secrets.ALEXPASSWORD}}
         protocol: ftps
-        # ca-cert: ${{secrets.ALEXCACERTS}}
+        ca-cert: ${{secrets.ALEXCACERTS}}
         local-dir: ./dist/videoflix_frontend/
