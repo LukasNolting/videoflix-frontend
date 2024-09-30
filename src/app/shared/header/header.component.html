@@ -2,8 +2,10 @@
     <div class="header">
         <div class="logo-header" [routerLink]="['/']">
             <app-small-logo></app-small-logo>
+            @if (showBigLogo) {
             <app-logo></app-logo>
+            }
         </div>
-        <button [routerLink]="['/login']">Login</button>    
+        <button [routerLink]="['/login']">Login</button>
     </div>
 </header>

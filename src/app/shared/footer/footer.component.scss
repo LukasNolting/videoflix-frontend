@@ -1,20 +1,29 @@
 @import '../../../styles.scss';
 
-.footer{
+.footer {
     @include dFlex(row, center, center);
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
+    max-width: 1440px;
     height: 108px;
     gap: 32px;
-        a{
-            cursor: pointer;
-            text-decoration: none;
-            @include DMSans(400, 18px, 23.44px, #ffffff);
-            &:hover{
-                @include DMSans(400, 18px, 23.44px, $main-blue-dark);
-            }
+    z-index: 2;
+
+    a {
+        cursor: pointer;
+        text-decoration: none;
+        @include DMSans(400, 18px, 23.44px, #ffffff);
+
+        &:hover {
+            @include DMSans(400, 18px, 23.44px, $main-blue-dark);
         }
+    }
+}
+
+.footer-right-align {
+    @include dFlex(row, flex-end, center);
+    padding-right: 96px;
 }
