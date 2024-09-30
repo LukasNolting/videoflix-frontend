@@ -35,4 +35,4 @@ jobs:
         password: ${{secrets.ALEXPASSWORD}}
         protocol: ftps
         server-dir: /
-        local-dir: ./videoflix_frontend/dist/videoflix_frontend/browser
+        local-dir: ./videoflix_frontend/dist/videoflix_frontend/browser/
