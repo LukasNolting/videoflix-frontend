@@ -1,0 +1,13 @@
+@import '../../../styles.scss';
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3eeafca (fix: Import global styles.scss in small-logo component to access mixins)
+.small-logo {
+    @include dFlex(column, center, center);
+}
+
+.lower-logo {
+    transform: translate(2px, -2px);
+}

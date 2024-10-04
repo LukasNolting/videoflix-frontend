@@ -1,0 +1,121 @@
+@import "../../styles.scss";
+
+.landing-wrapper {
+  @include dFlex(row, center, center);
+  height: 100vh;
+  width: 100vw;
+  background-color: $black;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("../../assets/img/backgrounds/background_4.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.landing-container {
+  @include dFlex(column, center, center);
+  gap: 24px;
+
+  h1 {
+    @include DMSans(700, 48px, 40.5px, $white);
+    text-align: center;
+  }
+
+  h2 {
+    @include DMSans(300, 24px, 40.5px, $white);
+    text-align: center;
+  }
+
+  h3 {
+    @include DMSans(200, 16px, 40.5px, $white);
+    text-align: center;
+  }
+}
+
+.highlight {
+  @include DMSans(400, 16px, 19.2px, $main-blue-dark);
+}
+
+form {
+  @include dFlex(column, center, center);
+  height: 167px;
+  gap: 16px;
+
+  input {
+    width: 408px;
+    height: 48px;
+    border-radius: 50px;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    border: solid 1px $white;
+    cursor: pointer;
+    color: $white;
+    background-color: transparent;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23.44px;
+  }
+
+  button {
+    @include buttonBlue(151px, 48px, 10px);
+    @include dFlex(row, center, center);
+    border-radius: 50px;
+
+    &:active {
+      @include btnActive($main-blue-dark);
+    }
+
+    &:disabled {
+      @include btnDisabled($main-blue-dark);
+    }
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+input::placeholder {
+  @include DMSans(400, 18px, 23.44px, $white);
+}
+
+p {
+  @include DMSans(500, 18px, 23.44px, $black);
+}
+
+
+@media screen and (max-width: $responsive-breakpoint) {
+  .landing-container {
+    height: 384px;
+    padding: 43px 24px;
+    gap: 32px;
+
+    h1 {
+      @include DMSans(700, 40px, 40px, $white);
+    }
+
+    h2 {
+      @include DMSans(500, 20px, 26.04px, $white);
+    }
+
+    h3 {
+      @include DMSans(400, 16px, 20.83px, $white);
+    }
+  }
+
+  form {
+    @include dFlex(column, center, center);
+    width: 310px;
+    height: 159px;
+    gap: 16px;
+  }
+
+  input {
+    width: 310px !important;
+  }
+
+  input::placeholder {
+    @include DMSans(400, 16px, 20.83px, $white);
+  }
+}

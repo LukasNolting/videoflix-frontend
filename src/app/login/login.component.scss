@@ -1,0 +1,128 @@
+@import "../../styles.scss";
+
+.login-wrapper {
+    @include dFlex(row, center, center);
+    height: 100vh;
+    width: 100vw;
+    background-color: $black;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../../assets/img/backgrounds/background_1.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.login-container {
+    @include dFlex(column, center, center);
+    width: 520px;
+    height: 505px;
+    background-color: $white;
+    border-radius: 48px;
+    padding: 43px 56px;
+    gap: 32px;
+
+    h1 {
+        @include DMSans(700, 48px, 62.5px, $main-blue-dark);
+    }
+
+    >.login-bottom {
+        @include dFlex(row, center, center);
+        gap: 24px;
+        margin-top: 16px;
+
+        p {
+            @include DMSans(400, 16px, 19.2px, $black);
+        }
+    }
+}
+
+form {
+    @include dFlex(column, center, center);
+    width: 408px;
+    height: 187px;
+    gap: 16px;
+
+    button {
+        @include buttonBlue(unset, 48px, 10px);
+    }
+
+    >.remember-me-container {
+        @include dFlex(row, flex-start, center);
+        gap: 4px;
+        width: 100%;
+
+        p {
+            @include DMSans(400, 16px, 19.2px, $black);
+        }
+
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    button {
+        &:hover {
+            @include btnHover($main-blue-dark);
+        }
+
+        &:active {
+            @include btnActive($main-blue-dark);
+        }
+
+        &:disabled {
+            @include btnDisabled($main-blue-dark);
+        }
+    }
+
+}
+
+input {
+    width: 408px;
+    height: 48px;
+    border-radius: 12px;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    border: solid 1px $main-blue-dark;
+    cursor: pointer;
+}
+
+
+
+input::placeholder {
+    @include DMSans(400, 18px, 23.44px, $main-blue-dark);
+}
+
+p {
+    @include DMSans(500, 18px, 23.44px, $black);
+}
+
+@media screen and (max-width: $responsive-breakpoint) {
+    .login-container {
+
+        max-width: 320px;
+        height: 505px;
+        padding: 43px 24px;
+        gap: 32px;
+
+        h1 {
+            @include DMSans(700, 40px, 52.08px, $main-blue-dark);
+        }
+    }
+
+    form {
+        @include dFlex(column, center, center);
+        width: 310px;
+        height: 159px;
+        gap: 16px;
+    }
+
+    input {
+        width: 310px;
+    }
+
+
+
+    input::placeholder {
+        @include DMSans(400, 16px, 20.83px, $main-blue-dark);
+    }
+}

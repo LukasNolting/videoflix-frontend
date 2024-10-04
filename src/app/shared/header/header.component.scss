@@ -1,0 +1,34 @@
+@import '../../../styles.scss';
+
+
+.header-wrapper {
+    position: absolute;
+    top: 0;
+    @include dFlex(row, center, center);
+    width: 100%;
+    height: 108px;
+
+    .header {
+        width: 100%;
+        color: white;
+        max-width: 1440px;
+        @include dFlex(row, space-between, center);
+        padding: 10px 96px;
+    }
+}
+
+.logo-header {
+    @include dFlex(row, center, center);
+    cursor: pointer;
+}
+
+button {
+    @include dFlex(row, center, center);
+    @include buttonBlue(unset, 48px, 10px);
+}
+
+@media screen and (max-width: $responsive-breakpoint) {
+    .header {
+        padding: 10px 16px !important;
+    }
+}

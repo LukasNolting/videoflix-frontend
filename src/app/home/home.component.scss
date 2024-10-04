@@ -1,0 +1,89 @@
+@import '../../styles.scss';
+
+.home-wrapper {
+    @include dFlex(column, center, center);
+    width: 100vw;
+    height: 100vh;
+    background-color: $black;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    >.preview-section {
+        width: 100%;
+        @include dFlex(row, center, center);
+        position: relative;
+    }
+
+    >.category-section {
+        width: 100%;
+        max-width: 1440px;
+        background-color: $black;
+        @include dFlex(column, flex-start, center);
+        z-index: 2;
+    }
+}
+
+// todo: currently placeholder image embedd player here
+.video-player {
+    object-fit: cover;
+
+
+    // todo: currently placeholder image embedd player here
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.video-description {
+    @include dFlex(column, flex-start, flex-start);
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    width: 50%;
+    height: 100%;
+    gap: 16px;
+    color: $white;
+    padding-top: 144px;
+
+    h1 {
+        @include DMSans(700, 88px, 114.58px, $white);
+    }
+
+    p {
+        @include DMSans(400, 16px, 20.83px, $white);
+    }
+
+    button {
+        @include dFlex(row, flex-start, center);
+        @include buttonBlue(unset, 48px, 4px);
+    }
+}
+
+.category-container {
+    width: 100%;
+    height: 100%;
+    @include dFlex(column, flex-start, flex-start);
+    gap: 48px;
+    z-index: 5;
+    padding: 16px 32px;
+
+    h2 {
+        @include DMSans(700, 22px, 28.64px, $white);
+    }
+
+    >.video-container {
+        @include dFlex(row, flex-start, center);
+        gap: 16px;
+    }
+}
+
+.category-container:first-child {
+    margin-top: -80px;
+}
+
+.home-footer {
+    width: 100%;
+    max-width: 1440px;
+    @include dFlex(row, flex-end, center);
+}
