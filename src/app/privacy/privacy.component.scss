@@ -1,0 +1,38 @@
+@import '../../styles.scss';
+
+.privacy-wrapper {
+    @include dFlex(column, flex-start, flex-start);
+    width: 100vw;
+    height: 100vh;
+    background-color: $black;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 64px 32px;
+}
+
+h1 {
+    @include DMSans(700, 88px, 114.58px, $white);
+}
+
+h2 {
+    @include DMSans(700, 48px, 62.5px, $white);
+}
+
+h3 {
+    @include DMSans(700, 32px, 37.5px, $white);
+}
+
+ul {
+    @include DMSans(400, 16px, 20.83px, $white);
+    margin-bottom: 8px;
+}
+
+li {
+    @include DMSans(400, 16px, 20.83px, $white);
+    margin-bottom: 8px;
+}
+
+p {
+    @include DMSans(400, 16px, 20.83px, $white);
+    margin-bottom: 8px;
+}
