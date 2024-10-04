@@ -1,0 +1,32 @@
+@import '../../../styles.scss';
+
+.player-wrapper {
+    position: relative;
+
+    >.custom-quality-dropdown {
+        display: flex;
+        position: absolute;
+        background: white;
+        border: 1px solid #ccc;
+        z-index: 1000;
+
+        &.visible {
+            display: block;
+        }
+
+        >.custom-quality-option {
+            padding: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background: #f0f0f0;
+            }
+        }
+    }
+}
+
+video {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
