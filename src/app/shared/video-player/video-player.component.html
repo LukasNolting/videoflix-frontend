@@ -1,0 +1,16 @@
+<section class="player-wrapper">
+    <video id="my-player" class="video-js vjs-fluid">
+        <source src="{{currentVideoSource}}" type="video/mp4">
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">
+                supports HTML5 video
+            </a>
+        </p>
+    </video>
+    <div class="custom-quality-dropdown">
+        @for (quality of videoQualities; track quality; let index = $index) {
+        <div class="custom-quality-option" (click)="onQualityChange(quality.src)">{{quality.label}}</div>
+        }
+    </div>
+</section>
