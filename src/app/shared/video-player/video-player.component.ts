@@ -21,7 +21,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   muted: boolean = true; // option:: muted
   loop: boolean = true; // option:: endlessloop
   currentPoster: string = '//vjs.zencdn.net/v/oceans.png'; // option:: poster
-  private subscriptions: Subscription = new Subscription();
+  private playVideosubscriptions: Subscription = new Subscription();
+  private playPreviewSubscription: Subscription = new Subscription();
   player: any;
   fullScreenSubscription: Subscription | undefined;
   currentVideoSource: string = '';
@@ -37,17 +38,42 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.subscriptions.add(
+    this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         console.log('playVideoSubject', playVideo);
         if (playVideo === true) {
+          this.player.controls(false);
           this.handlePlayVideo();
           this.communicationService.resetPlayVideo();
         }
       })
     );
+    this.playPreviewSubscription.add(
+      this.communicationService.showPreview$.subscribe((id) => {
+        console.log('showPreview', id);
+        if (id > 0 && this.player) {
+          const newVideoSource = this.getVideoSourceById(id);
+          console.log('Changing video source to:', newVideoSource);
+          this.currentVideoSource = newVideoSource;
+          this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
+          this.player.load();
+          this.player.play();
+        }
+      })
+    );
   }
-
+  getVideoSourceById(id: number): string {
+    switch (id) {
+      case 1:
+        return '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4';
+      case 2:
+        return '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      case 3:
+        return '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4';
+      default:
+        return this.currentVideoSource;
+    }
+  }
   ngAfterViewInit(): void {
     const options = {
       controls: this.controls,
@@ -81,8 +107,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.fullScreenSubscription) {
       this.fullScreenSubscription.unsubscribe();
     }
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
+    if (this.playVideosubscriptions) {
+      this.playVideosubscriptions.unsubscribe();
+    }
+    if (this.playPreviewSubscription) {
+      this.playPreviewSubscription.unsubscribe();
     }
   }
 
@@ -104,7 +133,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player.volume(0.5);
     this.player.controls(true);
     this.player.currentTime(0);
-    this.goFullScreen();
+    this.player.requestFullscreen();
   }
 
   goFullScreen(): void {

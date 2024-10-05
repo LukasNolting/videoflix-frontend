@@ -26,14 +26,9 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/assets/",
-                "output": "/assets/"
-              },
-              {
-                "glob": "favicon.ico",
-                "input": "src/",
-                "output": "/"
-              }            ],
+                "input": "src"
+              }
+            ],
             "styles": ["src/styles.scss"],
             "scripts": []
           },
@@ -91,13 +86,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/assets/",
-                "output": "assets/"
-              },
-              {
-                "glob": "favicon.ico",
-                "input": "src/",
-                "output": "/"
+                "input": "src"
               }
             ],
             "styles": ["src/styles.scss"],
