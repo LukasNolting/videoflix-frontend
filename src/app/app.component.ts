@@ -32,8 +32,10 @@ export class AppComponent implements OnInit {
     // Flag to show rotate device prompt (ratio greater than 1) only for smaller screens
     const ratio = width / height;
     const isSmartPhoneScreen = width < 1024;
-    this.communicationService.isRotateDeviceVisible =
-      ratio > 1.3 && isSmartPhoneScreen;
+    //const shouldShowFullScreen = ratio > 1.3 && isSmartPhoneScreen;
+
+    //this.communicationService.setFullScreenVisible(shouldShowFullScreen);
+    //console.log('fullscreenmode', shouldShowFullScreen);
     // Flag for small screen (tablet view)
     const isTabletScreen = width < 1450;
     this.communicationService.isSmallScreenActive = isTabletScreen;
