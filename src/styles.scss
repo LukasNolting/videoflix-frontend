@@ -173,3 +173,17 @@ option:focus {
 .header {
     z-index: 5;
 }
+
+
+
+.vjs-quality-menu-custom {
+    position: absolute;
+    right: 0;
+    bottom: 50px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #fff;
+}
+
+.vjs-quality-menu-custom.show {
+    display: block;
+}

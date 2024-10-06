@@ -115,7 +115,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   toggleQualityMenu(): void {
-    const menu = document.querySelector('.vjs-quality-menu') as HTMLElement;
+    const menu = document.querySelector('.vjs-quality-menu-custom') as HTMLElement;
     if (menu) {
       if (menu.classList.contains('vjs-hidden')) {
         menu.classList.remove('vjs-hidden');
@@ -126,7 +126,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       }
     } else {
       const qualityMenu = document.createElement('div');
-      qualityMenu.className = 'vjs-quality-menu';
+      qualityMenu.className = 'vjs-quality-menu-custom';
 
       this.videoQualities.forEach((quality) => {
         const option = document.createElement('div');
