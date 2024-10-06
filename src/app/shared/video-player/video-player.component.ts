@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   autoplay: boolean = false; // option:: autoplay (start playing video on load)
-  controls: boolean = false; // option:: controls (show/hide controls)
+  controls: boolean = true; // option:: controls (show/hide controls)
   muted: boolean = true; // option:: muted
   loop: boolean = true; // option:: endlessloop
   currentPoster: string = '//vjs.zencdn.net/v/oceans.png'; // option:: poster
@@ -115,7 +115,9 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   toggleQualityMenu(): void {
-    const menu = document.querySelector('.vjs-quality-menu-custom') as HTMLElement;
+    const menu = document.querySelector(
+      '.vjs-quality-menu-custom'
+    ) as HTMLElement;
     if (menu) {
       if (menu.classList.contains('vjs-hidden')) {
         menu.classList.remove('vjs-hidden');
