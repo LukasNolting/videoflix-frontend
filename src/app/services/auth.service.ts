@@ -32,7 +32,7 @@ export class AuthService {
    * @returns {Observable<any>} - An observable with the response from the server.
    */
   loginWithEmailAndPassword(User: LoginModel): Observable<any> {
-    return this.http.post<any>(`${environment.baseURL}/videoflix/login/`, { User });
+    return this.http.post<any>(`${environment.baseURL}/videoflix/login/`, User);
   }
 
 

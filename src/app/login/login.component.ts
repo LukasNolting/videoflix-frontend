@@ -38,7 +38,7 @@ export class LoginComponent {
   constructor(private fb: FormBuilder ,private as: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
       remember: [false],
     });
   }
@@ -64,9 +64,9 @@ export class LoginComponent {
       const response = await lastValueFrom(
         this.as.loginWithEmailAndPassword(user)
       );
-      // this.as.setToken(response.token);
+      this.as.setToken(response.token);
       localStorage.setItem('remember', this.loginForm.value.remember.toString());
-      // this.router.navigate(['videoflix/home']);
+      this.router.navigate(['videoflix/home']);
     } catch (error) {
       console.log(error);
     }
