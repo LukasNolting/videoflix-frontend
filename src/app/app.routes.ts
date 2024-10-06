@@ -15,5 +15,5 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'imprint', component: ImprintComponent },
   { path: 'privacy', component: PrivacyComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'videoflix/home', component: HomeComponent },
 ];
