@@ -87,7 +87,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     console.log('playeroptions', options);
     this.player = (window as any).videojs('my-player', options);
 
-    this.player.qualityLevels(this.videoQualities);
+    this.addQualityControlButton();
 
     this.player.ready(() => {
       this.player.play();
@@ -101,6 +101,42 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
           this.exitFullScreen();
         }
       });
+  }
+
+  addQualityControlButton(): void {
+    const qualityButton = document.createElement('button');
+    qualityButton.className =
+      'vjs-quality-control vjs-control vjs-button pointer';
+    qualityButton.innerHTML = '<i class="fas fa-video"></i>';
+    qualityButton.onclick = () => {
+      this.toggleQualityMenu();
+    };
+    this.player.controlBar.el().appendChild(qualityButton);
+  }
+
+  toggleQualityMenu(): void {
+    const menu = document.querySelector('.vjs-quality-menu') as HTMLElement;
+    if (menu) {
+      if (menu.classList.contains('vjs-hidden')) {
+        menu.classList.remove('vjs-hidden');
+        menu.classList.add('show');
+      } else {
+        menu.classList.remove('show');
+        menu.classList.add('vjs-hidden');
+      }
+    } else {
+      const qualityMenu = document.createElement('div');
+      qualityMenu.className = 'vjs-quality-menu';
+
+      this.videoQualities.forEach((quality) => {
+        const option = document.createElement('div');
+        option.className = 'quality-option pointer';
+        option.innerText = quality.label;
+        option.onclick = () => this.onQualityChange(quality.src);
+        qualityMenu.appendChild(option);
+      });
+      this.player.controlBar.el().appendChild(qualityMenu);
+    }
   }
 
   ngOnDestroy(): void {
@@ -124,6 +160,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.player.currentTime(currentTime); // sets back to current time
       this.player.play(); // plays video
     });
+    console.log('selectedQuality', selectedQuality);
   }
 
   handlePlayVideo() {
