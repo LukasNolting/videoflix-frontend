@@ -110,6 +110,10 @@ body {
     @include DMSans(400, 16px, 19.2px, $main-blue-dark !important);
 }
 
+.d-none {
+    display: none !important;
+}
+
 //custom scrollbar
 ::-webkit-scrollbar {
     width: 6px;
