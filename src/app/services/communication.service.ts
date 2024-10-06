@@ -5,7 +5,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class CommunicationService {
-  // mobile view variables
   private fullScreenSubject = new BehaviorSubject<boolean>(false); // flag for "rotate your device" message
   isFullScreenVisible$ = this.fullScreenSubject.asObservable(); // Observable to track changes
 
@@ -15,6 +14,7 @@ export class CommunicationService {
   private showPreviewSubject = new BehaviorSubject<number>(0); // flag to indicate if video should be played
   showPreview$ = this.showPreviewSubject.asObservable(); // Observable to track play video changes
 
+  // mobile view variables
   isMobileViewActive: boolean = false; // main flag to check if mobile view is active
   isSmallScreenActive: boolean = false; // flag to indicate if the screen is small (mobile view < 1200px for tablets)
   showBigLogo: boolean = true; // flag to show big logo

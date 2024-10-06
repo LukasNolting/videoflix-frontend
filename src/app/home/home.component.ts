@@ -23,6 +23,7 @@ import { CarouselComponent } from 'ngx-carousel-ease';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
+  isPreviewVideoPlaying: boolean = false;
   constructor(
     private router: Router,
     public communicationService: CommunicationService
@@ -37,5 +38,6 @@ export class HomeComponent implements OnInit {
   handlePlayVideo(id: number) {
     console.log('play video id', id);
     this.communicationService.showPreview(id);
+    this.isPreviewVideoPlaying = true;
   }
 }
