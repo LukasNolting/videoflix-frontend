@@ -110,6 +110,10 @@ body {
     @include DMSans(400, 16px, 19.2px, $main-blue-dark !important);
 }
 
+.d-none {
+    display: none !important;
+}
+
 //custom scrollbar
 ::-webkit-scrollbar {
     width: 6px;
@@ -178,12 +182,26 @@ option:focus {
 
 .vjs-quality-menu-custom {
     position: absolute;
-    right: 0;
-    bottom: 50px;
+    right: 8px;
+    bottom: 40px;
     background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #fff;
+    border: 1px solid $white;
+    @include dFlex(column, flex-start, center);
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px;
+
+    >.quality-option {
+        @include DMSans(400, 14px, 17.2px, $white);
+        transition: all 0.1s ease-in;
+
+        &:hover {
+            @include DMSans(400, 14px, 17.2px, $main-blue-dark);
+            scale: 1.1;
+        }
+    }
 }
 
 .vjs-quality-menu-custom.show {
-    display: block;
+    display: flex;
 }

@@ -9,29 +9,3 @@ video {
     height: auto;
     max-width: 100%;
 }
-
-
-//not working
-
-.vjs-quality-control {
-    background-color: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 20px;
-
-    &:hover {
-        color: yellow;
-    }
-
-}
-
-.quality-option {
-    padding: 8px;
-    color: white;
-    cursor: pointer;
-}
-
-.quality-option:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
