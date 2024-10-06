@@ -26,20 +26,7 @@ video {
 
 }
 
-
-.vjs-quality-menu {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #fff;
-    z-index: 1000;
-    display: none;
-}
-
->.vjs-quality-menu.show {
-    display: block;
-}
-
->.quality-option {
+.quality-option {
     padding: 8px;
     color: white;
     cursor: pointer;
