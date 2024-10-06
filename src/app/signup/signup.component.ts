@@ -52,13 +52,15 @@ export class SignupComponent {
 
   signUp() {
     try {
-      let newUser = new SignupModel(this.signupForm.value.email, this.signupForm.value.password);
+      let newUser = new SignupModel(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password);
+      console.log(newUser);
+      
       this.as.signUPWithEmailAndPassword(newUser).subscribe(
         (response) => {
           // Sendmail Logik after Signup
           // Visual Feedback after Signup & Routing to Login Page
           console.log(response); // remove when steps above are done
-          this.router.navigate(['videoflix/home']);
+          this.router.navigate(['login']);
         }
       )
     } catch (error) {
