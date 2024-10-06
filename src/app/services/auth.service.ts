@@ -46,7 +46,7 @@ export class AuthService {
    * @returns {Observable<Object>} - An observable with the response from the server.
    */
   signUPWithEmailAndPassword(newUser: SignupModel): Observable<Object> {
-    return this.http.post(`${environment.baseURL}/videoflix/signup/`, {newUser});
+    return this.http.post(`${environment.baseURL}/videoflix/signup/`, newUser);
   }
 
 
