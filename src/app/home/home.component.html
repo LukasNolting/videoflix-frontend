@@ -3,7 +3,7 @@
 </section>
 <section class="home-wrapper">
     <div class="video-container"
-        [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && !this.isPreviewVideoPlaying)}">
+        [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && !this.communicationService.isPreviewVideoPlaying)}">
         <app-video-player>
         </app-video-player>
         <div class="preview-section">
@@ -21,7 +21,7 @@
     </div>
 
     <div class="category-section"
-        [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && this.isPreviewVideoPlaying)}">
+        [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && this.communicationService.isPreviewVideoPlaying)}">
         <!-- todo add categories here START -->
         <div class="category-container">
             <h2>New on Videoflix</h2>
@@ -34,7 +34,6 @@
                 </div>
                 <div class="carousel-slide" (click)="this.handlePlayVideo(2)">
                     <img src="assets/img/videos/placeholder_video.png" alt="video-1">
-
                 </div>
                 <div class="carousel-slide" (click)="this.handlePlayVideo(3)">
                     <img src="assets/img/videos/placeholder_video.png" alt="video-1">
