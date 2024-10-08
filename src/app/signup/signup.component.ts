@@ -23,16 +23,16 @@ export class SignupComponent {
   signupForm: FormGroup;
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
+  emailFromLanding: string = ''; 
   constructor(private fb: FormBuilder, private emailService: EmailService, private as: AuthService, private router: Router) {
+    this.emailFromLanding = this.emailService.email;
     this.signupForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [this.emailFromLanding, [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
+    this.emailService.email = '';
   }
-
-  emailFromLanding: string = '';
-
 
   onSubmit() {
     if (this.signupForm.valid) {

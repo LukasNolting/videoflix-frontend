@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    baseURL: 'http://127.0.0.1:8000',
+  production: true,
+  baseURL: 'https://gruppe-49408.developerakademie.org',
 };
