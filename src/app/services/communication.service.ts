@@ -13,7 +13,7 @@ export class CommunicationService {
 
   private showPreviewSubject = new BehaviorSubject<number>(0); // flag to indicate if video should be played
   showPreview$ = this.showPreviewSubject.asObservable(); // Observable to track play video changes
-
+  isPreviewVideoPlaying: boolean = false;
   // mobile view variables
   isMobileViewActive: boolean = false; // main flag to check if mobile view is active
   isSmallScreenActive: boolean = false; // flag to indicate if the screen is small (mobile view < 1200px for tablets)
@@ -22,20 +22,44 @@ export class CommunicationService {
 
   constructor() {}
 
+  /**
+   * Updates the full-screen visibility status.
+   * @param {boolean} isVisible - A flag indicating if the full-screen message should be visible.
+   */
   setFullScreenVisible(isVisible: boolean): void {
     this.fullScreenSubject.next(isVisible);
   }
 
+  /**
+   * Triggers the play video functionality by setting the `playVideoSubject` to true.
+   */
   handlePlayVideo(): void {
     this.playVideoSubject.next(true);
     console.log('playVideo triggered');
   }
+
+  /**
+   * Resets the play video state by setting the `playVideoSubject` to false.
+   */
   resetPlayVideo(): void {
     this.playVideoSubject.next(false);
   }
 
+  /**
+   * Shows a video preview by emitting the preview ID through the `showPreviewSubject`.
+   * @param {number} id - The ID of the video to preview.
+   */
   showPreview(id: number): void {
     console.log('showPreview triggered', id);
     this.showPreviewSubject.next(id);
+    this.isPreviewVideoPlaying = true;
+  }
+
+  /**
+   * Hides the currently playing video preview and resets the preview state.
+   */
+  hidePreview(): void {
+    console.log('hidePreview triggered');
+    this.isPreviewVideoPlaying = false;
   }
 }

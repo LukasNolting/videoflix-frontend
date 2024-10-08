@@ -14,6 +14,7 @@
         max-width: 1440px;
         @include dFlex(row, space-between, center);
         padding: 10px 96px;
+        box-sizing: content-box;
     }
 }
 
