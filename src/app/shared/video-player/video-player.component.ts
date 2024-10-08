@@ -37,6 +37,12 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.currentVideoSource = this.videoQualities[1].src;
   }
 
+  /**
+   * Called when component is initialized.
+   * Listens to two subjects to handle playing a video and showing a preview.
+   * When a video should be played, the player is set to play the video and the controls are hidden.
+   * When a preview should be shown, the player is set to play the corresponding video and the controls are hidden.
+   */
   ngOnInit(): void {
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
@@ -62,6 +68,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       })
     );
   }
+  /**
+   * Given an id, return the corresponding video source.
+   * @param id number The id of the video to return.
+   * @returns string The video source.
+   */
   getVideoSourceById(id: number): string {
     switch (id) {
       case 1:
@@ -74,6 +85,12 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
         return this.currentVideoSource;
     }
   }
+  /**
+   * Called after the view has been initialized. Sets up the video player by
+   * initializing the videojs player with the given options and setting up
+   * event listeners for the play button, full screen button, and quality select.
+   * @returns void
+   */
   ngAfterViewInit(): void {
     const options = {
       controls: this.controls,
@@ -103,6 +120,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       });
   }
 
+  /**
+   * Adds a button to the video player control bar to toggle the quality menu.
+   * This method is called after the player has been initialized in ngAfterViewInit.
+   * @returns void
+   */
   addQualityControlButton(): void {
     const qualityButton = document.createElement('button');
     qualityButton.className =
@@ -114,6 +136,12 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player.controlBar.el().appendChild(qualityButton);
   }
 
+  /**
+   * Toggles the visibility of the quality menu.
+   * If the menu doesn't exist, it creates it.
+   * If the menu exists, it toggles the visibility of the menu.
+   * @returns void
+   */
   toggleQualityMenu(): void {
     const menu = document.querySelector(
       '.vjs-quality-menu-custom'
@@ -141,6 +169,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
+  /**
+   * Called when the component is destroyed. Unsubscribes from all subscriptions
+   * created in the component to prevent memory leaks.
+   * @returns void
+   */
   ngOnDestroy(): void {
     if (this.fullScreenSubscription) {
       this.fullScreenSubscription.unsubscribe();
@@ -153,6 +186,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
+  /**
+   * Called when the quality of the video is changed. Saves the current player time, sets the current video source to the selected quality, reloads the video, sets the player time back to the saved time, and plays the video.
+   * @param selectedQuality - The selected video quality.
+   * @returns void
+   */
   onQualityChange(selectedQuality: string) {
     const currentTime = this.player.currentTime(); // saves current player time
     this.currentVideoSource = selectedQuality; // sets current video source
@@ -165,6 +203,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     console.log('selectedQuality', selectedQuality);
   }
 
+  /**
+   * Handles the play video functionality by setting the player to play, unmuted with a volume of 0.5, and with controls enabled. Sets the player time to 0 and requests full screen.
+   * @returns void
+   */
   handlePlayVideo() {
     console.log('handle play video triggert');
     this.player.play();
@@ -175,12 +217,20 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player.requestFullscreen();
   }
 
+  /**
+   * Requests the player to go full screen.
+   * @returns void
+   */
   goFullScreen(): void {
     if (this.player) {
       this.player.requestFullscreen();
     }
   }
 
+  /**
+   * Exits the full screen mode if the player is currently in full screen.
+   * @returns void
+   */
   exitFullScreen(): void {
     if (this.player && this.player.isFullscreen()) {
       this.player.exitFullscreen();

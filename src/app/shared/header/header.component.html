@@ -1,6 +1,6 @@
 <header class="header-wrapper">
     <div class="header">
-        <div class="logo-header" [routerLink]="['/']">
+        <div class="logo-header" [routerLink]="routerLink">
             <app-small-logo></app-small-logo>
             @if (this.communicationService.showBigLogo &&
             !this.communicationService.isMobileViewActive) {
@@ -9,7 +9,11 @@
         </div>
         @if (!this.communicationService.isLoggedIn) {
         <button [routerLink]="['/login']">Login</button>
-        } @else {
+        } @else if (this.communicationService.isPreviewVideoPlaying && this.communicationService.isMobileViewActive) {
+        <img class="back-btn pointer" src="assets/img/icons/back_arrow_btn.svg" alt="back_btn"
+            (click)="this.communicationService.hidePreview()">
+        }
+        @else {
         <button (click)="handleLogout()"><img src="assets/img/icons/logout_btn.svg" alt="logout_btn">Logout</button>
         }
     </div>

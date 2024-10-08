@@ -12,16 +12,19 @@ import { CommunicationService } from '../../services/communication.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  routerLink: string = '/';
   constructor(
     private router: Router,
     public communicationService: CommunicationService
   ) {
-    if (this.router.url === '/home') {
+    if (this.router.url === '/videoflix/home') {
       this.communicationService.showBigLogo = false;
+      this.routerLink = '/videoflix/home';
     }
   }
 
   handleLogout() {
     this.communicationService.isLoggedIn = false;
+    this.router.navigate(['/']);
   }
 }
