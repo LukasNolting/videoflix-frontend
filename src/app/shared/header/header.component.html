@@ -10,11 +10,11 @@
         @if (!this.communicationService.isLoggedIn) {
         <button [routerLink]="['/login']">Login</button>
         } @else if (this.communicationService.isPreviewVideoPlaying && this.communicationService.isMobileViewActive) {
-        <img class="back-btn pointer" src="assets/img/icons/back_arrow_btn.svg" alt="back_btn"
+        <img class="back-btn pointer" src="../img/icons/back_arrow_btn.svg" alt="back_btn"
             (click)="this.communicationService.hidePreview()">
         }
         @else {
-        <button (click)="handleLogout()"><img src="assets/img/icons/logout_btn.svg" alt="logout_btn">Logout</button>
+        <button (click)="handleLogout()"><img src="../img/icons/logout_btn.svg" alt="logout_btn">Logout</button>
         }
     </div>
 </header>
