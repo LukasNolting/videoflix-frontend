@@ -6,7 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommunicationService } from '../services/communication.service';
 import { VideoPlayerComponent } from '../shared/video-player/video-player.component';
 import { CarouselComponent } from 'ngx-carousel-ease';
-
+import { DatabaseService } from '../services/database.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -25,14 +25,19 @@ import { CarouselComponent } from 'ngx-carousel-ease';
 export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
-    public communicationService: CommunicationService
+    public communicationService: CommunicationService,
+    public databaseService: DatabaseService
   ) {
     if (this.router.url === '/videoflix/home') {
       this.communicationService.isLoggedIn = true;
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.databaseService.getVideos().subscribe((videos) => {
+      console.log(videos);
+    });
+  }
 
   handlePlayVideo(id: number) {
     console.log('play video id', id);
