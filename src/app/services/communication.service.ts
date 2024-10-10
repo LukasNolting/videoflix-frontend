@@ -11,7 +11,7 @@ export class CommunicationService {
   private playVideoSubject = new BehaviorSubject<boolean>(false); // flag to indicate if video should be played
   playVideo$ = this.playVideoSubject.asObservable(); // Observable to track play video changes
 
-  private showPreviewSubject = new BehaviorSubject<number>(0); // flag to indicate if video should be played
+  private showPreviewSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
   showPreview$ = this.showPreviewSubject.asObservable(); // Observable to track play video changes
   isPreviewVideoPlaying: boolean = false;
   // mobile view variables
@@ -49,9 +49,8 @@ export class CommunicationService {
    * Shows a video preview by emitting the preview ID through the `showPreviewSubject`.
    * @param {number} id - The ID of the video to preview.
    */
-  showPreview(id: number): void {
-    console.log('showPreview triggered', id);
-    this.showPreviewSubject.next(id);
+  showPreview(path: string): void {
+    this.showPreviewSubject.next(path);
     this.isPreviewVideoPlaying = true;
   }
 

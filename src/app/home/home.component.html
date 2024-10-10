@@ -23,34 +23,17 @@
     <div class="category-section"
         [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && this.communicationService.isPreviewVideoPlaying)}">
         <!-- todo add categories here START -->
+
         <div class="category-container">
             <h2>New on Videoflix</h2>
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
                 [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="6" [enableTouch]="true"
                 [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="6" class="carousel-wrapper">
-                <div class="carousel-slide" (click)="this.handlePlayVideo(1)">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-
+                @for (video of newVideos; track video; let index = $index) {
+                <div class="carousel-slide" (click)="this.handlePlayVideo(video.video_file)">
+                    <img [src]="video.thumbnail" alt="{{video.title}}">
                 </div>
-                <div class="carousel-slide" (click)="this.handlePlayVideo(2)">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-
-                </div>
-                <div class="carousel-slide" (click)="this.handlePlayVideo(3)">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
+                }
             </carousel>
         </div>
         <div class="category-container">

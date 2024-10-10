@@ -7,6 +7,7 @@ import { CommunicationService } from '../services/communication.service';
 import { VideoPlayerComponent } from '../shared/video-player/video-player.component';
 import { CarouselComponent } from 'ngx-carousel-ease';
 import { DatabaseService } from '../services/database.service';
+import { VideoModel } from '../models/video.model';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -23,6 +24,8 @@ import { DatabaseService } from '../services/database.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
+  public newVideos: VideoModel[] = [];
+
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
@@ -35,12 +38,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.databaseService.getVideos().subscribe((videos) => {
-      console.log(videos);
+      this.newVideos = videos.filter((video) => video.category === 'new');
     });
   }
 
-  handlePlayVideo(id: number) {
-    console.log('play video id', id);
-    this.communicationService.showPreview(id);
+  handlePlayVideo(path: string) {
+    console.log('play video id', path);
+    this.communicationService.showPreview(path);
   }
 }

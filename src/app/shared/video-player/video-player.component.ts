@@ -20,22 +20,15 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   controls: boolean = true; // option:: controls (show/hide controls)
   muted: boolean = true; // option:: muted
   loop: boolean = true; // option:: endlessloop
-  currentPoster: string = '//vjs.zencdn.net/v/oceans.png'; // option:: poster
+  currentPoster: string = ''; // option:: poster
   private playVideosubscriptions: Subscription = new Subscription();
   private playPreviewSubscription: Subscription = new Subscription();
   player: any;
   fullScreenSubscription: Subscription | undefined;
   currentVideoSource: string = '';
-  videoQualities = [
-    { label: '360p', src: '//vjs.zencdn.net/v/oceans.mp4' },
-    { label: '480p', src: '//vjs.zencdn.net/v/oceans.mp4' },
-    { label: '720p', src: '//vjs.zencdn.net/v/oceans.mp4' },
-    { label: '1080p', src: '//vjs.zencdn.net/v/oceans.mp4' },
-  ];
+  videoQualities: any[] = [];
   playerOptions: any;
-  constructor(public communicationService: CommunicationService) {
-    this.currentVideoSource = this.videoQualities[1].src;
-  }
+  constructor(public communicationService: CommunicationService) {}
 
   /**
    * Called when component is initialized.
@@ -44,6 +37,9 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * When a preview should be shown, the player is set to play the corresponding video and the controls are hidden.
    */
   ngOnInit(): void {
+    this.currentVideoSource =
+      'http://127.0.0.1:8000/media/videos/TestVideo/79585-570048620_small.mp4'; // to-do get random video  + check bandwith and choose corresponding video resolution
+    this.updateVideoQualities();
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         console.log('playVideoSubject', playVideo);
@@ -55,12 +51,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       })
     );
     this.playPreviewSubscription.add(
-      this.communicationService.showPreview$.subscribe((id) => {
-        console.log('showPreview', id);
-        if (id > 0 && this.player) {
-          const newVideoSource = this.getVideoSourceById(id);
-          console.log('Changing video source to:', newVideoSource);
-          this.currentVideoSource = newVideoSource;
+      this.communicationService.showPreview$.subscribe((path) => {
+        if (path !== null && this.player) {
+          const baseURL = 'http://127.0.0.1:8000/'; //todo : use baseUrl from environment
+          this.currentVideoSource = `${baseURL}media/${path}`;
+          console.log('currentVideoSource', this.currentVideoSource);
           this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
           this.player.load();
           this.player.play();
@@ -68,23 +63,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       })
     );
   }
-  /**
-   * Given an id, return the corresponding video source.
-   * @param id number The id of the video to return.
-   * @returns string The video source.
-   */
-  getVideoSourceById(id: number): string {
-    switch (id) {
-      case 1:
-        return '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4';
-      case 2:
-        return '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-      case 3:
-        return '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4';
-      default:
-        return this.currentVideoSource;
-    }
-  }
+
   /**
    * Called after the view has been initialized. Sets up the video player by
    * initializing the videojs player with the given options and setting up
@@ -109,7 +88,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player.ready(() => {
       this.player.play();
     });
-
+    // todo : check if redundant
     this.fullScreenSubscription =
       this.communicationService.isFullScreenVisible$.subscribe((isVisible) => {
         if (isVisible) {
@@ -120,6 +99,22 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       });
   }
 
+  /**
+   * Called when the component is destroyed. Unsubscribes from all subscriptions
+   * created in the component to prevent memory leaks.
+   * @returns void
+   */
+  ngOnDestroy(): void {
+    if (this.fullScreenSubscription) {
+      this.fullScreenSubscription.unsubscribe();
+    }
+    if (this.playVideosubscriptions) {
+      this.playVideosubscriptions.unsubscribe();
+    }
+    if (this.playPreviewSubscription) {
+      this.playPreviewSubscription.unsubscribe();
+    }
+  }
   /**
    * Adds a button to the video player control bar to toggle the quality menu.
    * This method is called after the player has been initialized in ngAfterViewInit.
@@ -170,37 +165,35 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * Called when the component is destroyed. Unsubscribes from all subscriptions
-   * created in the component to prevent memory leaks.
-   * @returns void
-   */
-  ngOnDestroy(): void {
-    if (this.fullScreenSubscription) {
-      this.fullScreenSubscription.unsubscribe();
-    }
-    if (this.playVideosubscriptions) {
-      this.playVideosubscriptions.unsubscribe();
-    }
-    if (this.playPreviewSubscription) {
-      this.playPreviewSubscription.unsubscribe();
-    }
-  }
-
-  /**
    * Called when the quality of the video is changed. Saves the current player time, sets the current video source to the selected quality, reloads the video, sets the player time back to the saved time, and plays the video.
-   * @param selectedQuality - The selected video quality.
+   * @param selectedQualitySrc - The selected video quality.
    * @returns void
    */
-  onQualityChange(selectedQuality: string) {
+  onQualityChange(selectedQualitySrc: string) {
     const currentTime = this.player.currentTime(); // saves current player time
-    this.currentVideoSource = selectedQuality; // sets current video source
+    this.currentVideoSource = selectedQualitySrc; // sets current video source
     this.player.src({ type: 'video/mp4', src: this.currentVideoSource }); // updates video source
     this.player.load(); // reloads video
     this.player.ready(() => {
       this.player.currentTime(currentTime); // sets back to current time
       this.player.play(); // plays video
     });
-    console.log('selectedQuality', selectedQuality);
+    console.log('selectedQuality', selectedQualitySrc);
+  }
+
+  /**
+   * Update the video qualities dynamically based on the current video source.
+   */
+  updateVideoQualities() {
+    const baseVideoSource = this.currentVideoSource.replace('.mp4', '');
+    this.videoQualities = [
+      { label: '240p', src: `${baseVideoSource}_240p.mp4` },
+      { label: '360p', src: `${baseVideoSource}_360p.mp4` },
+      { label: '480p', src: `${baseVideoSource}_480p.mp4` },
+      { label: '720p', src: `${baseVideoSource}_720p.mp4` },
+      { label: '1080p', src: `${baseVideoSource}_1080p.mp4` },
+    ];
+    console.log('Updated video qualities:', this.videoQualities);
   }
 
   /**
