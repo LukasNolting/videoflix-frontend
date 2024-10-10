@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   autoplay: boolean = false; // option:: autoplay (start playing video on load)
-  controls: boolean = true; // option:: controls (show/hide controls)
+  controls: boolean = false; // option:: controls (show/hide controls)
   muted: boolean = true; // option:: muted
   loop: boolean = true; // option:: endlessloop
   currentPoster: string = ''; // option:: poster

@@ -25,7 +25,7 @@ import { VideoModel } from '../models/video.model';
 })
 export class HomeComponent implements OnInit {
   public newVideos: VideoModel[] = [];
-
+  public currentVideoObj: VideoModel[] = [];
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
@@ -42,8 +42,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  handlePlayVideo(path: string) {
+  handlePlayVideo(video: VideoModel, path: string) {
     console.log('play video id', path);
     this.communicationService.showPreview(path);
+    this.currentVideoObj = [video]; //todo : needs to get initial video data from database
+    console.log('currentVideoObj', this.currentVideoObj);
   }
 }
