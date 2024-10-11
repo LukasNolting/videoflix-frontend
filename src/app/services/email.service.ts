@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmailService {
+  constructor() {}
 
-  constructor() { }
-
+  //to do: we could outsource to communictaion service
 
   setEmail(email: string) {
     this.email = email;
@@ -15,5 +15,4 @@ export class EmailService {
     return this.email;
   }
   email: string = '';
-
 }
