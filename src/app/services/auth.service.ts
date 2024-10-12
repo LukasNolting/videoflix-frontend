@@ -49,6 +49,48 @@ export class AuthService {
     return this.http.post(`${environment.baseURL}/videoflix/signup/`, newUser);
   }
 
+  forgotPassword(email: string) {
+    // Email in ein JSON-Objekt packen
+    console.log('email: ' + email);
+
+    const body = { email: email };
+    console.log('service: ' + body);
+
+    // return this.http.post<any>(
+    //   `${environment.baseURL}/videoflix/api/auth/password/reset/`,
+    //   body
+    // );
+
+    fetch(`${environment.baseURL}/videoflix/password-reset/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  }
+
+  resetPassword(token: any, email: string, password: string) {
+    // Email in ein JSON-Objekt packen
+    console.log('password: ' + password);
+
+    const body = { email: email, password: password };
+    console.log('service: ' + body);
+
+    // return this.http.post<any>(
+    //   `${environment.baseURL}/videoflix/api/auth/password/reset/`,
+    //   body
+    // );
+
+    fetch(`${environment.baseURL}/videoflix/password-reset/${token}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  }
+
   /**
    * Stores the provided token in local storage.
    *
