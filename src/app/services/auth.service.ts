@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { SignupModel } from '../models/signup.model';
 import { LoginModel } from '../models/login.model';
 import { firstValueFrom } from 'rxjs';
@@ -11,19 +10,8 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  //todo: do wee need that?
-  private currentPathSubject: BehaviorSubject<string> =
-    new BehaviorSubject<string>('');
-  public currentPath$: Observable<string> =
-    this.currentPathSubject.asObservable();
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient, private router: Router) {}
-  /**
-   * Updates the current path observable with the current URL of the router.
-   */
-  getCurrentURL() {
-    this.currentPathSubject.next(this.router.url.replace('/', ''));
-  }
 
   /**
    * Sends a POST request to log in a user with email and password.
