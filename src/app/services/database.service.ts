@@ -44,7 +44,7 @@ export class DatabaseService {
     return this.videos$;
   }
 
-  addToWishlist(video: VideoModel) {
-    console.log('addToWishlist', video);
+  addToFavourites(video: VideoModel) {
+    console.log('addToFavourites', video);
   }
 }

@@ -61,6 +61,6 @@ export class HomeComponent implements OnInit {
   }
 
   handleAddToWishlist(video: VideoModel) {
-    this.databaseService.addToWishlist(video);
+    this.databaseService.addToFavourites(video);
   }
 }
