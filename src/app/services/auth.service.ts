@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SignupModel } from '../models/signup.model';
 import { LoginModel } from '../models/login.model';
@@ -50,16 +50,11 @@ export class AuthService {
   }
 
   forgotPassword(email: string) {
-    // Email in ein JSON-Objekt packen
+    
     console.log('email: ' + email);
 
     const body = { email: email };
     console.log('service: ' + body);
-
-    // return this.http.post<any>(
-    //   `${environment.baseURL}/videoflix/api/auth/password/reset/`,
-    //   body
-    // );
 
     fetch(`${environment.baseURL}/videoflix/password-reset/`, {
       method: 'POST',
@@ -70,17 +65,9 @@ export class AuthService {
     });
   }
 
-  resetPassword(token: any, email: string, password: string) {
-    // Email in ein JSON-Objekt packen
-    console.log('password: ' + password);
-
-    const body = { email: email, password: password };
+  resetPassword(token: any, password: string) {
+    const body = { password: password };
     console.log('service: ' + body);
-
-    // return this.http.post<any>(
-    //   `${environment.baseURL}/videoflix/api/auth/password/reset/`,
-    //   body
-    // );
 
     fetch(`${environment.baseURL}/videoflix/password-reset/${token}/`, {
       method: 'POST',
@@ -90,6 +77,37 @@ export class AuthService {
       body: JSON.stringify(body),
     });
   }
+
+  // forgotPassword(email: string) {
+  //   const body = { email: email };
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  //   console.log('email:', email);
+  //   console.log('service:', body);
+    
+  //   const link =  `${environment.baseURL}/videoflix/password-reset/`
+  //   console.log(link);
+    
+
+  //   return this.http.post<any>(
+  //     `${environment.baseURL}/videoflix/password-reset/`,
+  //     body,
+  //     { headers }
+  //   );
+  // }
+
+  // resetPassword(token: any, password: string): Observable<any> {
+  //   const body = { password: password };
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  //   console.log('service:', body);
+
+  //   return this.http.post<any>(
+  //     `${environment.baseURL}/videoflix/password-reset/${token}/`,
+  //     body,
+  //     { headers }
+  //   );
+  // }
 
   /**
    * Stores the provided token in local storage.
