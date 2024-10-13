@@ -71,7 +71,7 @@ export class LoginComponent {
       this.app.showDialog("Login Successful");
       this.as.setToken(response.token);
       localStorage.setItem('remember', this.loginForm.value.remember.toString());
-      this.router.navigate(['videoflix/home']);
+      this.router.navigate(['home']);
     } catch (error) {
       this.app.showDialog("Login Failed");
       console.log(error);
