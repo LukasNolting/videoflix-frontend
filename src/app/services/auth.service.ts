@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { SignupModel } from '../models/signup.model';
 import { LoginModel } from '../models/login.model';
 
@@ -10,17 +9,7 @@ import { LoginModel } from '../models/login.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private currentPathSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  public currentPath$: Observable<string> = this.currentPathSubject.asObservable();
-
-
-  constructor(private http: HttpClient, private router: Router) { }
-  /**
-   * Updates the current path observable with the current URL of the router.
-   */
-  getCurrentURL() {
-    this.currentPathSubject.next(this.router.url.replace('/', ''));
-  }
+  constructor(private http: HttpClient) { }
 
 
   /**

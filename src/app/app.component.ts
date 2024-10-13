@@ -1,19 +1,17 @@
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommunicationService } from './services/communication.service';
-import { FeedbackDialogComponent } from './shared/feedback-dialog/feedback-dialog.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,FeedbackDialogComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  message: string | undefined;
-  dialogOpen: boolean = false;
-
+  message = '';
+  @Input() dialogOpen: boolean;
   title = 'videoflix_frontend';
   communicationService = inject(CommunicationService);
   ngOnInit() {
@@ -24,6 +22,20 @@ export class AppComponent implements OnInit {
   onResize(event: any) {
     this.checkViewport();
   }
+
+
+  constructor() { 
+    this.dialogOpen = false;
+  }
+
+  public showDialog(message: string) {
+    this.message = message;
+    this.dialogOpen = true;
+    setTimeout(() => {
+      this.dialogOpen = false;
+    },1000)
+  }
+
 
   /**
    * Checks the current viewport dimensions and sets the isMobileViewActive flag.

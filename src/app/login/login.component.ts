@@ -12,11 +12,14 @@ import {
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { LoginModel } from '../models/login.model';
-import { lastValueFrom } from 'rxjs';
-import { provideHttpClient, withFetch } from '@angular/common/http'; // importiere auch withFetch
+import { lastValueFrom} from 'rxjs';
+import { AppComponent } from '../app.component';
+
+
 @Injectable({
   providedIn: 'root',  // Stellt sicher, dass der Service global verfügbar ist
 })
+
 
 @Component({
   selector: 'app-login',
@@ -31,11 +34,12 @@ import { provideHttpClient, withFetch } from '@angular/common/http'; // importie
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
+
+
 export class LoginComponent {
   loginForm: FormGroup;
   isPasswordVisible: boolean = false;
-
-  constructor(private fb: FormBuilder ,private as: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder ,private as: AuthService, private router: Router, private app: AppComponent) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]],
@@ -48,7 +52,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.login();
     } else {
-      console.log('invalid form');
+      this.app.showDialog("Invalid form");
     }
   }
 
@@ -64,10 +68,12 @@ export class LoginComponent {
       const response = await lastValueFrom(
         this.as.loginWithEmailAndPassword(user)
       );
+      this.app.showDialog("Login Successful");
       this.as.setToken(response.token);
       localStorage.setItem('remember', this.loginForm.value.remember.toString());
       this.router.navigate(['videoflix/home']);
     } catch (error) {
+      this.app.showDialog("Login Failed");
       console.log(error);
     }
   }
