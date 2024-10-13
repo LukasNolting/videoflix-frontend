@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { CommunicationService } from '../../services/communication.service';
 import { Subscription } from 'rxjs';
+import { DatabaseService } from '../../services/database.service';
+import { VideoModel } from '../../models/video.model';
 
 @Component({
   selector: 'app-video-player',
@@ -28,7 +30,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   currentVideoSource: string = '';
   videoQualities: any[] = [];
   playerOptions: any;
-  constructor(public communicationService: CommunicationService) {}
+  constructor(
+    public communicationService: CommunicationService,
+    private dataBaseService: DatabaseService
+  ) {}
 
   /**
    * Called when component is initialized.
@@ -37,9 +42,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * When a preview should be shown, the player is set to play the corresponding video and the controls are hidden.
    */
   ngOnInit(): void {
-    this.currentVideoSource =
-      'http://127.0.0.1:8000/media/videos/TestVideo/79585-570048620_small.mp4'; // to-do get random video  + check bandwith and choose corresponding video resolution
-    this.updateVideoQualities();
+    this.getRandomVideo();
+
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         console.log('playVideoSubject', playVideo);
@@ -56,6 +60,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
           const baseURL = 'http://127.0.0.1:8000/'; //todo : use baseUrl from environment
           this.currentVideoSource = `${baseURL}media/${path}`;
           console.log('currentVideoSource', this.currentVideoSource);
+          this.updateVideoQualities();
           this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
           this.player.load();
           this.player.play();
@@ -84,7 +89,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player = (window as any).videojs('my-player', options);
 
     this.addQualityControlButton();
-
     this.player.ready(() => {
       this.player.play();
     });
@@ -115,6 +119,17 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.playPreviewSubscription.unsubscribe();
     }
   }
+
+  getRandomVideo() {
+    this.dataBaseService.videoSubject.subscribe((videos: VideoModel[]) => {
+      const randomIndex = Math.floor(Math.random() * videos.length);
+      const randomVideoObject: VideoModel = videos[randomIndex];
+      const randomVideo = videos[randomIndex]?.video_file;
+      this.communicationService.currentVideoObj = randomVideoObject;
+      this.currentVideoSource = `http://127.0.0.1:8000/media/${randomVideo}`;
+      this.updateVideoQualities();
+    });
+  }
   /**
    * Adds a button to the video player control bar to toggle the quality menu.
    * This method is called after the player has been initialized in ngAfterViewInit.
@@ -132,36 +147,75 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * Toggles the visibility of the quality menu.
-   * If the menu doesn't exist, it creates it.
-   * If the menu exists, it toggles the visibility of the menu.
+   * Toggles the visibility of the quality menu. If the menu already exists, its
+   * visibility is toggled by adding or removing the classes 'vjs-hidden' and
+   * 'show', and its options are updated. If the menu does not exist, it is
+   * created.
    * @returns void
    */
   toggleQualityMenu(): void {
     const menu = document.querySelector(
       '.vjs-quality-menu-custom'
     ) as HTMLElement;
-    if (menu) {
-      if (menu.classList.contains('vjs-hidden')) {
-        menu.classList.remove('vjs-hidden');
-        menu.classList.add('show');
-      } else {
-        menu.classList.remove('show');
-        menu.classList.add('vjs-hidden');
-      }
-    } else {
-      const qualityMenu = document.createElement('div');
-      qualityMenu.className = 'vjs-quality-menu-custom';
 
-      this.videoQualities.forEach((quality) => {
-        const option = document.createElement('div');
-        option.className = 'quality-option pointer';
-        option.innerText = quality.label;
-        option.onclick = () => this.onQualityChange(quality.src);
-        qualityMenu.appendChild(option);
-      });
-      this.player.controlBar.el().appendChild(qualityMenu);
+    if (menu) {
+      this.toggleMenuVisibility(menu);
+      this.updateMenuOptions(menu);
+    } else {
+      this.createQualityMenu();
     }
+  }
+  /**
+   * Toggles the visibility of the given quality menu by adding or removing
+   * the classes 'vjs-hidden' and 'show'.
+   * @param menu The HTMLElement of the quality menu.
+   * @returns void
+   */
+  toggleMenuVisibility(menu: HTMLElement): void {
+    if (menu.classList.contains('vjs-hidden')) {
+      menu.classList.remove('vjs-hidden');
+      menu.classList.add('show');
+    } else {
+      menu.classList.remove('show');
+      menu.classList.add('vjs-hidden');
+    }
+  }
+
+  /**
+   * Updates the options of the given quality menu.
+   * @param menu The HTMLElement of the quality menu.
+   * @returns void
+   */
+  updateMenuOptions(menu: HTMLElement): void {
+    menu.innerHTML = ''; // Leert vorhandene Optionen
+    this.videoQualities.forEach((quality) => {
+      const option = document.createElement('div');
+      option.className = 'quality-option pointer';
+      option.innerText = quality.label;
+      option.onclick = () => this.onQualityChange(quality.src);
+      menu.appendChild(option);
+    });
+  }
+  /**
+   * Creates a custom quality menu for the video player. The menu is created by
+   * creating a div element with the class 'vjs-quality-menu-custom' and
+   * appending it to the player control bar. The menu is populated with options
+   * representing the available video qualities. Each option is a div element with
+   * the class 'quality-option' and the text content of the quality label. When an
+   * option is clicked, the onQualityChange method is called with the src of the
+   * selected quality.
+   */
+  createQualityMenu(): void {
+    const qualityMenu = document.createElement('div');
+    qualityMenu.className = 'vjs-quality-menu-custom';
+    this.videoQualities.forEach((quality) => {
+      const option = document.createElement('div');
+      option.className = 'quality-option pointer';
+      option.innerText = quality.label;
+      option.onclick = () => this.onQualityChange(quality.src);
+      qualityMenu.appendChild(option);
+    });
+    this.player.controlBar.el().appendChild(qualityMenu);
   }
 
   /**
@@ -179,6 +233,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.player.play(); // plays video
     });
     console.log('selectedQuality', selectedQualitySrc);
+    this.toggleQualityMenu();
   }
 
   /**

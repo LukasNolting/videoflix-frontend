@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { VideoModel } from '../models/video.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,11 @@ export class CommunicationService {
   showBigLogo: boolean = true; // flag to show big logo
   isLoggedIn: boolean = false; // flag to indicate if the user is logged in
 
+  // loading screen variables
+  dataIsLoaded: boolean = false; // flag to indicate if the data is loaded
+
+  // video player variables
+  public currentVideoObj: VideoModel = {} as VideoModel;
   constructor() {}
 
   /**
@@ -49,9 +55,11 @@ export class CommunicationService {
    * Shows a video preview by emitting the preview ID through the `showPreviewSubject`.
    * @param {number} id - The ID of the video to preview.
    */
-  showPreview(path: string): void {
+  showPreview(path: string, video: VideoModel): void {
     this.showPreviewSubject.next(path);
     this.isPreviewVideoPlaying = true;
+    this.currentVideoObj = video; //todo : needs to get initial video data from database
+    console.log('currentVideoObj', this.currentVideoObj);
   }
 
   /**

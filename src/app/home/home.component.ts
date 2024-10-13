@@ -25,7 +25,7 @@ import { VideoModel } from '../models/video.model';
 })
 export class HomeComponent implements OnInit {
   public newVideos: VideoModel[] = [];
-  public currentVideoObj: VideoModel[] = [];
+  public baseUrl = 'http://127.0.0.1:8000/media/'; // to do use env for backend route
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
@@ -39,13 +39,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.databaseService.getVideos().subscribe((videos) => {
       this.newVideos = videos.filter((video) => video.category === 'new');
+      setTimeout(() => {
+        if (videos) {
+          this.communicationService.dataIsLoaded = true;
+        }
+      }, 3000);
     });
-  }
-
-  handlePlayVideo(video: VideoModel, path: string) {
-    console.log('play video id', path);
-    this.communicationService.showPreview(path);
-    this.currentVideoObj = [video]; //todo : needs to get initial video data from database
-    console.log('currentVideoObj', this.currentVideoObj);
   }
 }

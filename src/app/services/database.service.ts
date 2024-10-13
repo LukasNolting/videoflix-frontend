@@ -10,7 +10,7 @@ import { VideoModel } from '../models/video.model';
 })
 export class DatabaseService {
   private videoUrl = `${environment.baseURL}/videoflix/videos/`;
-  private videoSubject = new BehaviorSubject<VideoModel[]>([]);
+  public videoSubject = new BehaviorSubject<VideoModel[]>([]);
   public videos$ = this.videoSubject.asObservable();
 
   constructor(private http: HttpClient) {
