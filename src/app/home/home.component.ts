@@ -25,6 +25,11 @@ import { VideoModel } from '../models/video.model';
 })
 export class HomeComponent implements OnInit {
   public newVideos: VideoModel[] = [];
+  public actionVideos: VideoModel[] = [];
+  public documentaryVideos: VideoModel[] = [];
+  public scifiVideos: VideoModel[] = [];
+  public horrorVideos: VideoModel[] = [];
+
   public baseUrl = 'http://127.0.0.1:8000/media/'; // to do use env for backend route
   constructor(
     private router: Router,
@@ -38,12 +43,24 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.databaseService.getVideos().subscribe((videos) => {
-      this.newVideos = videos.filter((video) => video.category === 'new');
+      this.newVideos = videos.filter(
+        (video) => video.created_at > '2024-09-12T09:12:11Z' // to do implement date filter
+      );
+      this.actionVideos = videos.filter((video) => video.category === 'action');
+      this.documentaryVideos = videos.filter(
+        (video) => video.category === 'documentary'
+      );
+      this.scifiVideos = videos.filter((video) => video.category === 'sci-fi');
+      this.horrorVideos = videos.filter((video) => video.category === 'horror');
       setTimeout(() => {
         if (videos) {
           this.communicationService.dataIsLoaded = true;
         }
       }, 3000);
     });
+  }
+
+  handleAddToWishlist(video: VideoModel) {
+    this.databaseService.addToWishlist(video);
   }
 }

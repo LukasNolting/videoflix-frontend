@@ -27,12 +27,33 @@
         <div class="category-container">
             <h2>New on Videoflix</h2>
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
-                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="6" [enableTouch]="true"
-                [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="6" class="carousel-wrapper">
+                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="this.newVideos.length"
+                [enableTouch]="true" [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="this.newVideos.length"
+                class="carousel-wrapper">
                 @for (video of newVideos; track video; let index = $index) {
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
+                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                        <div id="heart"></div>
+                    </div>
+                </div>
+                }
+            </carousel>
+        </div>
+        <div class="category-container">
+            <h2>Action</h2>
+            <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
+                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="this.actionVideos.length"
+                [enableTouch]="true" [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="this.actionVideos.length"
+                class="carousel-wrapper">
+                @for (video of actionVideos; track video; let index = $index) {
+                <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
+                    <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
+                    <p>{{video.title}}</p>
+                    <div class="heart-icon">
+                        <div id="heart"></div>
+                    </div>
                 </div>
                 }
             </carousel>
@@ -40,42 +61,52 @@
         <div class="category-container">
             <h2>Documentary</h2>
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
-                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="6" [enableTouch]="true"
-                [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="6" class="carousel-wrapper">
-                @for (video of newVideos; track video; let index = $index) {
+                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="this.documentaryVideos.length"
+                [enableTouch]="true" [slideMaxWidth]="250" [slideWidth]="225"
+                [slideToShow]="this.documentaryVideos.length" class="carousel-wrapper">
+                @for (video of documentaryVideos; track video; let index = $index) {
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
+                    <div class="heart-icon">
+                        <div id="heart"></div>
+                    </div>
                 </div>
                 }
             </carousel>
         </div>
         <div class="category-container">
-            <h2>Drama</h2>
+            <h2>SCI-FI</h2>
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
-                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="6" [enableTouch]="true"
-                [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="6" class="carousel-wrapper">
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
+                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="this.scifiVideos.length"
+                [enableTouch]="true" [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="this.scifiVideos.length"
+                class="carousel-wrapper">
+                @for (video of scifiVideos; track video; let index = $index) {
+                <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
+                    <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
+                    <p>{{video.title}}</p>
+                    <div class="heart-icon">
+                        <div id="heart"></div>
+                    </div>
                 </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
+                }
+            </carousel>
+        </div>
+        <div class="category-container">
+            <h2>Horror</h2>
+            <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
+                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="this.horrorVideos.length"
+                [enableTouch]="true" [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="this.horrorVideos.length"
+                class="carousel-wrapper">
+                @for (video of horrorVideos; track video; let index = $index) {
+                <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
+                    <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
+                    <p>{{video.title}}</p>
+                    <div class="heart-icon">
+                        <div id="heart"></div>
+                    </div>
                 </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="../img/videos/placeholder_video.png" alt="video-1">
-                </div>
+                }
             </carousel>
         </div>
         <!--todo add categories here END-->

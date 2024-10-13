@@ -43,4 +43,8 @@ export class DatabaseService {
   public getVideos(): Observable<VideoModel[]> {
     return this.videos$;
   }
+
+  addToWishlist(video: VideoModel) {
+    console.log('addToWishlist', video);
+  }
 }
