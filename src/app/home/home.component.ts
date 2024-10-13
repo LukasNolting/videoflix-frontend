@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     public communicationService: CommunicationService,
     public databaseService: DatabaseService
   ) {
-    if (this.router.url === '/videoflix/home') {
+    if (this.router.url === '/home') {
       this.communicationService.isLoggedIn = true;
     }
   }

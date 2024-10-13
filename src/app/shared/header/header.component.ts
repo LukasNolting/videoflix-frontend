@@ -17,9 +17,9 @@ export class HeaderComponent {
     private router: Router,
     public communicationService: CommunicationService
   ) {
-    if (this.router.url === '/videoflix/home') {
+    if (this.router.url === '/home') {
       this.communicationService.showBigLogo = false;
-      this.routerLink = '/videoflix/home';
+      this.routerLink = '/home';
     }
   }
 
