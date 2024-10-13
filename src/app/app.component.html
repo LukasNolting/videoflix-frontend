@@ -1,1 +1,4 @@
 <router-outlet></router-outlet>
+@if (dialogOpen) {
+    <app-feedback-dialog [messageInput]="message" [dialogOpen]="dialogOpen"></app-feedback-dialog>
+}

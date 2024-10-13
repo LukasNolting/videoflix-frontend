@@ -1,15 +1,19 @@
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommunicationService } from './services/communication.service';
+import { FeedbackDialogComponent } from './shared/feedback-dialog/feedback-dialog.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,FeedbackDialogComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+  message: string | undefined;
+  dialogOpen: boolean = false;
+
   title = 'videoflix_frontend';
   communicationService = inject(CommunicationService);
   ngOnInit() {
