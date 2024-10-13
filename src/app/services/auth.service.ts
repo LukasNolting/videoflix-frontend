@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SignupModel } from '../models/signup.model';
 import { LoginModel } from '../models/login.model';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -49,65 +50,44 @@ export class AuthService {
     return this.http.post(`${environment.baseURL}/videoflix/signup/`, newUser);
   }
 
-  forgotPassword(email: string) {
-    
-    console.log('email: ' + email);
+  async forgotPassword(email: string): Promise<void> {
+    const body = { email };
+    const link = `${environment.baseURL}/videoflix/password-reset/`;
 
-    const body = { email: email };
-    console.log('service: ' + body);
+    console.log('email:', email);
+    console.log('service:', body);
+    console.log(link);
 
-    fetch(`${environment.baseURL}/videoflix/password-reset/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+    try {
+      const response = await firstValueFrom(
+        this.http.post<any>(link, body, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
+      console.log('Request erfolgreich:', response);
+    } catch (error) {
+      console.error('Request-Fehler:', error);
+    }
   }
 
-  resetPassword(token: any, password: string) {
-    const body = { password: password };
-    console.log('service: ' + body);
+  async resetPassword(token: any, password: string): Promise<void> {
+    const body = { password };
+    const link = `${environment.baseURL}/videoflix/password-reset/${token}/`;
 
-    fetch(`${environment.baseURL}/videoflix/password-reset/${token}/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+    console.log('service:', body);
+    console.log(link);
+
+    try {
+      const response = await firstValueFrom(
+        this.http.post<any>(link, body, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
+      console.log('Request erfolgreich:', response);
+    } catch (error) {
+      console.error('Request-Fehler:', error);
+    }
   }
-
-  // forgotPassword(email: string) {
-  //   const body = { email: email };
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-  //   console.log('email:', email);
-  //   console.log('service:', body);
-    
-  //   const link =  `${environment.baseURL}/videoflix/password-reset/`
-  //   console.log(link);
-    
-
-  //   return this.http.post<any>(
-  //     `${environment.baseURL}/videoflix/password-reset/`,
-  //     body,
-  //     { headers }
-  //   );
-  // }
-
-  // resetPassword(token: any, password: string): Observable<any> {
-  //   const body = { password: password };
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-  //   console.log('service:', body);
-
-  //   return this.http.post<any>(
-  //     `${environment.baseURL}/videoflix/password-reset/${token}/`,
-  //     body,
-  //     { headers }
-  //   );
-  // }
 
   /**
    * Stores the provided token in local storage.
