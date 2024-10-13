@@ -43,4 +43,8 @@ export class DatabaseService {
   public getVideos(): Observable<VideoModel[]> {
     return this.videos$;
   }
+
+  addToFavourites(video: VideoModel) {
+    console.log('addToFavourites', video);
+  }
 }
