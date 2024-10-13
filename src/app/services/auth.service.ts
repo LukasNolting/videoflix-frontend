@@ -6,7 +6,7 @@ import { SignupModel } from '../models/signup.model';
 import { LoginModel } from '../models/login.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(private http: HttpClient) { }
@@ -14,7 +14,7 @@ export class AuthService {
 
   /**
    * Sends a POST request to log in a user with email and password.
-   * 
+   *
    * @param {string} username - The username or email of the user.
    * @param {string} password - The password of the user.
    * @param {boolean} remember - Whether to remember the user or not.
@@ -24,10 +24,9 @@ export class AuthService {
     return this.http.post<any>(`${environment.baseURL}/videoflix/login/`, User);
   }
 
-
   /**
    * Sends a POST request to sign up a new user with email and password.
-   * 
+   *
    * @param {string} username - The username of the user.
    * @param {string} lastname - The last name of the user.
    * @param {string} email - The email of the user.
@@ -38,20 +37,78 @@ export class AuthService {
     return this.http.post(`${environment.baseURL}/videoflix/signup/`, newUser);
   }
 
+  forgotPassword(email: string) {
+    
+    console.log('email: ' + email);
+
+    const body = { email: email };
+    console.log('service: ' + body);
+
+    fetch(`${environment.baseURL}/videoflix/password-reset/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  }
+
+  resetPassword(token: any, password: string) {
+    const body = { password: password };
+    console.log('service: ' + body);
+
+    fetch(`${environment.baseURL}/videoflix/password-reset/${token}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  }
+
+  // forgotPassword(email: string) {
+  //   const body = { email: email };
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  //   console.log('email:', email);
+  //   console.log('service:', body);
+    
+  //   const link =  `${environment.baseURL}/videoflix/password-reset/`
+  //   console.log(link);
+    
+
+  //   return this.http.post<any>(
+  //     `${environment.baseURL}/videoflix/password-reset/`,
+  //     body,
+  //     { headers }
+  //   );
+  // }
+
+  // resetPassword(token: any, password: string): Observable<any> {
+  //   const body = { password: password };
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  //   console.log('service:', body);
+
+  //   return this.http.post<any>(
+  //     `${environment.baseURL}/videoflix/password-reset/${token}/`,
+  //     body,
+  //     { headers }
+  //   );
+  // }
 
   /**
    * Stores the provided token in local storage.
-   * 
+   *
    * @param {string} token - The token to be stored.
    */
   setToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-
   /**
    * Retrieves the token from local storage.
-   * 
+   *
    * @returns {string | null} - The stored token or null if not found.
    */
   getToken(): string | null {

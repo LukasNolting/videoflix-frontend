@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseURL: 'https://alexander-luft.developerakademie.org',
+  baseURL: 'http://127.0.0.1:8000',
 };

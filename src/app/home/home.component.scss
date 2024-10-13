@@ -43,10 +43,16 @@
 
     h1 {
         @include DMSans(700, 4.444vw, 5.787vw, $white);
+        background-color: rgba(5, 5, 5, 0.2);
+        padding: 8px 8px;
+        border-radius: 8px;
     }
 
     p {
         @include DMSans(400, 1.111vw, 1.447vw, $white);
+        background-color: rgba(5, 5, 5, 0.2);
+        padding: 4px 4px;
+        border-radius: 8px;
     }
 
     button {
@@ -75,12 +81,78 @@
     }
 
     .carousel-slide {
+        position: relative;
+        cursor: pointer;
+        transition: all 0.1s ease-in;
+        border: solid 2px transparent;
+
+        &:hover {
+            transform: scale(1.05);
+            border-color: $white;
+        }
+
         img {
-            width: 213.13px;
+            width: 100%;
             height: 120px;
             object-fit: cover;
-            cursor: pointer;
         }
+
+        p {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            @include DMSans(700, 16px, 20.16px, $white);
+            margin-block-start: unset !important;
+            margin-block-end: unset !important;
+            text-align: center;
+            background-color: $main-blue-dark;
+            padding: 2px 0;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .heart-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            #heart {
+                position: relative;
+                width: 50px;
+                height: 45px;
+                margin-top: 10px;
+                transition: all 0.2s ease-in;
+                @include dFlex(row, center, center);
+
+                &:hover {
+                    transform: scale(1.2);
+                    cursor: pointer;
+                }
+            }
+
+            #heart::before,
+            #heart::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                width: 26px;
+                height: 40px;
+                border-radius: 25px 25px 0 0;
+                background: $main-blue-dark;
+            }
+
+            #heart::before {
+                left: 25px;
+                transform: rotate(-45deg);
+                transform-origin: 0 100%;
+            }
+
+            #heart::after {
+                left: 0;
+                transform: rotate(45deg);
+                transform-origin: 100% 100%;
+            }
+        }
+
     }
 }
 
@@ -92,4 +164,83 @@
     width: 100%;
     max-width: 1440px;
     @include dFlex(row, flex-end, center);
+}
+
+// loading spinner
+
+
+.loading-wrapper {
+    @include dFlex(column, center, center);
+    width: 100%;
+    height: 100vh;
+    padding: 24px 0;
+    background-color: $main-blue-dark;
+    gap: 16px;
+    position: relative;
+    z-index: 5;
+
+    h1 {
+        @include DMSans(700, 22px, 28.64px, $white);
+    }
+}
+
+.logo {
+    width: 256px;
+    height: 128px;
+}
+
+.ip {
+    width: 256px;
+    height: 128px;
+}
+
+.ip__track {
+    stroke: hsl(var(--hue), 90%, 90%);
+    transition: stroke var(--trans-dur);
+}
+
+.ip__worm1,
+.ip__worm2 {
+    animation: worm1 2s linear infinite;
+}
+
+.ip__worm2 {
+    animation-name: worm2;
+}
+
+
+
+/* Animation */
+@keyframes worm1 {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        animation-timing-function: steps(1);
+        stroke-dashoffset: -358;
+    }
+
+    50.01% {
+        animation-timing-function: linear;
+        stroke-dashoffset: 358;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes worm2 {
+    from {
+        stroke-dashoffset: 358;
+    }
+
+    50% {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -358;
+    }
 }
