@@ -27,7 +27,11 @@ export class ResetpasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {
     this.resetPasswordForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -43,15 +47,18 @@ export class ResetpasswordComponent implements OnInit {
   }
 
   onSubmit() {
-  if (this.resetPasswordForm.valid) {
-    try {
-      console.log(this.resetPasswordForm.value);
-      this.authService.resetPassword(this.token, 'noreply@lukas-nolting.de', this.resetPasswordForm.value.password);
-      console.log('Password set!', Response);
-    } catch (error) {
-      console.error('Error setting password', error);
+    if (this.resetPasswordForm.valid) {
+      try {
+        console.log(this.resetPasswordForm.value);
+        this.authService.resetPassword(
+          this.token,
+          this.resetPasswordForm.value.password
+        );
+        console.log('Password set!', Response);
+      } catch (error) {
+        console.error('Error setting password', error);
+      }
     }
-  }
   }
 
   togglePasswordVisibility(): void {
