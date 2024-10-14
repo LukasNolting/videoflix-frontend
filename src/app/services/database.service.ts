@@ -99,4 +99,9 @@ export class DatabaseService {
   public getFavoriteVideos(): Observable<VideoModel[]> {
     return this.favoriteVideos$;
   }
+
+  saveVideoToContinueWatching(video: VideoModel, playedTime: number): void {
+    console.log('saveVideoToContinueWatching:', video);
+    console.log('playedTime:', playedTime);
+  }
 }

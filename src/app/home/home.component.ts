@@ -8,6 +8,7 @@ import { VideoPlayerComponent } from '../shared/video-player/video-player.compon
 import { CarouselComponent } from 'ngx-carousel-ease';
 import { DatabaseService } from '../services/database.service';
 import { VideoModel } from '../models/video.model';
+
 @Component({
   selector: 'app-home',
   standalone: true,

@@ -43,7 +43,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   ngOnInit(): void {
     this.getRandomVideo();
-
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         console.log('playVideoSubject', playVideo);
@@ -249,6 +248,73 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       { label: '1080p', src: `${baseVideoSource}_1080p.mp4` },
     ];
     console.log('Updated video qualities:', this.videoQualities);
+    this.checkBandwidthAndSetVideoSource();
+  }
+
+  // todo : refactor / outsource / shorten
+  async checkBandwidthAndSetVideoSource() {
+    try {
+      const bandwidth = await this.measureBandwidth();
+      let selectedQualitySrc = '';
+      if (bandwidth >= 5000) {
+        selectedQualitySrc = this.videoQualities.find(
+          (vq) => vq.label === '1080p'
+        )?.src;
+      } else if (bandwidth >= 2500) {
+        selectedQualitySrc = this.videoQualities.find(
+          (vq) => vq.label === '720p'
+        )?.src;
+      } else if (bandwidth >= 1500) {
+        selectedQualitySrc = this.videoQualities.find(
+          (vq) => vq.label === '480p'
+        )?.src;
+      } else if (bandwidth >= 1000) {
+        selectedQualitySrc = this.videoQualities.find(
+          (vq) => vq.label === '360p'
+        )?.src;
+      } else {
+        selectedQualitySrc = this.videoQualities.find(
+          (vq) => vq.label === '240p'
+        )?.src;
+      }
+
+      if (selectedQualitySrc) {
+        this.currentVideoSource = selectedQualitySrc;
+        console.log(
+          'Current video source based on bandwidth:',
+          this.currentVideoSource
+        );
+      } else {
+        console.error('No suitable video quality found.');
+      }
+    } catch (error) {
+      console.error('Bandwidth measurement error:', error);
+    }
+  }
+
+  measureBandwidth(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const testImage = new Image();
+      const testUrl =
+        'http://127.0.0.1:8000/media/videos/The_Secret_Life_of_Chickens/baby_chicken.jpg'; //todo: search for a suitable test image
+      const startTime = new Date().getTime();
+
+      testImage.onload = () => {
+        const endTime = new Date().getTime();
+        const duration = (endTime - startTime) / 1000;
+        const imageSize = 56.6 * 8;
+        const bandwidth = imageSize / duration;
+        resolve(bandwidth);
+        console.log('Bandwidth:', bandwidth);
+      };
+
+      testImage.onerror = () => {
+        console.error('Error loading test image.');
+        reject(null);
+      };
+
+      testImage.src = testUrl;
+    });
   }
 
   /**
