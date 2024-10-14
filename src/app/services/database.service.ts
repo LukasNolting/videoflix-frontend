@@ -17,9 +17,14 @@ export class DatabaseService {
 
   private videoFavoriteUrl = `${environment.baseURL}/videoflix/favorite/`;
   public videoFavoriteSubject = new BehaviorSubject<VideoModel[]>([]);
-  public favoriteVideos$ = this.videoSubject.asObservable();
+  public favoriteVideos$ = this.videoFavoriteSubject.asObservable();
 
-  constructor(private http: HttpClient, private communicationService: CommunicationService) {
+  public reloadFavoriteVideos: boolean = false;
+
+  constructor(
+    private http: HttpClient,
+    private communicationService: CommunicationService
+  ) {
     this.loadVideos();
     this.loadFavoriteVideos();
   }
@@ -64,25 +69,24 @@ export class DatabaseService {
         this.http.post<any>(link, body, { headers: this.headers })
       );
       console.log('Request erfolgreich:', response);
+      this.reloadFavoriteVideos = true;
     } catch (error) {
       console.error('Request-Fehler:', error);
-    }
-    finally {
+    } finally {
       this.loadFavoriteVideos();
-      this.communicationService.dataIsLoaded = false;
       setTimeout(() => {
-        this.communicationService.dataIsLoaded = true;
-      }, 2000);
-    } // TODO : Refactor?
+        this.reloadFavoriteVideos = false;
+      }, 200);
+    } // TODO : Refactor? kinda buggy
   }
 
   public loadFavoriteVideos(): void {
     this.http
       .get<VideoModel[]>(this.videoFavoriteUrl, { headers: this.headers })
       .pipe(
-        tap((videos) => {
-          this.videoFavoriteSubject.next(videos);
-          console.log('Favorite Videos loaded:', videos);
+        tap((favoriteVideos) => {
+          this.videoFavoriteSubject.next(favoriteVideos);
+          console.log('Favorite Videos loaded:', favoriteVideos);
         }),
         catchError((error) => {
           console.error('Error loading favorite videos:', error);

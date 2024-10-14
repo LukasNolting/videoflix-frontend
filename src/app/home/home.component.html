@@ -12,16 +12,13 @@
                 <p>{{this.communicationService.currentVideoObj.description}}</p>
                 <button type="button" (click)="this.communicationService.handlePlayVideo()"><img
                         src="../img/icons/play_btn.svg" alt="play_btn">Play</button>
-
             </div>
             <!-- todo embedd video description here END-->
         </div>
     </div>
-
     <div class="category-section"
         [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && this.communicationService.isPreviewVideoPlaying)}">
         <!-- todo add categories here START -->
-
         <div class="category-container">
             <h2>New on Videoflix</h2>
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
@@ -33,12 +30,40 @@
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
                     <div (click)="handleAddToWishlist(video)" class="heart-icon">
-                        <div id="heart"></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
+                            [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
+                            <path
+                                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                        </svg>
                     </div>
                 </div>
                 }
             </carousel>
         </div>
+        @if (this.favoriteVideos.length > 0 ) {
+        <div class="category-container">
+            <h2>Favorites</h2>
+            @if (!this.databaseService.reloadFavoriteVideos) { <carousel [maxWidthCarousel]="1440" [responsive]="true"
+                [arrows]="false" [dots]="false" [counter]="false" [displayAutoPlayControls]="false"
+                [gapBetweenSlides]="0" [maxDomSize]="this.favoriteVideos.length" [enableTouch]="true"
+                [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="this.favoriteVideos.length"
+                class="carousel-wrapper">
+                @for (video of favoriteVideos; track video; let index = $index) {
+                <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
+                    <img [src]="favoriteUrl + video.thumbnail" alt="{{video.title}}">
+                    <p>{{video.title}}</p>
+                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
+                            [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
+                            <path
+                                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                        </svg>
+                    </div>
+                </div>
+                }
+            </carousel>}
+        </div>
+        }
         <div class="category-container">
             <h2>Action</h2>
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
@@ -49,8 +74,12 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div class="heart-icon">
-                        <div id="heart"></div>
+                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
+                            [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
+                            <path
+                                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                        </svg>
                     </div>
                 </div>
                 }
@@ -66,8 +95,12 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div class="heart-icon">
-                        <div id="heart"></div>
+                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
+                            [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
+                            <path
+                                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                        </svg>
                     </div>
                 </div>
                 }
@@ -83,8 +116,12 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div class="heart-icon">
-                        <div id="heart"></div>
+                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
+                            [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
+                            <path
+                                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                        </svg>
                     </div>
                 </div>
                 }
@@ -100,8 +137,12 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div class="heart-icon">
-                        <div id="heart"></div>
+                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
+                            [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
+                            <path
+                                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                        </svg>
                     </div>
                 </div>
                 }

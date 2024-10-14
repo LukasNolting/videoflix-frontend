@@ -29,8 +29,10 @@ export class HomeComponent implements OnInit {
   public documentaryVideos: VideoModel[] = [];
   public scifiVideos: VideoModel[] = [];
   public horrorVideos: VideoModel[] = [];
-
+  public favoriteVideos: VideoModel[] = [];
   public baseUrl = 'http://127.0.0.1:8000/media/'; // to do use env for backend route
+  public favoriteUrl = 'http://127.0.0.1:8000/'; // to do use env for backend route check y fav paths are diffrently saved
+  public favoriteVideoIds: number[] = [];
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
@@ -58,11 +60,16 @@ export class HomeComponent implements OnInit {
         }
       }, 3000);
     });
+
+    this.databaseService.getFavoriteVideos().subscribe((favoriteVideos) => {
+      this.favoriteVideos = favoriteVideos;
+      this.favoriteVideoIds = favoriteVideos.map((video) => video.id);
+      console.log('home fav videos', this.favoriteVideos);
+    });
   }
 
   handleAddToWishlist(video: VideoModel) {
     this.databaseService.toggleFavourites(video);
-    console.log("erwischt");
-    
+    console.log('erwischt');
   }
 }
