@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
   public horrorVideos: VideoModel[] = [];
   public favoriteVideos: VideoModel[] = [];
   public baseUrl = 'http://127.0.0.1:8000/media/'; // to do use env for backend route
-  public favoriteUrl = 'http://127.0.0.1:8000/'; // to do use env for backend route check y fav paths are diffrently saved
   public favoriteVideoIds: number[] = [];
   constructor(
     private router: Router,
