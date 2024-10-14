@@ -68,7 +68,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  handleAddToWishlist(video: VideoModel) {
+  handleAddToWishlist(video: VideoModel, event: Event) {
+    event.stopPropagation();
     this.databaseService.toggleFavourites(video);
     console.log('erwischt');
   }

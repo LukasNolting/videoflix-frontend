@@ -29,7 +29,7 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                    <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
                             [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
                             <path
@@ -52,7 +52,7 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="favoriteUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                    <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
                             [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
                             <path
@@ -74,7 +74,7 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                    <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
                             [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
                             <path
@@ -95,7 +95,7 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                    <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
                             [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
                             <path
@@ -116,7 +116,7 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                    <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
                             [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
                             <path
@@ -137,7 +137,7 @@
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
                     <img [src]="baseUrl + video.thumbnail" alt="{{video.title}}">
                     <p>{{video.title}}</p>
-                    <div (click)="handleAddToWishlist(video)" class="heart-icon">
+                    <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
                             [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'">
                             <path
