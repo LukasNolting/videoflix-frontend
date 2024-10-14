@@ -8,6 +8,7 @@ import { VideoPlayerComponent } from '../shared/video-player/video-player.compon
 import { CarouselComponent } from 'ngx-carousel-ease';
 import { DatabaseService } from '../services/database.service';
 import { VideoModel } from '../models/video.model';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -31,7 +32,6 @@ export class HomeComponent implements OnInit {
   public horrorVideos: VideoModel[] = [];
   public favoriteVideos: VideoModel[] = [];
   public baseUrl = 'http://127.0.0.1:8000/media/'; // to do use env for backend route
-  public favoriteUrl = 'http://127.0.0.1:8000/'; // to do use env for backend route check y fav paths are diffrently saved
   public favoriteVideoIds: number[] = [];
   constructor(
     private router: Router,

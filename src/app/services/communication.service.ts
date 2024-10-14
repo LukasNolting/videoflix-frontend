@@ -26,6 +26,7 @@ export class CommunicationService {
 
   // video player variables
   public currentVideoObj: VideoModel = {} as VideoModel;
+  public currentPlayedTime: number = 0;
   constructor() {}
 
   /**
