@@ -45,7 +45,6 @@ export class CommunicationService {
    */
   handlePlayVideo(): void {
     this.playVideoSubject.next(true);
-    console.log('playVideo triggered');
   }
 
   /**
@@ -63,21 +62,16 @@ export class CommunicationService {
     this.showPreviewSubject.next(path);
     this.isPreviewVideoPlaying = true;
     this.currentVideoObj = video;
-    console.log('currentVideoObj', this.currentVideoObj);
   }
 
   /**
    * Hides the currently playing video preview and resets the preview state.
    */
   hidePreview(): void {
-    console.log('hidePreview triggered');
     this.isPreviewVideoPlaying = false;
   }
 
   continueWatching(video: VideoModel, timestamp: number): void {
-    console.log('continueWatching triggered');
-    console.log('video', video);
-    console.log('timestamp', timestamp);
     this.continuePlayTime = timestamp;
     this.currentVideoObj = video;
     this.playVideoSubject.next(true);
