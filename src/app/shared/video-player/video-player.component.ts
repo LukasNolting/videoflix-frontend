@@ -222,15 +222,13 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   onQualityChange(selectedQualitySrc: string) {
-    const currentTime = this.player.currentTime(); // saves current player time
-    this.currentVideoSource = selectedQualitySrc; // sets current video source
-    this.player.src({ type: 'video/mp4', src: this.currentVideoSource }); // updates video source
-    this.player.load(); // reloads video
+    const currentTime = this.player.currentTime();
+    this.currentVideoSource = selectedQualitySrc;
+    this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
     this.player.ready(() => {
-      this.player.currentTime(currentTime); // sets back to current time
-      this.player.play(); // plays video
+      this.player.currentTime(currentTime);
+      this.player.play();
     });
-    console.log('selectedQuality', selectedQualitySrc);
     this.toggleQualityMenu();
   }
 
@@ -246,7 +244,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       { label: '720p', src: `${baseVideoSource}_720p.mp4` },
       { label: '1080p', src: `${baseVideoSource}_1080p.mp4` },
     ];
-    console.log('Updated video qualities:', this.videoQualities);
     this.checkBandwidthAndSetVideoSource();
   }
 
@@ -313,7 +310,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
         const imageSize = 5176 * 8;
         const bandwidth = imageSize / duration;
         resolve(bandwidth);
-        console.log('Bandwidth:', bandwidth);
       };
 
       testImage.onerror = () => {
@@ -340,6 +336,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   setupPlayer() {
     if (this.communicationService.continuePlayTime !== null) {
       this.setPlayerForContinueWatching();
+      this.updateVideoQualities();
     } else {
       this.player.currentTime(0);
     }
@@ -353,14 +350,28 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   /**
    * Sets up event listeners for the video player.
    */
+  /**
+   * Sets up event listeners for the video player.
+   */
+  /**
+   * Sets up event listeners for the video player.
+   */
   setupEventListeners() {
     this.player.off('pause');
-    this.player.on('pause', () => this.saveCurrentTime());
+    this.player.on('pause', () => {
+      if (!this.player.ended()) {
+        this.saveCurrentTime();
+      }
+    });
 
     this.player.off('ended');
     this.player.on('ended', () => {
       console.log('Video ended');
-      // TODO: delete from continue watching
+
+      this.dataBaseService.deleteVideoFromContinueWatching(
+        this.communicationService.currentVideoObj.id
+      );
+      this.player.off('pause');
     });
   }
 
