@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { VideoModel } from '../models/video.model';
 import { firstValueFrom } from 'rxjs';
-import { CommunicationService } from './communication.service';
+import { ContinueWatching } from '../models/continue-watching';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +19,16 @@ export class DatabaseService {
   public videoFavoriteSubject = new BehaviorSubject<VideoModel[]>([]);
   public favoriteVideos$ = this.videoFavoriteSubject.asObservable();
 
+  private continueWatchingUrl = `${environment.baseURL}/videoflix/continue-watching/`;
+  public continueWatchingSubject = new BehaviorSubject<ContinueWatching[]>([]);
+  public continueWatchingVideos$ = this.continueWatchingSubject.asObservable();
+
   public reloadFavoriteVideos: boolean = false;
 
-  constructor(
-    private http: HttpClient,
-    private communicationService: CommunicationService
-  ) {
+  constructor(private http: HttpClient) {
     this.loadVideos();
     this.loadFavoriteVideos();
+    this.loadContinueWatchingVideos();
   }
 
   get headers() {
@@ -36,7 +38,7 @@ export class DatabaseService {
     );
   }
 
-  public loadVideos(): void {
+  public async loadVideos(): Promise<void> {
     this.http
       .get<VideoModel[]>(this.videoUrl, { headers: this.headers })
       .pipe(
@@ -58,15 +60,11 @@ export class DatabaseService {
 
   async toggleFavourites(video: VideoModel): Promise<void> {
     const body = { video_id: video.id };
-    const link = `${environment.baseURL}/videoflix/favorite/`;
-
-    console.log('videoobjekt:', video);
-    console.log('service:', body);
-    console.log(link);
-
     try {
       const response = await firstValueFrom(
-        this.http.post<any>(link, body, { headers: this.headers })
+        this.http.post<any>(this.videoFavoriteUrl, body, {
+          headers: this.headers,
+        })
       );
       console.log('Request erfolgreich:', response);
       this.reloadFavoriteVideos = true;
@@ -80,7 +78,7 @@ export class DatabaseService {
     } // TODO : Refactor? kinda buggy
   }
 
-  public loadFavoriteVideos(): void {
+  public async loadFavoriteVideos(): Promise<void> {
     this.http
       .get<VideoModel[]>(this.videoFavoriteUrl, { headers: this.headers })
       .pipe(
@@ -100,8 +98,50 @@ export class DatabaseService {
     return this.favoriteVideos$;
   }
 
-  saveVideoToContinueWatching(video: VideoModel, playedTime: number): void {
+  public async loadContinueWatchingVideos(): Promise<void> {
+    this.http
+      .get<ContinueWatching[]>(this.continueWatchingUrl, {
+        headers: this.headers,
+      })
+      .pipe(
+        tap((continueWatchingVideos) => {
+          this.continueWatchingSubject.next(continueWatchingVideos);
+          console.log(
+            'Continue watching Videos loaded:',
+            continueWatchingVideos
+          );
+        }),
+        catchError((error) => {
+          console.error('Error loading continue watching videos:', error);
+          return of([]);
+        })
+      )
+      .subscribe();
+  }
+
+  public getContinueWatchingVideos(): Observable<ContinueWatching[]> {
+    return this.continueWatchingVideos$;
+  }
+
+  async saveVideoToContinueWatching(
+    video: VideoModel,
+    playedTime: number
+  ): Promise<void> {
     console.log('saveVideoToContinueWatching:', video);
     console.log('playedTime:', playedTime);
+
+    const body = { video_id: video.id, timestamp: playedTime };
+    try {
+      const response = await firstValueFrom(
+        this.http.post<any>(this.continueWatchingUrl, body, {
+          headers: this.headers,
+        })
+      );
+      console.log('Request erfolgreich:', response);
+    } catch (error) {
+      console.error('Request-Fehler:', error);
+    } finally {
+      this.loadContinueWatchingVideos();
+    }
   }
 }

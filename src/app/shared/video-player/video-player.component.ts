@@ -45,7 +45,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.getRandomVideo();
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
-        console.log('playVideoSubject', playVideo);
         if (playVideo === true) {
           this.player.controls(false);
           this.handlePlayVideo();
@@ -252,6 +251,12 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   // todo : refactor / outsource / shorten
+  /**
+   * Measures the current bandwidth and sets the video source based on the available quality.
+   * @async
+   * @returns {Promise<void>} A promise that resolves when the video source is set.
+   * @throws {Error} Throws an error if bandwidth measurement fails.
+   */
   async checkBandwidthAndSetVideoSource() {
     try {
       const bandwidth = await this.measureBandwidth();
@@ -292,17 +297,20 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
+  /**
+   * Measures the bandwidth by loading a test image and calculating the load time.
+   * @returns {Promise<number>} A promise that resolves with the measured bandwidth in kbps.
+   */
   measureBandwidth(): Promise<number> {
     return new Promise((resolve, reject) => {
       const testImage = new Image();
-      const testUrl =
-        'http://127.0.0.1:8000/media/videos/The_Secret_Life_of_Chickens/baby_chicken.jpg'; //todo: search for a suitable test image
+      const testUrl = 'http://127.0.0.1:8000/media/videos/xx_2.jpg';
       const startTime = new Date().getTime();
 
       testImage.onload = () => {
         const endTime = new Date().getTime();
         const duration = (endTime - startTime) / 1000;
-        const imageSize = 56.6 * 8;
+        const imageSize = 5176 * 8;
         const bandwidth = imageSize / duration;
         resolve(bandwidth);
         console.log('Bandwidth:', bandwidth);
@@ -318,18 +326,71 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * Handles the play video functionality by setting the player to play, unmuted with a volume of 0.5, and with controls enabled. Sets the player time to 0 and requests full screen.
-   * @returns void
+   * Handles the video playback by setting up the player and starting the video.
    */
   handlePlayVideo() {
-    console.log('handle play video triggert');
+    this.setupPlayer();
     this.player.play();
+    this.setupEventListeners();
+  }
+
+  /**
+   * Sets up the video player with the appropriate settings.
+   */
+  setupPlayer() {
+    if (this.communicationService.continuePlayTime !== null) {
+      this.setPlayerForContinueWatching();
+    } else {
+      this.player.currentTime(0);
+    }
     this.player.muted(false);
     this.player.volume(0.5);
     this.player.controls(true);
-    this.player.currentTime(0);
     this.player.requestFullscreen();
+    this.player.loop(false);
   }
+
+  /**
+   * Sets up event listeners for the video player.
+   */
+  setupEventListeners() {
+    this.player.off('pause');
+    this.player.on('pause', () => this.saveCurrentTime());
+
+    this.player.off('ended');
+    this.player.on('ended', () => {
+      console.log('Video ended');
+      // TODO: delete from continue watching
+    });
+  }
+
+  /**
+   * Saves the current time of the video when it is paused.
+   */
+  saveCurrentTime() {
+    const currentTime = this.player.currentTime();
+    this.dataBaseService.saveVideoToContinueWatching(
+      this.communicationService.currentVideoObj,
+      currentTime
+    );
+    console.log('Video paused at time: ', currentTime);
+  }
+
+  /**
+   * Sets the video player to continue watching from the last saved time.
+   */
+  setPlayerForContinueWatching() {
+    const baseURL = 'http://127.0.0.1:8000/'; // TODO: use baseUrl from environment
+    this.currentVideoSource = `${baseURL}media/${this.communicationService.currentVideoObj?.video_file}`;
+    this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
+    const continuePlayTime = this.communicationService.continuePlayTime;
+    if (continuePlayTime !== null) {
+      this.player.currentTime(continuePlayTime);
+      console.log(`Resuming video at time: ${continuePlayTime}`);
+    }
+  }
+
+  // todo : check if redundant
 
   /**
    * Requests the player to go full screen.
