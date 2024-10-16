@@ -25,11 +25,7 @@ export class DatabaseService {
 
   public reloadFavoriteVideos: boolean = false;
 
-  constructor(private http: HttpClient) {
-    this.loadVideos();
-    this.loadFavoriteVideos();
-    this.loadContinueWatchingVideos();
-  }
+  constructor(private http: HttpClient) {}
 
   get headers() {
     return new HttpHeaders().set(
