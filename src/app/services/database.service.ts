@@ -147,21 +147,23 @@ export class DatabaseService {
 
   public async deleteVideoFromContinueWatching(videoId: number): Promise<void> {
     console.log('deleteVideoFromContinueWatching:', videoId);
-  
+
     const body = { video_id: videoId };
     try {
       await firstValueFrom(
         this.http.delete<any>(this.continueWatchingUrl, {
           headers: this.headers,
-          body: body, 
+          body: body,
         })
       );
       console.log('Video successfully deleted from continue watching.');
 
       this.loadContinueWatchingVideos();
     } catch (error) {
-      console.error('Error deleting video from continue watching Videos:', error);
+      console.error(
+        'Error deleting video from continue watching Videos:',
+        error
+      );
     }
   }
-  
 }

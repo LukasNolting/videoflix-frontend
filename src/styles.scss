@@ -52,19 +52,13 @@ body {
     border-radius: 40px;
 
     &:hover {
-        //background-color: $purple-2;
+        background-color: rgba($color: $main-blue-dark, $alpha: 0.8);
+        scale: 1.1;
         transition: all 0.1s ease-in;
         cursor: pointer;
     }
 
-    &:active {
-        //background-color: $purple-1;
-        color: $white;
-        transition: all 0.1s ease-in;
-    }
-
     &:disabled {
-        //background-color: $text-gray;
         cursor: not-allowed;
         transition: all 0.1s ease-in;
     }
