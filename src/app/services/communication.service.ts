@@ -17,6 +17,7 @@ export class CommunicationService {
   private showPreviewSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
   showPreview$ = this.showPreviewSubject.asObservable(); // Observable to track play video changes
   isPreviewVideoPlaying: boolean = false;
+  showVideoDescription: boolean = true;
   // mobile view variables
   isMobileViewActive: boolean = false; // main flag to check if mobile view is active
   isSmallScreenActive: boolean = false; // flag to indicate if the screen is small (mobile view < 1200px for tablets)

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
@@ -31,7 +31,7 @@ import { AppComponent } from '../app.component';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isPasswordVisible: boolean = false;
   constructor(
@@ -45,6 +45,25 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(5)]],
       remember: [false],
     });
+  }
+
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    const remember = localStorage.getItem('remember');
+    if (token && remember === 'true') {
+      //logic if token is not expired and remember is true from local storage and backend
+      const rememberBoolean = remember === 'true' ? true : false;
+      this.checkToken(token, rememberBoolean);
+    }
+  }
+
+  async checkToken(token: string, remember: boolean) {
+    try {
+      const response = await lastValueFrom(this.as.checkToken(token, remember));
+      this.router.navigate(['home']);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   onSubmit() {
