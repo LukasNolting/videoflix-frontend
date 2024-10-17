@@ -14,7 +14,8 @@
     a {
         cursor: pointer;
         text-decoration: none;
-        @include DMSans(400, 18px, 23.44px, #ffffff);
+        @include DMSans(400, 18px, 23.44px, $white);
+        transition: all 0.1s ease-in;
 
         &:hover {
             @include DMSans(400, 18px, 23.44px, $main-blue-dark);

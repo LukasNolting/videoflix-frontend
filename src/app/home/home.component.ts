@@ -46,6 +46,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.databaseService.loadVideos();
+    this.databaseService.loadFavoriteVideos();
+    this.databaseService.loadContinueWatchingVideos();
     this.databaseService.getVideos().subscribe((videos) => {
       this.newVideos = videos.filter(
         (video) => video.created_at > '2024-09-12T09:12:11Z' // to do implement date filter

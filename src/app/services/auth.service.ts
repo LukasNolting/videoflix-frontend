@@ -10,8 +10,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
 
   /**
    * Sends a POST request to log in a user with email and password.
@@ -93,5 +92,13 @@ export class AuthService {
    */
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  checkToken(token: string, remember: boolean): Observable<any> {
+    // todo : logic from backend if token is present & valid & remember me
+    return this.http.post<any>(`${environment.baseURL}/videoflix/checkToken/`, {
+      token,
+      remember,
+    });
   }
 }
