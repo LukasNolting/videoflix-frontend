@@ -49,20 +49,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-    const remember = localStorage.getItem('remember');
-    if (token && remember === 'true') {
+    if (token) {
       //logic if token is not expired and remember is true from local storage and backend
-      const rememberBoolean = remember === 'true' ? true : false;
-      this.checkToken(token, rememberBoolean);
-    }
-  }
-
-  async checkToken(token: string, remember: boolean) {
-    try {
-      const response = await lastValueFrom(this.as.checkToken(token, remember));
-      this.router.navigate(['home']);
-    } catch (error) {
-      console.log(error);
+      this.router.navigate(['/home']);
     }
   }
 
@@ -79,21 +68,18 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
+    console;
     try {
       let user = new LoginModel(
         this.loginForm.value.email,
-        this.loginForm.value.password
+        this.loginForm.value.password,
+        this.loginForm.value.remember
       );
       const response = await lastValueFrom(
         this.as.loginWithEmailAndPassword(user)
       );
       this.app.showDialog('Login Successful');
-      this.as.setToken(response.token);
-      localStorage.setItem(
-        'remember',
-        this.loginForm.value.remember.toString()
-      );
-      this.router.navigate(['home']);
+      this.router.navigate(['/home']);
     } catch (error) {
       this.app.showDialog('Login Failed');
       console.log(error);

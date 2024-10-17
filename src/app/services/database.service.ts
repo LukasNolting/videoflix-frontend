@@ -30,7 +30,8 @@ export class DatabaseService {
   get headers() {
     return new HttpHeaders().set(
       'Authorization',
-      'Token ' + localStorage.getItem('token')
+      'Token ' +
+        (localStorage.getItem('token') || sessionStorage.getItem('token'))
     );
   }
 
