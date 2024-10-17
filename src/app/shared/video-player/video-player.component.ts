@@ -55,11 +55,14 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.playPreviewSubscription.add(
       this.communicationService.showPreview$.subscribe((path) => {
         if (path !== null && this.player) {
+          this.communicationService.showVideoDescription = true;
           const baseURL = 'http://127.0.0.1:8000/'; //todo : use baseUrl from environment
           this.currentVideoSource = `${baseURL}media/${path}`;
           console.log('currentVideoSource', this.currentVideoSource);
           this.updateVideoQualities();
           this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
+          this.player.controls(false);
+          this.player.muted(true);
           this.player.load();
           this.player.play();
         }
@@ -225,10 +228,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     const currentTime = this.player.currentTime();
     this.currentVideoSource = selectedQualitySrc;
     this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
-    this.player.ready(() => {
-      this.player.currentTime(currentTime);
-      this.player.play();
-    });
+    this.player.currentTime(currentTime);
+    this.player.play();
     this.toggleQualityMenu();
   }
 
@@ -325,6 +326,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * Handles the video playback by setting up the player and starting the video.
    */
   handlePlayVideo() {
+    this.communicationService.showVideoDescription = false;
     this.setupPlayer();
     this.player.play();
     this.setupEventListeners();
@@ -367,7 +369,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player.off('ended');
     this.player.on('ended', () => {
       console.log('Video ended');
-
+      // todo : check if video is in continue watching list and delete it
       this.dataBaseService.deleteVideoFromContinueWatching(
         this.communicationService.currentVideoObj.id
       );

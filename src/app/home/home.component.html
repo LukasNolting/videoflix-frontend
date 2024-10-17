@@ -7,12 +7,14 @@
         </app-video-player>
         <div class="preview-section">
             <!-- todo embedd video description here START -->
+            @if (this.communicationService.showVideoDescription) {
             <div class="video-description">
                 <h1>{{this.communicationService.currentVideoObj.title}}</h1>
                 <p>{{this.communicationService.currentVideoObj.description}}</p>
                 <button type="button" (click)="this.communicationService.handlePlayVideo()"><img
                         src="../img/icons/play_btn.svg" alt="play_btn">Play</button>
             </div>
+            }
             <!-- todo embedd video description here END-->
         </div>
     </div>
@@ -21,9 +23,9 @@
         <!-- todo add categories here START -->
         <div class="category-container">
             <h2>New on Videoflix</h2>
-            <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
-                [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="this.newVideos.length"
-                [enableTouch]="true" [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="this.newVideos.length"
+            <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="true" [dots]="false" [counter]="true"
+                [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [enableTouch]="true" [slideMaxWidth]="250"
+                [autoPlay]="true" [slideWidth]="225" [autoPlayAtStart]="true" [autoPlayInterval]="5000"
                 class="carousel-wrapper">
                 @for (video of newVideos; track video; let index = $index) {
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
@@ -174,7 +176,9 @@
         </div>
         <!--todo add categories here END-->
     </div>
-
+    <section class="footer">
+        <app-footer></app-footer>
+    </section>
 </section>
 } @else {<div class="loading-wrapper">
     <svg class="logo" width="165" height="24" viewBox="0 0 165 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,6 +223,3 @@
     </svg>
     <h1>loading awesomeness...</h1>
 </div>}
-<section class="home-footer">
-    <app-footer></app-footer>
-</section>
