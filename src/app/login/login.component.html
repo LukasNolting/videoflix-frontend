@@ -39,7 +39,10 @@
                 <input type="checkbox" formControlName="remember" id="remember" name="remember">
                 <label class="checkbox-label" for="remember">Remember me</label>
             </div>
+            <div class="login-container-buttons">
             <button type="submit" [disabled]="loginForm.invalid">Log in</button>
+            <button type="button" (click)="guestLogin()" return=false;>Guest Login</button>
+            </div>
         </form>
         <p class="highlight pointer mt-16" [routerLink]="['/forgot-password']">Forgot password?</p>
         <div class="login-bottom">
