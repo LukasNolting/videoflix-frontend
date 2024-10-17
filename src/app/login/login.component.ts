@@ -55,6 +55,12 @@ export class LoginComponent {
     }
   }
 
+  guestLogin() {
+    this.loginForm.value.email = 'guest@guest.com'; 
+    this.loginForm.value.password = 'guest49408';
+    this.login();
+  }
+
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
   }

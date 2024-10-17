@@ -126,3 +126,8 @@ p {
         @include DMSans(400, 16px, 20.83px, $main-blue-dark);
     }
 }
+
+.login-container-buttons{
+    @include dFlex(row, center, center);
+    gap: 24px;
+}
