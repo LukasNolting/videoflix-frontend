@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SignupModel } from '../models/signup.model';
 import { LoginModel } from '../models/login.model';
@@ -20,8 +20,16 @@ export class AuthService {
    * @param {boolean} remember - Whether to remember the user or not.
    * @returns {Observable<any>} - An observable with the response from the server.
    */
-  loginWithEmailAndPassword(User: LoginModel): Observable<any> {
-    return this.http.post<any>(`${environment.baseURL}/videoflix/login/`, User);
+  loginWithEmailAndPassword(user: LoginModel): Observable<any> {
+    return this.http
+      .post<any>(`${environment.baseURL}/videoflix/login/`, user)
+      .pipe(
+        tap((response) => {
+          console.log(user.remember);
+          const storage = user.remember ? localStorage : sessionStorage;
+          storage.setItem('token', response.token);
+        })
+      );
   }
 
   /**
@@ -40,11 +48,6 @@ export class AuthService {
   async forgotPassword(email: string): Promise<void> {
     const body = { email };
     const link = `${environment.baseURL}/videoflix/password-reset/`;
-
-    console.log('email:', email);
-    console.log('service:', body);
-    console.log(link);
-
     try {
       const response = await firstValueFrom(
         this.http.post<any>(link, body, {
@@ -60,10 +63,6 @@ export class AuthService {
   async resetPassword(token: any, password: string): Promise<void> {
     const body = { password };
     const link = `${environment.baseURL}/videoflix/password-reset/${token}/`;
-
-    console.log('service:', body);
-    console.log(link);
-
     try {
       const response = await firstValueFrom(
         this.http.post<any>(link, body, {
@@ -77,28 +76,21 @@ export class AuthService {
   }
 
   /**
-   * Stores the provided token in local storage.
-   *
-   * @param {string} token - The token to be stored.
-   */
-  setToken(token: string): void {
-    localStorage.setItem('token', token);
-  }
-
-  /**
    * Retrieves the token from local storage.
    *
    * @returns {string | null} - The stored token or null if not found.
    */
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  getToken() {
+    return localStorage.getItem('token') || sessionStorage.getItem('token');
   }
 
-  checkToken(token: string, remember: boolean): Observable<any> {
-    // todo : logic from backend if token is present & valid & remember me
-    return this.http.post<any>(`${environment.baseURL}/videoflix/checkToken/`, {
-      token,
-      remember,
+  getAndValidateToken(token: string): Observable<any> {
+    const headers = { Authorization: 'Token ' + token };
+    const url = `${environment.baseURL}/videoflix/authentication/`;
+    const body = { token };
+    return this.http.post<any>(url, body, {
+      headers: headers,
+      observe: 'response',
     });
   }
 }
