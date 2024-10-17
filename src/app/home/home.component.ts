@@ -8,6 +8,7 @@ import { VideoPlayerComponent } from '../shared/video-player/video-player.compon
 import { CarouselComponent } from 'ngx-carousel-ease';
 import { DatabaseService } from '../services/database.service';
 import { VideoModel } from '../models/video.model';
+import { ContinueWatching } from '../models/continue-watching';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
   public scifiVideos: VideoModel[] = [];
   public horrorVideos: VideoModel[] = [];
   public favoriteVideos: VideoModel[] = [];
+  public continueWatchingVideos: ContinueWatching[] = [];
   public baseUrl = 'http://127.0.0.1:8000/media/'; // to do use env for backend route
   public favoriteVideoIds: number[] = [];
   constructor(
@@ -60,17 +62,19 @@ export class HomeComponent implements OnInit {
         }
       }, 3000);
     });
-
     this.databaseService.getFavoriteVideos().subscribe((favoriteVideos) => {
       this.favoriteVideos = favoriteVideos;
       this.favoriteVideoIds = favoriteVideos.map((video) => video.id);
-      console.log('home fav videos', this.favoriteVideos);
     });
+    this.databaseService
+      .getContinueWatchingVideos()
+      .subscribe((continueWatchingVideos) => {
+        this.continueWatchingVideos = continueWatchingVideos;
+      });
   }
 
   handleAddToWishlist(video: VideoModel, event: Event) {
     event.stopPropagation();
     this.databaseService.toggleFavourites(video);
-    console.log('erwischt');
   }
 }

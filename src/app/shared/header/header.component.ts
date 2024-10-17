@@ -22,9 +22,14 @@ export class HeaderComponent {
       this.routerLink = '/home';
     }
   }
-
+  // todo : logic not to remove token if remember is true
   handleLogout() {
-    this.communicationService.isLoggedIn = false;
-    this.router.navigate(['/']);
+    if (localStorage.getItem('remember') === 'false') {
+      this.communicationService.isLoggedIn = false;
+      localStorage.removeItem('token');
+      this.router.navigate(['/']);
+    } else {
+      // todo : redirect to see you again or something else
+    }
   }
 }

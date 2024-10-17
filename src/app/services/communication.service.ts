@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { VideoModel } from '../models/video.model';
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommunicationService {
+  // todo : check if redundant
   private fullScreenSubject = new BehaviorSubject<boolean>(false); // flag for "rotate your device" message
   isFullScreenVisible$ = this.fullScreenSubject.asObservable(); // Observable to track changes
 
@@ -27,7 +29,8 @@ export class CommunicationService {
   // video player variables
   public currentVideoObj: VideoModel = {} as VideoModel;
   public currentPlayedTime: number = 0;
-  constructor() {}
+  public continuePlayTime: number = 0;
+  constructor(private databaseService: DatabaseService) {}
 
   /**
    * Updates the full-screen visibility status.
@@ -42,7 +45,6 @@ export class CommunicationService {
    */
   handlePlayVideo(): void {
     this.playVideoSubject.next(true);
-    console.log('playVideo triggered');
   }
 
   /**
@@ -59,15 +61,19 @@ export class CommunicationService {
   showPreview(path: string, video: VideoModel): void {
     this.showPreviewSubject.next(path);
     this.isPreviewVideoPlaying = true;
-    this.currentVideoObj = video; //todo : needs to get initial video data from database
-    console.log('currentVideoObj', this.currentVideoObj);
+    this.currentVideoObj = video;
   }
 
   /**
    * Hides the currently playing video preview and resets the preview state.
    */
   hidePreview(): void {
-    console.log('hidePreview triggered');
     this.isPreviewVideoPlaying = false;
+  }
+
+  continueWatching(video: VideoModel, timestamp: number): void {
+    this.continuePlayTime = timestamp;
+    this.currentVideoObj = video;
+    this.playVideoSubject.next(true);
   }
 }

@@ -12,15 +12,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { LoginModel } from '../models/login.model';
-import { lastValueFrom} from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { AppComponent } from '../app.component';
 
-
 @Injectable({
-  providedIn: 'root',  // Stellt sicher, dass der Service global verfügbar ist
+  providedIn: 'root', // Stellt sicher, dass der Service global verfügbar ist
 })
-
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -34,12 +31,15 @@ import { AppComponent } from '../app.component';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-
-
 export class LoginComponent {
   loginForm: FormGroup;
   isPasswordVisible: boolean = false;
-  constructor(private fb: FormBuilder ,private as: AuthService, private router: Router, private app: AppComponent) {
+  constructor(
+    private fb: FormBuilder,
+    private as: AuthService,
+    private router: Router,
+    private app: AppComponent
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]],
@@ -47,33 +47,36 @@ export class LoginComponent {
     });
   }
 
-
   onSubmit() {
     if (this.loginForm.valid) {
       this.login();
     } else {
-      this.app.showDialog("Invalid form");
+      this.app.showDialog('Invalid form');
     }
   }
-
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-
   async login() {
     try {
-      let user = new LoginModel(this.loginForm.value.email, this.loginForm.value.password);
+      let user = new LoginModel(
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      );
       const response = await lastValueFrom(
         this.as.loginWithEmailAndPassword(user)
       );
-      this.app.showDialog("Login Successful");
+      this.app.showDialog('Login Successful');
       this.as.setToken(response.token);
-      localStorage.setItem('remember', this.loginForm.value.remember.toString());
+      localStorage.setItem(
+        'remember',
+        this.loginForm.value.remember.toString()
+      );
       this.router.navigate(['home']);
     } catch (error) {
-      this.app.showDialog("Login Failed");
+      this.app.showDialog('Login Failed');
       console.log(error);
     }
   }
