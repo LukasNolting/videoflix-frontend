@@ -9,6 +9,7 @@ import { CarouselComponent } from 'ngx-carousel-ease';
 import { DatabaseService } from '../services/database.service';
 import { VideoModel } from '../models/video.model';
 import { ContinueWatching } from '../models/continue-watching';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -33,9 +34,9 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   public horrorVideos: VideoModel[] = [];
   public favoriteVideos: VideoModel[] = [];
   public continueWatchingVideos: ContinueWatching[] = [];
-  public baseUrl = 'http://127.0.0.1:8000/media/'; // to do use env for backend route
+  public baseUrl = `${environment.baseUrl}/media/`;
   public favoriteVideoIds: number[] = [];
-  public Math = Math;
+  public math = Math;
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
@@ -46,11 +47,20 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  /**
+   * Initializes the component by loading videos, favorite videos, and continue watching videos.
+   */
   ngOnInit(): void {
     this.loadVideos();
     this.loadFavoriteVideos();
     this.loadContinueWatchingVideos();
   }
+  /**
+   * Lifecycle hook, after the component's view has been fully initialized.
+   * Used to detect when the carousels have finished rendering, and set the
+   * respective flags on the database service to indicate that they have
+   * finished rendering.
+   */
   ngAfterViewChecked(): void {
     if (
       this.favoriteVideos.length > 0 &&
@@ -68,6 +78,14 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  /**
+   * Retrieves all videos from the database and filters them based on their
+   * category. The newVideos property is set to videos that have been created
+   * after 2024-09-12T09:12:11Z. The actionVideos, documentaryVideos, scifiVideos,
+   * and horrorVideos properties are set to videos of their respective categories.
+   * The setDataIsLoaded function is called with the retrieved videos as an
+   * argument.
+   */
   private loadVideos(): void {
     this.databaseService.loadVideos();
     this.databaseService.getVideos().subscribe((videos) => {
@@ -86,6 +104,10 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  /**
+   * Loads the favorite videos of the user and sets the favoriteVideos and
+   * favoriteVideoIds properties accordingly.
+   */
   private loadFavoriteVideos(): void {
     this.databaseService.loadFavoriteVideos();
     this.databaseService.getFavoriteVideos().subscribe((favoriteVideos) => {
@@ -94,6 +116,10 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  /**
+   * Loads the videos that the user has saved to continue watching and sets the
+   * continueWatchingVideos property accordingly.
+   */
   private loadContinueWatchingVideos(): void {
     this.databaseService.loadContinueWatchingVideos();
     this.databaseService
@@ -103,6 +129,13 @@ export class HomeComponent implements OnInit, AfterViewChecked {
       });
   }
 
+  /**
+   * Sets the dataIsLoaded property of the CommunicationService to true after a
+   * delay of 3 seconds if the given videos array is not empty. This is used to
+   * prevent the content from being displayed before the carousels have finished
+   * loading.
+   * @param videos An array of VideoModel objects retrieved from the database.
+   */
   private setDataIsLoaded(videos: VideoModel[]): void {
     setTimeout(() => {
       if (videos.length > 0) {
@@ -111,6 +144,14 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     }, 3000);
   }
 
+  /**
+   * Handles the event when the user clicks on a heart icon in one of the
+   * carousels. Toggles the video in the user's favourites list and reloads the
+   * favourite videos.
+   *
+   * @param video The video object that the user clicked on.
+   * @param event The click event.
+   */
   handleAddToWishlist(video: VideoModel, event: Event) {
     event.stopPropagation();
     this.databaseService.toggleFavourites(video);

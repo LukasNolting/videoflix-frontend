@@ -30,36 +30,76 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   ) {}
 
   /**
-   * Called when component is initialized.
-   * Listens to two subjects to handle playing a video and showing a preview.
-   * When a video should be played, the player is set to play the video and the controls are hidden.
-   * When a preview should be shown, the player is set to play the corresponding video and the controls are hidden.
+   * Lifecycle hook that is called after data-bound properties are initialized.
+   * Sets up the initial video state by getting a random video and subscribing
+   * to video play and preview events from the communication service.
    */
   ngOnInit(): void {
     this.getRandomVideo();
+    this.subscribeToVideoPlay();
+    this.subscribeToVideoPreview();
+  }
+
+  /**
+   * Subscribes to the play video events from the communication service.
+   * When a play event is received, it triggers the video playback.
+   * Adds the subscription to `playVideosubscriptions` to manage it and
+   * avoid memory leaks.
+   */
+  private subscribeToVideoPlay(): void {
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         if (playVideo === true) {
-          this.player.controls(false);
-          this.handlePlayVideo();
-          this.communicationService.resetPlayVideo();
+          this.handleVideoPlay();
         }
       })
     );
+  }
+
+  /**
+   * Subscribes to the video preview events from the communication service.
+   * When a preview event is received, it triggers the video preview by
+   * calling `handleVideoPreview` with the video path received from the
+   * communication service.
+   * Adds the subscription to `playPreviewSubscription` to manage it and
+   * avoid memory leaks.
+   */
+  private subscribeToVideoPreview(): void {
     this.playPreviewSubscription.add(
       this.communicationService.showPreview$.subscribe((path) => {
         if (path !== null && this.player) {
-          this.communicationService.showVideoDescription = true;
-          this.currentVideoSource = `${environment.baseUrl}/media/${path}`;
-          this.updateVideoQualities();
-          this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
-          this.player.controls(false);
-          this.player.muted(true);
-          this.player.load();
-          this.player.play();
+          this.handleVideoPreview(path);
         }
       })
     );
+  }
+
+  /**
+   * Handles the video playback when a play event is received from the communication service.
+   * It sets the video controls to false, calls the `handlePlayVideo` method to setup the player
+   * and start the video, and finally resets the play video state in the communication service.
+   */
+  private handleVideoPlay(): void {
+    this.player.controls(false);
+    this.handlePlayVideo();
+    this.communicationService.resetPlayVideo();
+  }
+
+  /**
+   * Handles the video preview by setting the video controls to false, updating the video
+   * qualities, setting the video source, and starting the video. It also sets the muted
+   * state of the video to true and loads the video.
+   * @param {string} path - The path of the video to preview.
+   */
+  private handleVideoPreview(path: string): void {
+    this.communicationService.showVideoDescription = true;
+    this.currentVideoSource = `${environment.baseUrl}/media/${path}`;
+    this.updateVideoQualities();
+    this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
+    this.player.controls(false);
+    this.player.muted(true);
+    this.player.load();
+    this.player.play();
   }
 
   /**
@@ -98,6 +138,15 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
+  /**
+   * Gets a random video from the database and sets the video source and video
+   * object to the random video. This method is called in the constructor and
+   * is used to set the initial video source in the component. The video source
+   * is set by subscribing to the video subject in the database service and
+   * getting a random video from the array of videos. The video object is also
+   * set to the random video object.
+   * @returns void
+   */
   getRandomVideo() {
     this.dataBaseService.videoSubject.subscribe((videos: VideoModel[]) => {
       const randomIndex = Math.floor(Math.random() * videos.length);

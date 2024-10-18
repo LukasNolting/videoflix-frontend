@@ -60,6 +60,11 @@ export class CommunicationService {
     this.isPreviewVideoPlaying = false;
   }
 
+  /**
+   * Triggers the video player to continue watching a video from the specified timestamp.
+   * @param {VideoModel} video - The video object to continue watching.
+   * @param {number} timestamp - The timestamp in seconds to continue watching from.
+   */
   continueWatching(video: VideoModel, timestamp: number): void {
     this.continuePlayTime = timestamp;
     this.currentVideoObj = video;

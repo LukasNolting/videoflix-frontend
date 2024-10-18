@@ -60,6 +60,12 @@ export class AuthService {
     }
   }
 
+  /**
+   * Sends a POST request to reset a user's password given a token.
+   * @param {string} token - The token given to the user via email.
+   * @param {string} password - The new password of the user.
+   * @returns {Promise<void>} - A promise that resolves when the request is finished.
+   */
   async resetPassword(token: any, password: string): Promise<void> {
     const body = { password };
     const link = `${environment.baseUrl}/videoflix/password-reset/${token}/`;
@@ -84,6 +90,12 @@ export class AuthService {
     return localStorage.getItem('token') || sessionStorage.getItem('token');
   }
 
+  /**
+   * Sends a POST request to validate a token.
+   *
+   * @param {string} token - The token to be validated.
+   * @returns {Observable<any>} - An observable of the HTTP response.
+   */
   getAndValidateToken(token: string): Observable<any> {
     const headers = { Authorization: 'Token ' + token };
     const url = `${environment.baseUrl}/videoflix/authentication/`;

@@ -6,7 +6,7 @@
         <app-video-player>
         </app-video-player>
         <div class="preview-section">
-            <!-- todo embedd video description here START -->
+            <!-- video description START -->
             @if (this.communicationService.showVideoDescription) {
             <div class="video-description">
                 <h1>{{this.communicationService.currentVideoObj.title}}</h1>
@@ -15,12 +15,12 @@
                         src="../img/icons/play_btn.svg" alt="play_btn">Play</button>
             </div>
             }
-            <!-- todo embedd video description here END-->
+            <!-- video description END -->
         </div>
     </div>
     <div class="category-section"
         [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && this.communicationService.isPreviewVideoPlaying)}">
-        <!-- todo add categories here START -->
+        <!-- categories START -->
         <div class="category-container">
             <h2>New on Videoflix</h2>
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="true" [dots]="false" [counter]="true"
@@ -48,7 +48,7 @@
             @if (!this.databaseService.reloadFavoriteVideos) { <carousel [maxWidthCarousel]="1440" [responsive]="true"
                 [arrows]="false" [dots]="false" [counter]="false" [displayAutoPlayControls]="false"
                 [gapBetweenSlides]="0" [maxDomSize]="1" [enableTouch]="true" [slideMaxWidth]="250" [slideWidth]="225"
-                [slideToShow]="this.favoriteVideos.length" [slideToScroll]="Math.min(this.favoriteVideos.length, 3)"
+                [slideToShow]="this.favoriteVideos.length" [slideToScroll]="math.min(this.favoriteVideos.length, 3)"
                 class="carousel-wrapper">
                 @for (video of favoriteVideos; track video; let index = $index) {
                 <div class="carousel-slide" (click)="this.communicationService.showPreview(video.video_file, video)">
@@ -81,7 +81,7 @@
             <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
                 [displayAutoPlayControls]="false" [gapBetweenSlides]="0" [maxDomSize]="1" [enableTouch]="true"
                 [slideMaxWidth]="250" [slideWidth]="225" [slideToShow]="this.continueWatchingVideos.length"
-                [slideToScroll]="Math.min(this.continueWatchingVideos.length, 3)" class="carousel-wrapper">
+                [slideToScroll]="math.min(this.continueWatchingVideos.length, 3)" class="carousel-wrapper">
                 @for (item of continueWatchingVideos; track item; let index = $index) {
                 <div class="carousel-slide"
                     (click)="this.communicationService.continueWatching(item.video, item.timestamp)">
@@ -192,12 +192,13 @@
                 }
             </carousel>
         </div>
-        <!--todo add categories here END-->
+        <!-- categories END -->
     </div>
     <section class="footer">
         <app-footer></app-footer>
     </section>
 </section>
+<!-- main loading spinner START -->
 } @else {<div class="loading-wrapper">
     <svg class="logo" width="165" height="24" viewBox="0 0 165 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -241,3 +242,4 @@
     </svg>
     <h1>loading awesomeness...</h1>
 </div>}
+<!-- loading spinner END -->

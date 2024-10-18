@@ -23,6 +23,10 @@ export class HeaderComponent {
     }
   }
 
+  /**
+   * This function handles the logout functionality by removing the token from local and session storage,
+   * updating the user's login status to false, and redirecting the user to the homepage.
+   */
   handleLogout() {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
