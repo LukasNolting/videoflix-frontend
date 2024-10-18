@@ -23,8 +23,7 @@ export class AppComponent implements OnInit {
     this.checkViewport();
   }
 
-
-  constructor() { 
+  constructor() {
     this.dialogOpen = false;
   }
 
@@ -33,10 +32,10 @@ export class AppComponent implements OnInit {
     this.dialogOpen = true;
     setTimeout(() => {
       this.dialogOpen = false;
-    },1000)
+    }, 1000);
   }
 
-
+  // todo : check for redundant code
   /**
    * Checks the current viewport dimensions and sets the isMobileViewActive flag.
    */

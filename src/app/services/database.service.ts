@@ -24,6 +24,9 @@ export class DatabaseService {
   public continueWatchingVideos$ = this.continueWatchingSubject.asObservable();
 
   public reloadFavoriteVideos: boolean = false;
+  public reloadContinueWatchingVideos: boolean = false;
+  public isFavCarouselRendered: boolean = false;
+  public isContinueWatchingCarouselRendered: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -57,22 +60,17 @@ export class DatabaseService {
 
   async toggleFavourites(video: VideoModel): Promise<void> {
     const body = { video_id: video.id };
+    this.reloadFavoriteVideos = true;
     try {
       const response = await firstValueFrom(
         this.http.post<any>(this.videoFavoriteUrl, body, {
           headers: this.headers,
         })
       );
-      console.log('Request erfolgreich:', response);
-      this.reloadFavoriteVideos = true;
+      await this.loadFavoriteVideos();
     } catch (error) {
       console.error('Request-Fehler:', error);
-    } finally {
-      this.loadFavoriteVideos();
-      setTimeout(() => {
-        this.reloadFavoriteVideos = false;
-      }, 200);
-    } // TODO : Refactor? kinda buggy
+    }
   }
 
   public async loadFavoriteVideos(): Promise<void> {
@@ -88,7 +86,11 @@ export class DatabaseService {
           return of([]);
         })
       )
-      .subscribe();
+      .subscribe({
+        complete: () => {
+          this.reloadFavoriteVideos = false;
+        },
+      });
   }
 
   public getFavoriteVideos(): Observable<VideoModel[]> {
@@ -96,24 +98,19 @@ export class DatabaseService {
   }
 
   public async loadContinueWatchingVideos(): Promise<void> {
-    this.http
-      .get<ContinueWatching[]>(this.continueWatchingUrl, {
-        headers: this.headers,
-      })
-      .pipe(
-        tap((continueWatchingVideos) => {
-          this.continueWatchingSubject.next(continueWatchingVideos);
-          console.log(
-            'Continue watching Videos loaded:',
-            continueWatchingVideos
-          );
-        }),
-        catchError((error) => {
-          console.error('Error loading continue watching videos:', error);
-          return of([]);
+    this.reloadContinueWatchingVideos = true;
+    try {
+      const continueWatchingVideos = await firstValueFrom(
+        this.http.get<ContinueWatching[]>(this.continueWatchingUrl, {
+          headers: this.headers,
         })
-      )
-      .subscribe();
+      );
+      this.continueWatchingSubject.next(continueWatchingVideos);
+    } catch (error) {
+      console.warn('Error loading continue watching videos:', error);
+    } finally {
+      this.reloadContinueWatchingVideos = false;
+    }
   }
 
   public getContinueWatchingVideos(): Observable<ContinueWatching[]> {
