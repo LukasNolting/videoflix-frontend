@@ -36,71 +36,31 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   ngOnInit(): void {
     this.getRandomVideo();
-    this.subscribeToVideoPlay();
-    this.subscribeToVideoPreview();
-  }
-
-  /**
-   * Subscribes to the play video events from the communication service.
-   * When a play event is received, it triggers the video playback.
-   * Adds the subscription to `playVideosubscriptions` to manage it and
-   * avoid memory leaks.
-   */
-  private subscribeToVideoPlay(): void {
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         if (playVideo === true) {
-          this.handleVideoPlay();
+          this.player.controls(false);
+          this.handlePlayVideo();
+          this.communicationService.resetPlayVideo();
         }
       })
     );
-  }
-
-  /**
-   * Subscribes to the video preview events from the communication service.
-   * When a preview event is received, it triggers the video preview by
-   * calling `handleVideoPreview` with the video path received from the
-   * communication service.
-   * Adds the subscription to `playPreviewSubscription` to manage it and
-   * avoid memory leaks.
-   */
-  private subscribeToVideoPreview(): void {
     this.playPreviewSubscription.add(
       this.communicationService.showPreview$.subscribe((path) => {
         if (path !== null && this.player) {
-          this.handleVideoPreview(path);
+          this.communicationService.showVideoDescription = true;
+          this.currentVideoSource = `${environment.baseUrl}/media/${path}`;
+          this.updateVideoQualities();
+          this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
+          this.player.controls(false);
+          this.player.muted(true);
+          this.player.load();
+          this.player.play();
         }
       })
     );
   }
 
-  /**
-   * Handles the video playback when a play event is received from the communication service.
-   * It sets the video controls to false, calls the `handlePlayVideo` method to setup the player
-   * and start the video, and finally resets the play video state in the communication service.
-   */
-  private handleVideoPlay(): void {
-    this.player.controls(false);
-    this.handlePlayVideo();
-    this.communicationService.resetPlayVideo();
-  }
-
-  /**
-   * Handles the video preview by setting the video controls to false, updating the video
-   * qualities, setting the video source, and starting the video. It also sets the muted
-   * state of the video to true and loads the video.
-   * @param {string} path - The path of the video to preview.
-   */
-  private handleVideoPreview(path: string): void {
-    this.communicationService.showVideoDescription = true;
-    this.currentVideoSource = `${environment.baseUrl}/media/${path}`;
-    this.updateVideoQualities();
-    this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
-    this.player.controls(false);
-    this.player.muted(true);
-    this.player.load();
-    this.player.play();
-  }
 
   /**
    * Called after the view has been initialized. Sets up the video player by
