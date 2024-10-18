@@ -22,7 +22,7 @@ export class AuthService {
    */
   loginWithEmailAndPassword(user: LoginModel): Observable<any> {
     return this.http
-      .post<any>(`${environment.baseURL}/videoflix/login/`, user)
+      .post<any>(`${environment.baseUrl}/videoflix/login/`, user)
       .pipe(
         tap((response) => {
           console.log(user.remember);
@@ -42,12 +42,12 @@ export class AuthService {
    * @returns {Observable<Object>} - An observable with the response from the server.
    */
   signUPWithEmailAndPassword(newUser: SignupModel): Observable<Object> {
-    return this.http.post(`${environment.baseURL}/videoflix/signup/`, newUser);
+    return this.http.post(`${environment.baseUrl}/videoflix/signup/`, newUser);
   }
 
   async forgotPassword(email: string): Promise<void> {
     const body = { email };
-    const link = `${environment.baseURL}/videoflix/password-reset/`;
+    const link = `${environment.baseUrl}/videoflix/password-reset/`;
     try {
       const response = await firstValueFrom(
         this.http.post<any>(link, body, {
@@ -62,7 +62,7 @@ export class AuthService {
 
   async resetPassword(token: any, password: string): Promise<void> {
     const body = { password };
-    const link = `${environment.baseURL}/videoflix/password-reset/${token}/`;
+    const link = `${environment.baseUrl}/videoflix/password-reset/${token}/`;
     try {
       const response = await firstValueFrom(
         this.http.post<any>(link, body, {
@@ -86,7 +86,7 @@ export class AuthService {
 
   getAndValidateToken(token: string): Observable<any> {
     const headers = { Authorization: 'Token ' + token };
-    const url = `${environment.baseURL}/videoflix/authentication/`;
+    const url = `${environment.baseUrl}/videoflix/authentication/`;
     const body = { token };
     return this.http.post<any>(url, body, {
       headers: headers,
