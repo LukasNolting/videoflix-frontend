@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { VideoModel } from '../models/video.model';
 import { firstValueFrom } from 'rxjs';
 import { ContinueWatching } from '../models/continue-watching';
 
+
 @Injectable({
   providedIn: 'root',
 })
+
+
 export class DatabaseService {
   private videoUrl = `${environment.baseUrl}/videoflix/videos/`;
   public videoSubject = new BehaviorSubject<VideoModel[]>([]);
@@ -28,20 +31,9 @@ export class DatabaseService {
   public isFavCarouselRendered: boolean = false;
   public isContinueWatchingCarouselRendered: boolean = false;
 
+
   constructor(private http: HttpClient) {}
 
-  /**
-   * Returns an instance of HttpHeaders with the 'Authorization' header set to
-   * 'Token <token>', where <token> is the value of the 'token' key in either
-   * localStorage or sessionStorage, whichever one has it.
-   */
-  get headers() {
-    return new HttpHeaders().set(
-      'Authorization',
-      'Token ' +
-        (localStorage.getItem('token') || sessionStorage.getItem('token'))
-    );
-  }
 
   /**
    * Loads all videos from the server and emits them through the `videos$`
@@ -49,7 +41,7 @@ export class DatabaseService {
    */
   public async loadVideos(): Promise<void> {
     this.http
-      .get<VideoModel[]>(this.videoUrl, { headers: this.headers })
+      .get<VideoModel[]>(this.videoUrl)
       .pipe(
         tap((videos) => {
           this.videoSubject.next(videos);
@@ -63,12 +55,14 @@ export class DatabaseService {
       .subscribe();
   }
 
+
   /**
    * Returns an observable that emits an array of VideoModel objects.
    */
   public getVideos(): Observable<VideoModel[]> {
     return this.videos$;
   }
+
 
   /**
    * Toggles the favorite status of the given video. If the request fails, it
@@ -80,15 +74,14 @@ export class DatabaseService {
     this.reloadFavoriteVideos = true;
     try {
       const response = await firstValueFrom(
-        this.http.post<any>(this.videoFavoriteUrl, body, {
-          headers: this.headers,
-        })
+        this.http.post<any>(this.videoFavoriteUrl, body)
       );
       await this.loadFavoriteVideos();
     } catch (error) {
       console.error('Request-Fehler:', error);
     }
   }
+
 
   /**
    * Loads the favorite videos of the logged in user.
@@ -100,7 +93,7 @@ export class DatabaseService {
    */
   public async loadFavoriteVideos(): Promise<void> {
     this.http
-      .get<VideoModel[]>(this.videoFavoriteUrl, { headers: this.headers })
+      .get<VideoModel[]>(this.videoFavoriteUrl)
       .pipe(
         tap((favoriteVideos) => {
           this.videoFavoriteSubject.next(favoriteVideos);
@@ -118,6 +111,7 @@ export class DatabaseService {
       });
   }
 
+
   /**
    * Returns an observable that emits the favorite videos of the logged in user.
    * If the user is not logged in, the observable will emit an empty array.
@@ -128,6 +122,7 @@ export class DatabaseService {
   public getFavoriteVideos(): Observable<VideoModel[]> {
     return this.favoriteVideos$;
   }
+
 
   /**
    * Loads the videos that the user has saved to continue watching.
@@ -142,9 +137,7 @@ export class DatabaseService {
     this.reloadContinueWatchingVideos = true;
     try {
       const continueWatchingVideos = await firstValueFrom(
-        this.http.get<ContinueWatching[]>(this.continueWatchingUrl, {
-          headers: this.headers,
-        })
+        this.http.get<ContinueWatching[]>(this.continueWatchingUrl)
       );
       this.continueWatchingSubject.next(continueWatchingVideos);
     } catch (error) {
@@ -153,6 +146,7 @@ export class DatabaseService {
       this.reloadContinueWatchingVideos = false;
     }
   }
+
 
   /**
    * Returns an observable that emits the videos that the user has saved to
@@ -165,6 +159,7 @@ export class DatabaseService {
     return this.continueWatchingVideos$;
   }
 
+
   /**
    * Saves the given video to the continue watching list with the given played
    * time.
@@ -176,44 +171,40 @@ export class DatabaseService {
     video: VideoModel,
     playedTime: number
   ): Promise<void> {
-    console.log('saveVideoToContinueWatching:', video);
-    console.log('playedTime:', playedTime);
-
     const body = { video_id: video.id, timestamp: playedTime };
     try {
       const response = await firstValueFrom(
-        this.http.post<any>(this.continueWatchingUrl, body, {
-          headers: this.headers,
-        })
+        this.http.post<any>(this.continueWatchingUrl, body)
       );
-      console.log('Request erfolgreich:', response);
     } catch (error) {
-      console.error('Request-Fehler:', error);
+      console.warn('Request-Fehler:', error);
     } finally {
       this.loadContinueWatchingVideos();
     }
   }
 
-  // todo : check if video is saved in continue watching list before trying to delete
+
+/**
+ * Deletes a video from the continue watching list based on the provided video ID.
+ */
   public async deleteVideoFromContinueWatching(videoId: number): Promise<void> {
-    console.log('deleteVideoFromContinueWatching:', videoId);
-
     const body = { video_id: videoId };
-    try {
-      await firstValueFrom(
-        this.http.delete<any>(this.continueWatchingUrl, {
-          headers: this.headers,
-          body: body,
-        })
-      );
-      console.log('Video successfully deleted from continue watching.');
-
-      this.loadContinueWatchingVideos();
-    } catch (error) {
-      console.error(
-        'Error deleting video from continue watching Videos:',
-        error
-      );
-    }
+    this.continueWatchingVideos$.pipe(
+      filter(videos => videos.some(video => video.video.id !== videoId))
+    ).subscribe(filteredVideos => {
+      if (filteredVideos) {
+        try {
+          firstValueFrom(
+            this.http.delete<any>(this.continueWatchingUrl, {body: body})
+          );
+          this.loadContinueWatchingVideos();
+        } catch (error) {
+          console.warn(
+            'Error deleting video from continue watching Videos:',
+            error
+          );
+        }
+      }
+    });
   }
 }

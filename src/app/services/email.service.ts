@@ -15,13 +15,11 @@ export class EmailService {
     this.email = email;
   }
 
-  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * Retrieves the email address of the user signing up.
    *
    * @returns {string} - The email address of the user.
    */
-  /******  26e3e969-acde-43fb-8de6-c2249b0ffecd  *******/
   getEmail(): string {
     return this.email;
   }
