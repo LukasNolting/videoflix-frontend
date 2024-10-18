@@ -8,7 +8,7 @@
     <h2>Watch whenever you want wherever you want</h2>
     <h3>Enter your email to create or restart your subscription</h3>
     <form (ngSubmit)="emailToService(email)">
-      <input type="text" placeholder="Email Address" [(ngModel)]="email" name="emailfield" required
+      <input type="text" placeholder="Email Address" [(ngModel)]="email" name="emailfield" required autocomplete="email"
         pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" minlength="8" #emailfield="ngModel" [ngStyle]="{
           'border-color':
             !emailfield.valid && (emailfield.touched || emailfield.dirty)

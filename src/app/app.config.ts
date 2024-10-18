@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { HttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
+
 const authenticationInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next:
   HttpHandlerFn) => {
   const token = (localStorage.getItem('token') || sessionStorage.getItem('token'));
@@ -20,10 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     provideHttpClient(withInterceptors([authenticationInterceptor])),
-
     AppComponent,
     HttpClient,
-]
+  ]
 };
-
-
