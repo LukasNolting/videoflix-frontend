@@ -16,7 +16,7 @@ import { lastValueFrom } from 'rxjs';
 import { AppComponent } from '../app.component';
 
 @Injectable({
-  providedIn: 'root', // Stellt sicher, dass der Service global verfügbar ist
+  providedIn: 'root',
 })
 @Component({
   selector: 'app-login',
@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      //logic if token is not expired and remember is true from local storage and backend
       this.router.navigate(['/home']);
     }
   }

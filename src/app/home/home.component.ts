@@ -137,6 +137,7 @@ export class HomeComponent implements OnInit, AfterViewChecked {
    * @param videos An array of VideoModel objects retrieved from the database.
    */
   private setDataIsLoaded(videos: VideoModel[]): void {
+    this.communicationService.dataIsLoaded = false;
     setTimeout(() => {
       if (videos.length > 0) {
         this.communicationService.dataIsLoaded = true;
