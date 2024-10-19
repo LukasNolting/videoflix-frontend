@@ -1,13 +1,25 @@
 @import '../../styles.scss';
 
 .privacy-wrapper {
-    @include dFlex(column, flex-start, flex-start);
+    @include dFlex(column, flex-start, center);
     width: 100vw;
     height: 100vh;
     background-color: $black;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 64px 32px;
+    .privacy-container{
+        flex: 1;
+        max-width: 1440px;
+        padding: 0 96px 64px 96px;
+    }
+    .header {
+        width: 100%;
+        max-width: 1440px;
+    }
+    .footer {
+        width: 100%;
+        max-width: 1440px;
+    }
 }
 
 h1 {

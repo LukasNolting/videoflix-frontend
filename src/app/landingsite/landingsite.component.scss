@@ -1,7 +1,7 @@
 @import "../../styles.scss";
 
 .landing-wrapper {
-  @include dFlex(row, center, center);
+  @include dFlex(column, center, center);
   height: 100vh;
   width: 100vw;
   background-color: $black;
@@ -10,10 +10,15 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  .landing-header {
+    width: 100%;
+    max-width: 1440px;
+  }
 }
 
 .landing-container {
   @include dFlex(column, center, center);
+  flex: 1;
   gap: 24px;
 
   h1 {

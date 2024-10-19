@@ -7,6 +7,6 @@ import { FooterComponent } from '../shared/footer/footer.component';
   standalone: true,
   imports: [HeaderComponent, FooterComponent],
   templateUrl: './imprint.component.html',
-  styleUrl: './imprint.component.scss',
+  styleUrls: ['./imprint.component.scss'],
 })
 export class ImprintComponent {}

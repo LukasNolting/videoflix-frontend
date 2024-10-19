@@ -8,6 +8,11 @@
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
+
+    .header {
+        position: absolute;
+        width: 100%;
+    }
     .footer {
             max-width: 1440px;
     }

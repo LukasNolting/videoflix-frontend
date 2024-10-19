@@ -1,4 +1,8 @@
 <footer [ngClass]="{ 'footer-right-align': rightAlignFooter }" class="footer">
-    <a [routerLink]="['/imprint']">Imprint</a>
-    <a [routerLink]="['/privacy']">Privacy</a>
+    @if(imprintActive != true) {
+        <a [routerLink]="['/imprint']">Imprint</a>
+    }
+    @if (privacyActive != true) {
+        <a [routerLink]="['/privacy']">Privacy</a>
+    }
 </footer>

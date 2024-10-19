@@ -1,58 +1,59 @@
-<section>
-    <app-header></app-header>
-</section>
-
-<section class="login-wrapper">
-    <div class="login-container">
-        <h1>Log in</h1>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="input-container">
-                <input type="email" placeholder="Email Address" formControlName="email" autocomplete="email">
-                @if (loginForm.controls['email'].touched && loginForm.controls['email'].invalid) {
-                <div class="error-message">
-                    @if (loginForm.controls['email'].errors?.['required']) {
-                    <p>Email is required.</p>
-                    }
-                    @if (loginForm.controls['email'].errors?.['email']) {
-                    <p>Please enter a valid email address.</p>
-                    }
-                </div>
-                }
-            </div>
-            <div class="input-container">
-                <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Password"
-                    formControlName="password"><img src="../img/icons/password_visibility.svg" alt="eye"
-                    (click)="togglePasswordVisibility()">
-                @if (loginForm.controls['password'].touched && loginForm.controls['password'].invalid) {
-                <div class="error-message">
-                    @if (loginForm.controls['password'].errors?.['required']) {
-                    <p>Password is required.</p>
-                    }
-                    @if (loginForm.controls['password'].errors?.['minlength']) {
-                    <p>Password must be at least 6 characters
-                        long.</p>
+<div class="login-wrapper">
+    <section class="login-header">
+        <app-header></app-header>
+    </section>
+    <section class="login-content">
+        <div class="login-container">
+            <h1>Log in</h1>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="input-container">
+                    <input type="email" placeholder="Email Address" formControlName="email" autocomplete="email">
+                    @if (loginForm.controls['email'].touched && loginForm.controls['email'].invalid) {
+                    <div class="error-message">
+                        @if (loginForm.controls['email'].errors?.['required']) {
+                        <p>Email is required.</p>
+                        }
+                        @if (loginForm.controls['email'].errors?.['email']) {
+                        <p>Please enter a valid email address.</p>
+                        }
+                    </div>
                     }
                 </div>
-                }
+                <div class="input-container">
+                    <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Password"
+                        formControlName="password"><img src="../img/icons/password_visibility.svg" alt="eye"
+                        (click)="togglePasswordVisibility()">
+                    @if (loginForm.controls['password'].touched && loginForm.controls['password'].invalid) {
+                    <div class="error-message">
+                        @if (loginForm.controls['password'].errors?.['required']) {
+                        <p>Password is required.</p>
+                        }
+                        @if (loginForm.controls['password'].errors?.['minlength']) {
+                        <p>Password must be at least 6 characters
+                            long.</p>
+                        }
+                    </div>
+                    }
+                </div>
+                <div class="remember-me-container">
+                    <input type="checkbox" formControlName="remember" id="remember" name="remember">
+                    <label class="checkbox-label" for="remember">Remember me</label>
+                </div>
+                <div class="login-container-buttons">
+                <button type="submit" [disabled]="loginForm.invalid">Log in</button>
+                <button type="button" (click)="guestLogin()" return=false;>Guest Login</button>
+                </div>
+            </form>
+            <p class="highlight pointer mt-16" [routerLink]="['/forgot-password']">Forgot password?</p>
+            <div class="login-bottom">
+                <p>New to Videoflix?</p>
+                <p>
+                <p class="highlight pointer" [routerLink]="['/signup']">Sign up now</p>
             </div>
-            <div class="remember-me-container">
-                <input type="checkbox" formControlName="remember" id="remember" name="remember">
-                <label class="checkbox-label" for="remember">Remember me</label>
-            </div>
-            <div class="login-container-buttons">
-            <button type="submit" [disabled]="loginForm.invalid">Log in</button>
-            <button type="button" (click)="guestLogin()" return=false;>Guest Login</button>
-            </div>
-        </form>
-        <p class="highlight pointer mt-16" [routerLink]="['/forgot-password']">Forgot password?</p>
-        <div class="login-bottom">
-            <p>New to Videoflix?</p>
-            <p>
-            <p class="highlight pointer" [routerLink]="['/signup']">Sign up now</p>
         </div>
-    </div>
-</section>
+    </section>
+    <section>
+        <app-footer></app-footer>
+    </section>
+</div>
 
-<section>
-    <app-footer></app-footer>
-</section>
