@@ -8,7 +8,9 @@
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
-
+    .footer {
+            max-width: 1440px;
+    }
     >.video-container {
         width: 100%;
         margin: 0 auto;
