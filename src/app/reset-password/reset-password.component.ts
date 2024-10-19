@@ -41,9 +41,9 @@ export class ResetpasswordComponent implements OnInit {
   token: string | null = null;
 
   ngOnInit(): void {
-    // Holen des Tokens aus der URL
     this.token = this.route.snapshot.paramMap.get('token');
     console.log('Token:', this.token);
+    this.authService.checkTokenValidity(this.token);
   }
 
   onSubmit() {
@@ -59,7 +59,9 @@ export class ResetpasswordComponent implements OnInit {
         console.error('Error setting password', error);
       }
     }
+    // TODO: Toast anzeigen, wenn onSubmit ausgeführt wurde
   }
+
 
   togglePasswordVisibility(): void {
     console.log(this.isPasswordVisible);

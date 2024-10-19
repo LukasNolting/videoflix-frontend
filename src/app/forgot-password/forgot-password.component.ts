@@ -45,5 +45,6 @@ export class ForgotPasswordComponent {
           console.error('Error sending email', error);
         }
     }
+    // TODO: Toast anzeigen, wenn onSubmit ausgeführt wurde (Token läuft in 24 Stunden ab, Mails checken)
   }
 }

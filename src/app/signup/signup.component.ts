@@ -52,6 +52,7 @@ export class SignupComponent {
       this.app.showDialog("Invalid Form");
       console.log('invalid form');
     }
+    // TODO: Prüfen, ob Rückmeldung korrekt angezeigt wird (allgemeiner Fehler, wenn E-Mail bereits vorhanden)
   }
 
 
