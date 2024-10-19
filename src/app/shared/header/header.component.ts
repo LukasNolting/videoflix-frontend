@@ -13,10 +13,13 @@ import { CommunicationService } from '../../services/communication.service';
 })
 export class HeaderComponent {
   routerLink: string = '/';
+  url: string = '';
   constructor(
     private router: Router,
     public communicationService: CommunicationService
   ) {
+    this.url= this.router.url
+    console.log(this.router.url);
     if (this.router.url === '/home') {
       this.communicationService.showBigLogo = false;
       this.routerLink = '/home';
