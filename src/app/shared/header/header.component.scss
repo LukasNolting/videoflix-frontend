@@ -17,6 +17,12 @@
     }
 }
 
+a:hover {
+    scale: 1.2;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
 .logo-header {
     @include dFlex(row, center, center);
     cursor: pointer;
