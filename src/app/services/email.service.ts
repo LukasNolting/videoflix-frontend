@@ -6,11 +6,20 @@ import { Injectable } from '@angular/core';
 export class EmailService {
   constructor() {}
 
-  //to do: we could outsource to communictaion service
-
+  /**
+   * Sets the email address for the user signing up.
+   *
+   * @param {string} email - The email address of the user.
+   */
   setEmail(email: string) {
     this.email = email;
   }
+
+  /**
+   * Retrieves the email address of the user signing up.
+   *
+   * @returns {string} - The email address of the user.
+   */
   getEmail(): string {
     return this.email;
   }

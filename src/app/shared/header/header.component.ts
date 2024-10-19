@@ -22,14 +22,15 @@ export class HeaderComponent {
       this.routerLink = '/home';
     }
   }
-  // todo : logic from backend if token & remember me
+
+  /**
+   * This function handles the logout functionality by removing the token from local and session storage,
+   * updating the user's login status to false, and redirecting the user to the homepage.
+   */
   handleLogout() {
-    if (localStorage.getItem('remember') === 'false') {
-      this.communicationService.isLoggedIn = false;
-      localStorage.removeItem('token');
-      this.router.navigate(['/']);
-    } else {
-      // todo : redirect to see you again or something else
-    }
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    this.communicationService.isLoggedIn = false;
+    this.router.navigate(['/']);
   }
 }

@@ -7,10 +7,6 @@ import { DatabaseService } from './database.service';
   providedIn: 'root',
 })
 export class CommunicationService {
-  // todo : check if redundant
-  private fullScreenSubject = new BehaviorSubject<boolean>(false); // flag for "rotate your device" message
-  isFullScreenVisible$ = this.fullScreenSubject.asObservable(); // Observable to track changes
-
   private playVideoSubject = new BehaviorSubject<boolean>(false); // flag to indicate if video should be played
   playVideo$ = this.playVideoSubject.asObservable(); // Observable to track play video changes
 
@@ -32,14 +28,6 @@ export class CommunicationService {
   public currentPlayedTime: number = 0;
   public continuePlayTime: number = 0;
   constructor(private databaseService: DatabaseService) {}
-
-  /**
-   * Updates the full-screen visibility status.
-   * @param {boolean} isVisible - A flag indicating if the full-screen message should be visible.
-   */
-  setFullScreenVisible(isVisible: boolean): void {
-    this.fullScreenSubject.next(isVisible);
-  }
 
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
@@ -72,6 +60,11 @@ export class CommunicationService {
     this.isPreviewVideoPlaying = false;
   }
 
+  /**
+   * Triggers the video player to continue watching a video from the specified timestamp.
+   * @param {VideoModel} video - The video object to continue watching.
+   * @param {number} timestamp - The timestamp in seconds to continue watching from.
+   */
   continueWatching(video: VideoModel, timestamp: number): void {
     this.continuePlayTime = timestamp;
     this.currentVideoObj = video;

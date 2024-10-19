@@ -7,7 +7,7 @@
         <h1>Log in</h1>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="input-container">
-                <input type="email" placeholder="Email Address" formControlName="email">
+                <input type="email" placeholder="Email Address" formControlName="email" autocomplete="email">
                 @if (loginForm.controls['email'].touched && loginForm.controls['email'].invalid) {
                 <div class="error-message">
                     @if (loginForm.controls['email'].errors?.['required']) {

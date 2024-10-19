@@ -1,14 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommunicationService } from '../../services/communication.service';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from '../../services/database.service';
 import { VideoModel } from '../../models/video.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-video-player',
@@ -26,7 +21,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   private playVideosubscriptions: Subscription = new Subscription();
   private playPreviewSubscription: Subscription = new Subscription();
   player: any;
-  fullScreenSubscription: Subscription | undefined;
   currentVideoSource: string = '';
   videoQualities: any[] = [];
   playerOptions: any;
@@ -36,10 +30,9 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   ) {}
 
   /**
-   * Called when component is initialized.
-   * Listens to two subjects to handle playing a video and showing a preview.
-   * When a video should be played, the player is set to play the video and the controls are hidden.
-   * When a preview should be shown, the player is set to play the corresponding video and the controls are hidden.
+   * Lifecycle hook that is called after data-bound properties are initialized.
+   * Sets up the initial video state by getting a random video and subscribing
+   * to video play and preview events from the communication service.
    */
   ngOnInit(): void {
     this.getRandomVideo();
@@ -56,9 +49,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.communicationService.showPreview$.subscribe((path) => {
         if (path !== null && this.player) {
           this.communicationService.showVideoDescription = true;
-          const baseURL = 'http://127.0.0.1:8000/'; //todo : use baseUrl from environment
-          this.currentVideoSource = `${baseURL}media/${path}`;
-          console.log('currentVideoSource', this.currentVideoSource);
+          this.currentVideoSource = `${environment.baseUrl}/media/${path}`;
           this.updateVideoQualities();
           this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
           this.player.controls(false);
@@ -69,6 +60,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       })
     );
   }
+
 
   /**
    * Called after the view has been initialized. Sets up the video player by
@@ -85,23 +77,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       fluid: true,
       poster: this.currentPoster,
     };
-
-    console.log('playeroptions', options);
     this.player = (window as any).videojs('my-player', options);
-
     this.addQualityControlButton();
     this.player.ready(() => {
       this.player.play();
     });
-    // todo : check if redundant
-    this.fullScreenSubscription =
-      this.communicationService.isFullScreenVisible$.subscribe((isVisible) => {
-        if (isVisible) {
-          this.goFullScreen();
-        } else {
-          this.exitFullScreen();
-        }
-      });
   }
 
   /**
@@ -110,9 +90,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   ngOnDestroy(): void {
-    if (this.fullScreenSubscription) {
-      this.fullScreenSubscription.unsubscribe();
-    }
     if (this.playVideosubscriptions) {
       this.playVideosubscriptions.unsubscribe();
     }
@@ -121,13 +98,22 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
+  /**
+   * Gets a random video from the database and sets the video source and video
+   * object to the random video. This method is called in the constructor and
+   * is used to set the initial video source in the component. The video source
+   * is set by subscribing to the video subject in the database service and
+   * getting a random video from the array of videos. The video object is also
+   * set to the random video object.
+   * @returns void
+   */
   getRandomVideo() {
     this.dataBaseService.videoSubject.subscribe((videos: VideoModel[]) => {
       const randomIndex = Math.floor(Math.random() * videos.length);
       const randomVideoObject: VideoModel = videos[randomIndex];
       const randomVideo = videos[randomIndex]?.video_file;
       this.communicationService.currentVideoObj = randomVideoObject;
-      this.currentVideoSource = `http://127.0.0.1:8000/media/${randomVideo}`;
+      this.currentVideoSource = `${environment.baseUrl}/media/${randomVideo}`;
       this.updateVideoQualities();
     });
   }
@@ -302,7 +288,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   measureBandwidth(): Promise<number> {
     return new Promise((resolve, reject) => {
       const testImage = new Image();
-      const testUrl = 'http://127.0.0.1:8000/media/videos/xx_2.jpg';
+      const testUrl = `${environment.baseUrl}/media/videos/xx_2.jpg`;
       const startTime = new Date().getTime();
 
       testImage.onload = () => {
@@ -352,12 +338,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   /**
    * Sets up event listeners for the video player.
    */
-  /**
-   * Sets up event listeners for the video player.
-   */
-  /**
-   * Sets up event listeners for the video player.
-   */
   setupEventListeners() {
     this.player.off('pause');
     this.player.on('pause', () => {
@@ -386,42 +366,17 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.communicationService.currentVideoObj,
       currentTime
     );
-    console.log('Video paused at time: ', currentTime);
   }
 
   /**
    * Sets the video player to continue watching from the last saved time.
    */
   setPlayerForContinueWatching() {
-    const baseURL = 'http://127.0.0.1:8000/'; // TODO: use baseUrl from environment
-    this.currentVideoSource = `${baseURL}media/${this.communicationService.currentVideoObj?.video_file}`;
+    this.currentVideoSource = `${environment.baseUrl}/media/${this.communicationService.currentVideoObj?.video_file}`;
     this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
     const continuePlayTime = this.communicationService.continuePlayTime;
     if (continuePlayTime !== null) {
       this.player.currentTime(continuePlayTime);
-      console.log(`Resuming video at time: ${continuePlayTime}`);
-    }
-  }
-
-  // todo : check if redundant
-
-  /**
-   * Requests the player to go full screen.
-   * @returns void
-   */
-  goFullScreen(): void {
-    if (this.player) {
-      this.player.requestFullscreen();
-    }
-  }
-
-  /**
-   * Exits the full screen mode if the player is currently in full screen.
-   * @returns void
-   */
-  exitFullScreen(): void {
-    if (this.player && this.player.isFullscreen()) {
-      this.player.exitFullscreen();
     }
   }
 }
