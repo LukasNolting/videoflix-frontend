@@ -92,9 +92,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   ngOnDestroy(): void {
     if (this.playVideosubscriptions) {
       this.playVideosubscriptions.unsubscribe();
-    }
+      this.player.dispose();    }
     if (this.playPreviewSubscription) {
       this.playPreviewSubscription.unsubscribe();
+      this.player.dispose();
     }
   }
 
