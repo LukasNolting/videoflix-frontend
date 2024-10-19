@@ -1,58 +1,58 @@
-<section>
-    <app-header class="header"></app-header>
-</section>
-
-<section class="signup-wrapper">
-    <div class="signup-container">
-        <h1>Sign up</h1>
-        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-            <div class="input-container">
-                <input type="email" placeholder="Email Address" formControlName="email" value="test" autocomplete="email">
-                @if (signupForm.controls['email'].touched && signupForm.controls['email'].invalid) {
-                <div class="error-message">
-                    @if (signupForm.controls['email'].errors?.['required']) {
-                    <p>Email is required.</p>
-                    }
-                    @if (signupForm.controls['email'].errors?.['email']) {
-                    <p>Please enter a valid email address.</p>
-                    }
-                </div>
-                }
-            </div>
-            <div class="input-container">
-                <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Enter a Password"
-                    formControlName="password"><img src="../img/icons/password_visibility.svg" alt="eye"
-                    (click)="togglePasswordVisibility()">
-                @if (signupForm.controls['password'].touched && signupForm.controls['password'].invalid) {
-                <div class="error-message">
-                    @if (signupForm.controls['password'].errors?.['required']) {
-                    <p>Password is required.</p>
-                    }
-                    @if (signupForm.controls['password'].errors?.['minlength']) {
-                    <p>Password must be at least 6 characters
-                        long.</p>
+<div class="signup-wrapper">
+    <section class="signup-header">
+        <app-header class="header"></app-header>
+    </section>
+    <section class="signup-content">
+        <div class="signup-container">
+            <h1>Sign up</h1>
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                <div class="input-container">
+                    <input type="email" placeholder="Email Address" formControlName="email" value="test" autocomplete="email">
+                    @if (signupForm.controls['email'].touched && signupForm.controls['email'].invalid) {
+                    <div class="error-message">
+                        @if (signupForm.controls['email'].errors?.['required']) {
+                        <p>Email is required.</p>
+                        }
+                        @if (signupForm.controls['email'].errors?.['email']) {
+                        <p>Please enter a valid email address.</p>
+                        }
+                    </div>
                     }
                 </div>
-                }
-            </div>
-            <div class="input-container">
-                <input [type]="isConfirmPasswordVisible ? 'text' : 'password'" placeholder="Confirm Password"
-                    formControlName="confirmPassword"><img src="../img/icons/password_visibility.svg" alt="eye"
-                    (click)="toggleConfirmPasswordVisibility()">
-                @if (signupForm.controls['password'].touched && signupForm.controls['confirmPassword'].invalid) {
-                <div class="error-message">
-                    @if (signupForm.controls['confirmPassword'].value !== signupForm.controls['password'].value) {
-                    <p>Passwords must match!</p>
+                <div class="input-container">
+                    <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Enter a Password"
+                        formControlName="password"><img src="../img/icons/password_visibility.svg" alt="eye"
+                        (click)="togglePasswordVisibility()">
+                    @if (signupForm.controls['password'].touched && signupForm.controls['password'].invalid) {
+                    <div class="error-message">
+                        @if (signupForm.controls['password'].errors?.['required']) {
+                        <p>Password is required.</p>
+                        }
+                        @if (signupForm.controls['password'].errors?.['minlength']) {
+                        <p>Password must be at least 6 characters
+                            long.</p>
+                        }
+                    </div>
                     }
-
                 </div>
-                }
-            </div>
-            <button type="submit" [disabled]="signupForm.invalid">Get Started</button>
-        </form>
-    </div>
-</section>
-
-<section>
-    <app-footer class="footer"></app-footer>
-</section>
+                <div class="input-container">
+                    <input [type]="isConfirmPasswordVisible ? 'text' : 'password'" placeholder="Confirm Password"
+                        formControlName="confirmPassword"><img src="../img/icons/password_visibility.svg" alt="eye"
+                        (click)="toggleConfirmPasswordVisibility()">
+                    @if (signupForm.controls['password'].touched && signupForm.controls['confirmPassword'].invalid) {
+                    <div class="error-message">
+                        @if (signupForm.controls['confirmPassword'].value !== signupForm.controls['password'].value) {
+                        <p>Passwords must match!</p>
+                        }
+    
+                    </div>
+                    }
+                </div>
+                <button type="submit" [disabled]="signupForm.invalid">Get Started</button>
+            </form>
+        </div>
+    </section>
+    <section>
+        <app-footer class="footer"></app-footer>
+    </section>
+</div>

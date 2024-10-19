@@ -1,7 +1,7 @@
 @import "../../styles.scss";
 
 .login-wrapper {
-    @include dFlex(row, center, center);
+    @include dFlex(column, center, center);
     height: 100vh;
     width: 100vw;
     background-color: $black;
@@ -9,6 +9,14 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    .login-header {
+        width: 100%;
+        max-width: 1440px;
+    }
+    .login-content{
+        @include dFlex(column, center, center);
+        flex: 1;
+    }
 }
 
 .login-container {
