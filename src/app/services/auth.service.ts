@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { SignupModel } from '../models/signup.model';
 import { LoginModel } from '../models/login.model';
 import { firstValueFrom } from 'rxjs';
@@ -10,7 +10,11 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  private httpClientWithoutInterceptor: HttpClient;
+
+  constructor(private http: HttpClient, private httpBackend: HttpBackend) {
+    this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
+  }
 
   /**
    * Sends a POST request to log in a user with email and password.
@@ -50,7 +54,7 @@ export class AuthService {
     const link = `${environment.baseUrl}/videoflix/password-reset/`;
     try {
       const response = await firstValueFrom(
-        this.http.post<any>(link, body, {
+        this.httpClientWithoutInterceptor.post<any>(link, body, {
           headers: { 'Content-Type': 'application/json' },
         })
       );
@@ -58,6 +62,31 @@ export class AuthService {
     } catch (error) {
       console.error('Request-Fehler:', error);
     }
+  }
+
+  checkTokenValidity(token: any): void {
+    this.httpClientWithoutInterceptor
+      .get(`${environment.baseUrl}/videoflix/password-reset/${token}`)
+      .subscribe({
+        next: (response) => {
+          console.log('Token is valid:', response);
+        },
+        error: (error) => {
+          if (
+            error.error === 'Token expired' ||
+            error.error === 'Invalid token'
+          ) {
+            console.error(
+              'Das Token ist abgelaufen oder ungültig. Bitte fordere einen neuen Link an.'
+            );
+            //  TODO: Fehlermeldung & Benutzer wird auf die Startseite weitergeleitet
+            // console.error(
+            //   'Das Token ist abgelaufen oder ungültig. Bitte fordere einen neuen Link an.'
+            // );
+            // this.router.navigate(['/password-reset']);
+          }
+        },
+      });
   }
 
   /**
@@ -71,7 +100,7 @@ export class AuthService {
     const link = `${environment.baseUrl}/videoflix/password-reset/${token}/`;
     try {
       const response = await firstValueFrom(
-        this.http.post<any>(link, body, {
+        this.httpClientWithoutInterceptor.post<any>(link, body, {
           headers: { 'Content-Type': 'application/json' },
         })
       );
