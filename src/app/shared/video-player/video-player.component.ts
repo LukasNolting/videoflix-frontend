@@ -61,7 +61,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     );
   }
 
-
   /**
    * Called after the view has been initialized. Sets up the video player by
    * initializing the videojs player with the given options and setting up
@@ -80,6 +79,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player = (window as any).videojs('my-player', options);
     this.addQualityControlButton();
     this.player.ready(() => {
+      this.player.src({
+        src: this.currentVideoSource,
+        type: 'application/x-mpegURL',
+      });
       this.player.play();
     });
   }
@@ -214,7 +217,12 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   onQualityChange(selectedQualitySrc: string) {
     const currentTime = this.player.currentTime();
     this.currentVideoSource = selectedQualitySrc;
-    this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
+
+    this.player.src({
+      src: this.currentVideoSource,
+      type: 'application/x-mpegURL', // HLS MIME-Type
+    });
+
     this.player.currentTime(currentTime);
     this.player.play();
     this.toggleQualityMenu();
@@ -224,14 +232,18 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * Update the video qualities dynamically based on the current video source.
    */
   updateVideoQualities() {
+    // Basis Video-Quelle für HLS anpassen
     const baseVideoSource = this.currentVideoSource.replace('.mp4', '');
+
+    // Anstatt mehrere MP4-Versionen, definieren wir die .m3u8 Quelle
     this.videoQualities = [
-      { label: '240p', src: `${baseVideoSource}_240p.mp4` },
-      { label: '360p', src: `${baseVideoSource}_360p.mp4` },
-      { label: '480p', src: `${baseVideoSource}_480p.mp4` },
-      { label: '720p', src: `${baseVideoSource}_720p.mp4` },
-      { label: '1080p', src: `${baseVideoSource}_1080p.mp4` },
+      { label: '240p', src: `${baseVideoSource}_240p_hls/index.m3u8` },
+      { label: '360p', src: `${baseVideoSource}_360p_hls/index.m3u8` },
+      { label: '480p', src: `${baseVideoSource}_480p_hls/index.m3u8` },
+      { label: '720p', src: `${baseVideoSource}_720p_hls/index.m3u8` },
+      { label: '1080p', src: `${baseVideoSource}_1080p_hls/index.m3u8` },
     ];
+
     this.checkBandwidthAndSetVideoSource();
   }
 

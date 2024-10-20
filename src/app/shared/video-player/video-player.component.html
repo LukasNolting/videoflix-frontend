@@ -1,6 +1,6 @@
 <section class="player-wrapper">
-    <video id="my-player" class="video-js vjs-fluid vjs-custom-skin">
-        <source src="{{currentVideoSource}}" type="video/mp4">
+    <video id="my-player" class="video-js vjs-fluid vjs-custom-skin" controls preload="auto">
+        <!-- Kein <source> Tag nötig, da das HLS-Format dynamisch über JavaScript gesetzt wird -->
         <p class="vjs-no-js">
             To view this video please enable JavaScript, and consider upgrading to a web browser that
             <a href="https://videojs.com/html5-video-support/" target="_blank">
