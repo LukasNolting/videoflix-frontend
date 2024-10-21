@@ -203,22 +203,3 @@ option:focus {
 .active {
     color: $main-blue-dark !important;
 }
-
-.btn-container {
-
-    >.next,
-    >.prev {
-        background-color: $main-blue-dark !important;
-
-        &:hover {
-            background-color: darken($main-blue-dark, 10%) !important;
-        }
-    }
-
-}
-
-// .slides-container{
-//     width: 20% !important;
-//     justify-items: center !important;
-//     margin: 0 !important;
-// }
