@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   public continueWatchingVideos: ContinueWatching[] = [];
   public baseUrl = `${environment.baseUrl}/media/`;
   public favoriteVideoIds: number[] = [];
-  public math = Math;
+
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
