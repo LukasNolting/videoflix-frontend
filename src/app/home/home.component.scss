@@ -13,9 +13,11 @@
         position: absolute;
         width: 100%;
     }
+
     .footer {
-            max-width: 1440px;
+        max-width: 1440px;
     }
+
     >.video-container {
         width: 100%;
         margin: 0 auto;
@@ -70,12 +72,13 @@
 
 .category-container {
     width: 100%;
+    max-width: 1440px;
     height: 165px;
     @include dFlex(column, flex-start, center);
     gap: 16px;
     z-index: 5;
-    padding: 16px 32px;
-    box-sizing: content-box;
+    padding: 16px 96px;
+    box-sizing: border-box;
 
 
     h2 {
@@ -99,7 +102,7 @@
         border: solid 2px transparent;
 
         &:hover {
-            transform: scale(1.05);
+            transform: scale(1.025);
             border-color: $white;
         }
 
@@ -293,5 +296,17 @@
     75% {
         filter: blur(3px);
         transform: scale(1.4);
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .category-section {
+        padding-top: 64px;
+    }
+}
+
+@media screen and (max-width: $responsive-breakpoint) {
+    .category-container {
+        padding: 10px 16px;
     }
 }
