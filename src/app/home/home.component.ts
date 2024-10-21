@@ -99,7 +99,9 @@ export class HomeComponent implements OnInit, AfterViewChecked {
       this.documentaryVideos = videos.filter(
         (video) => video.category === 'documentary'
       );
-      this.animalVideos = videos.filter((video) => video.category === 'animal');
+      this.animalVideos = videos.filter(
+        (video) => video.category === 'animals'
+      );
       this.horrorVideos = videos.filter((video) => video.category === 'horror');
       this.setDataIsLoaded(videos);
     });
