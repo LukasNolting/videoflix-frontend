@@ -24,6 +24,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   currentVideoSource: string = '';
   videoQualities: any[] = [];
   playerOptions: any;
+  quality: string = "";
   constructor(
     public communicationService: CommunicationService,
     private dataBaseService: DatabaseService
@@ -35,7 +36,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * to video play and preview events from the communication service.
    */
   ngOnInit(): void {
-    this.getRandomVideo();
+    this.checkBandwidthAndSetQuality();
+
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         if (playVideo === true) {
@@ -49,17 +51,30 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.communicationService.showPreview$.subscribe((path) => {
         if (path !== null && this.player) {
           this.communicationService.showVideoDescription = true;
-          this.currentVideoSource = `${environment.baseUrl}/media/${path}`;
+          const replacePath = path.replace('.mp4', `_${this.quality}_hls/index.m3u8`);
+          this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
           this.updateVideoQualities();
-          this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
           this.player.controls(false);
           this.player.muted(true);
           this.player.load();
-          this.player.play();
+          this.player.ready(() => {
+            this.player.src({
+              src: this.currentVideoSource,
+              type: 'application/x-mpegURL',
+            });
+            this.player.play();
+          });
         }
       })
     );
   }
+
+
+  async checkBandwidthAndSetQuality() {
+    await this.checkBandwidthAndSetVideoSource();
+    this.getRandomVideo();
+  }
+
 
   /**
    * Called after the view has been initialized. Sets up the video player by
@@ -78,14 +93,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     };
     this.player = (window as any).videojs('my-player', options);
     this.addQualityControlButton();
-    this.player.ready(() => {
-      this.player.src({
-        src: this.currentVideoSource,
-        type: 'application/x-mpegURL',
-      });
-      this.player.play();
-    });
   }
+
 
   /**
    * Called when the component is destroyed. Unsubscribes from all subscriptions
@@ -102,6 +111,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
+
   /**
    * Gets a random video from the database and sets the video source and video
    * object to the random video. This method is called in the constructor and
@@ -117,10 +127,20 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       const randomVideoObject: VideoModel = videos[randomIndex];
       const randomVideo = videos[randomIndex]?.video_file;
       this.communicationService.currentVideoObj = randomVideoObject;
-      this.currentVideoSource = `${environment.baseUrl}/media/${randomVideo}`;
+      this.currentVideoSource = `${environment.baseUrl}/media/${randomVideo.replace('.mp4', "")}_${this.quality}_hls/index.m3u8`;
+      console.log("video source: ",this.currentVideoSource);
       this.updateVideoQualities();
+      this.player.src({
+        src: this.currentVideoSource,
+        type: 'application/x-mpegURL',
+      });
+      this.player.ready(() => {
+        this.player.play();
+      });
     });
   }
+
+
   /**
    * Adds a button to the video player control bar to toggle the quality menu.
    * This method is called after the player has been initialized in ngAfterViewInit.
@@ -183,7 +203,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       const option = document.createElement('div');
       option.className = 'quality-option pointer';
       option.innerText = quality.label;
-      option.onclick = () => this.onQualityChange(quality.src);
+      if (quality.label === this.quality) {
+        option.className = 'quality-option pointer active';
+      }
+      option.onclick = () => this.onQualityChange(quality.src,quality.label);
       menu.appendChild(option);
     });
   }
@@ -203,7 +226,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       const option = document.createElement('div');
       option.className = 'quality-option pointer';
       option.innerText = quality.label;
-      option.onclick = () => this.onQualityChange(quality.src);
+      if (quality.label === this.quality) {
+        option.classList.add('active');
+      }
+      option.onclick = () => this.onQualityChange(quality.src,quality.label);
       qualityMenu.appendChild(option);
     });
     this.player.controlBar.el().appendChild(qualityMenu);
@@ -214,15 +240,15 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @param selectedQualitySrc - The selected video quality.
    * @returns void
    */
-  onQualityChange(selectedQualitySrc: string) {
+  onQualityChange(selectedQualitySrc: string, selectedQualityLabel: string) {
     const currentTime = this.player.currentTime();
+    this.quality = selectedQualityLabel;
     this.currentVideoSource = selectedQualitySrc;
-
+    this.player.pause(); 
     this.player.src({
       src: this.currentVideoSource,
-      type: 'application/x-mpegURL', // HLS MIME-Type
+      type: 'application/x-mpegURL',
     });
-
     this.player.currentTime(currentTime);
     this.player.play();
     this.toggleQualityMenu();
@@ -232,65 +258,35 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * Update the video qualities dynamically based on the current video source.
    */
   updateVideoQualities() {
-    // Basis Video-Quelle für HLS anpassen
-    const baseVideoSource = this.currentVideoSource.replace('.mp4', '');
-
-    // Anstatt mehrere MP4-Versionen, definieren wir die .m3u8 Quelle
-    this.videoQualities = [
-      { label: '240p', src: `${baseVideoSource}_240p_hls/index.m3u8` },
-      { label: '360p', src: `${baseVideoSource}_360p_hls/index.m3u8` },
-      { label: '480p', src: `${baseVideoSource}_480p_hls/index.m3u8` },
-      { label: '720p', src: `${baseVideoSource}_720p_hls/index.m3u8` },
-      { label: '1080p', src: `${baseVideoSource}_1080p_hls/index.m3u8` },
-    ];
-
-    this.checkBandwidthAndSetVideoSource();
+    const qualityLevels = ['240p', '360p', '480p', '720p', '1080p'];
+    this.videoQualities = qualityLevels.map(quality => ({
+      label: quality,
+      src: this.currentVideoSource.replace(this.quality, quality)
+    }));
   }
 
-  // todo : refactor / outsource / shorten
   /**
-   * Measures the current bandwidth and sets the video source based on the available quality.
-   * @async
-   * @returns {Promise<void>} A promise that resolves when the video source is set.
-   * @throws {Error} Throws an error if bandwidth measurement fails.
+   * Determines the appropriate video quality based on measured bandwidth and updates the video source accordingly.
+   * It measures the bandwidth, checks against predefined thresholds to select a suitable video quality, and then
+   * updates the current video source to the corresponding quality. If no valid video source is found, it defaults
+   * to 1080p and logs a warning. Logs any errors encountered during bandwidth measurement.
    */
   async checkBandwidthAndSetVideoSource() {
     try {
       const bandwidth = await this.measureBandwidth();
-      let selectedQualitySrc = '';
-      if (bandwidth >= 5000) {
-        selectedQualitySrc = this.videoQualities.find(
-          (vq) => vq.label === '1080p'
-        )?.src;
-      } else if (bandwidth >= 2500) {
-        selectedQualitySrc = this.videoQualities.find(
-          (vq) => vq.label === '720p'
-        )?.src;
-      } else if (bandwidth >= 1500) {
-        selectedQualitySrc = this.videoQualities.find(
-          (vq) => vq.label === '480p'
-        )?.src;
-      } else if (bandwidth >= 1000) {
-        selectedQualitySrc = this.videoQualities.find(
-          (vq) => vq.label === '360p'
-        )?.src;
-      } else {
-        selectedQualitySrc = this.videoQualities.find(
-          (vq) => vq.label === '240p'
-        )?.src;
+      const qualities = ['1080p', '720p', '480p', '360p', '240p'];
+      const thresholds = [5000, 2500, 1500, 1000, 0];
+      const index = thresholds.findIndex(t => bandwidth >= t);
+      this.quality = qualities[index];
+      if (!this.currentVideoSource) {
+        this.quality = '1080p';
+        // console.warn('No valid video source found for', this.quality);
       }
-
-      if (selectedQualitySrc) {
-        this.currentVideoSource = selectedQualitySrc;
-        console.log(
-          'Current video source based on bandwidth:',
-          this.currentVideoSource
-        );
-      } else {
-        console.error('No suitable video quality found.');
+      else{
+        this.currentVideoSource = this.videoQualities.find(vq => vq.label === this.quality)?.src || '';
       }
     } catch (error) {
-      console.error('Bandwidth measurement error:', error);
+      console.warn('Bandwidth measurement error:', error);
     }
   }
 
@@ -327,14 +323,20 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   handlePlayVideo() {
     this.communicationService.showVideoDescription = false;
     this.setupPlayer();
-    this.player.play();
+    this.player.ready(() => {
+      this.player.src({
+        src: this.currentVideoSource,
+        type: 'application/x-mpegURL',
+      });
+      this.player.play();
+    });
     this.setupEventListeners();
   }
 
   /**
    * Sets up the video player with the appropriate settings.
    */
-  setupPlayer() {
+  async setupPlayer() {
     if (this.communicationService.continuePlayTime !== null) {
       this.setPlayerForContinueWatching();
       this.updateVideoQualities();
@@ -385,8 +387,9 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * Sets the video player to continue watching from the last saved time.
    */
   setPlayerForContinueWatching() {
-    this.currentVideoSource = `${environment.baseUrl}/media/${this.communicationService.currentVideoObj?.video_file}`;
-    this.player.src({ type: 'video/mp4', src: this.currentVideoSource });
+    const videoPath = `${environment.baseUrl}/media/${this.communicationService.currentVideoObj?.video_file}`;
+    this.currentVideoSource = videoPath.replace('.mp4', `_${this.quality}_hls/index.m3u8`); 
+    this.player.src({ type: 'application/x-mpegURL', src: this.currentVideoSource });
     const continuePlayTime = this.communicationService.continuePlayTime;
     if (continuePlayTime !== null) {
       this.player.currentTime(continuePlayTime);
