@@ -1,8 +1,8 @@
 @if (this.communicationService.dataIsLoaded) {
 <section class="home-wrapper">
+    <app-header class="header"></app-header>
     <div class="video-container"
         [ngClass]="{'d-none': (this.communicationService.isMobileViewActive && !this.communicationService.isPreviewVideoPlaying)}">
-        <app-header class="header"></app-header>
         <app-video-player>
         </app-video-player>
         <div class="preview-section">

@@ -18,7 +18,7 @@ export class HeaderComponent {
     private router: Router,
     public communicationService: CommunicationService
   ) {
-    this.url= this.router.url
+    this.url = this.router.url;
     console.log(this.router.url);
     if (this.router.url === '/home') {
       this.communicationService.showBigLogo = false;
