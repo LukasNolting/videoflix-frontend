@@ -1,3 +1,4 @@
+import { CarouselComponent } from 'ngx-carousel-ease';
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
@@ -5,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { CommunicationService } from '../services/communication.service';
 import { VideoPlayerComponent } from '../shared/video-player/video-player.component';
-import { CarouselComponent } from 'ngx-carousel-ease';
 import { DatabaseService } from '../services/database.service';
 import { VideoModel } from '../models/video.model';
 import { ContinueWatching } from '../models/continue-watching';
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   public newVideos: VideoModel[] = [];
   public actionVideos: VideoModel[] = [];
   public documentaryVideos: VideoModel[] = [];
-  public scifiVideos: VideoModel[] = [];
+  public animalVideos: VideoModel[] = [];
   public horrorVideos: VideoModel[] = [];
   public favoriteVideos: VideoModel[] = [];
   public continueWatchingVideos: ContinueWatching[] = [];
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   /**
    * Retrieves all videos from the database and filters them based on their
    * category. The newVideos property is set to videos that have been created
-   * after 2024-09-12T09:12:11Z. The actionVideos, documentaryVideos, scifiVideos,
+   * after 2024-09-12T09:12:11Z. The actionVideos, documentaryVideos, animalVideos,
    * and horrorVideos properties are set to videos of their respective categories.
    * The setDataIsLoaded function is called with the retrieved videos as an
    * argument.
@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit, AfterViewChecked {
       this.documentaryVideos = videos.filter(
         (video) => video.category === 'documentary'
       );
-      this.scifiVideos = videos.filter((video) => video.category === 'sci-fi');
+      this.animalVideos = videos.filter((video) => video.category === 'animal');
       this.horrorVideos = videos.filter((video) => video.category === 'horror');
       this.setDataIsLoaded(videos);
     });

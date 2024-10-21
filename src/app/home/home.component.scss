@@ -1,312 +1,311 @@
-@import '../../styles.scss';
+@import "../../styles.scss";
 
 .home-wrapper {
-    @include dFlex(column, flex-start, center);
-    width: 100vw;
-    height: 100vh;
-    background-color: $black;
-    overflow-y: auto;
-    overflow-x: hidden;
+  @include dFlex(column, flex-start, center);
+  width: 100vw;
+  height: 100vh;
+  background-color: $black;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+
+  .header {
+    position: absolute;
+    width: 100%;
+  }
+
+  .footer {
+    max-width: 1440px;
+  }
+
+  > .video-container {
+    width: 100%;
+    margin: 0 auto;
     position: relative;
 
-    .header {
-        position: absolute;
-        width: 100%;
+    > .preview-section {
+      width: 100%;
+      @include dFlex(row, center, center);
+      position: absolute;
+      top: 108px;
+      width: 100%;
     }
+  }
 
-    .footer {
-        max-width: 1440px;
-    }
-
-    >.video-container {
-        width: 100%;
-        margin: 0 auto;
-        position: relative;
-
-        >.preview-section {
-            width: 100%;
-            @include dFlex(row, center, center);
-            position: absolute;
-            top: 108px;
-            width: 100%;
-        }
-    }
-
-    >.category-section {
-        width: 100%;
-        height: 60%;
-        background-color: $black;
-        @include dFlex(column, flex-start, center);
-        z-index: 2;
-        gap: 48px;
-    }
+  > .category-section {
+    width: 100%;
+    background-color: $black;
+    @include dFlex(column, flex-start, center);
+    z-index: 2;
+    gap: 32px;
+  }
 }
 
 .video-description {
-    @include dFlex(column, flex-start, flex-start);
-    height: 100%;
-    gap: 16px;
-    color: $white;
-    padding-top: 64px;
-    max-width: 1440px;
+  @include dFlex(column, flex-start, flex-start);
+  height: 100%;
+  gap: 16px;
+  color: $white;
+  padding-top: 64px;
+  max-width: 1440px;
 
-    h1 {
-        @include DMSans(700, 4.444vw, 5.787vw, $white);
-        background-color: rgba(5, 5, 5, 0.2);
-        padding: 8px 8px;
-        border-radius: 8px;
-    }
+  h1 {
+    @include DMSans(700, 4.444vw, 5.787vw, $white);
+    background-color: rgba(5, 5, 5, 0.2);
+    padding: 8px 8px;
+    border-radius: 8px;
+  }
 
-    p {
-        @include DMSans(400, 1.111vw, 1.447vw, $white);
-        background-color: rgba(5, 5, 5, 0.2);
-        padding: 4px 4px;
-        border-radius: 8px;
-    }
+  p {
+    @include DMSans(400, 1.111vw, 1.447vw, $white);
+    background-color: rgba(5, 5, 5, 0.2);
+    padding: 4px 4px;
+    border-radius: 8px;
+  }
 
-    button {
-        @include dFlex(row, flex-start, center);
-        @include buttonBlue(unset, 48px, 4px);
-    }
+  button {
+    @include dFlex(row, flex-start, center);
+    @include buttonBlue(unset, 48px, 4px);
+  }
 }
 
 .category-container {
+  width: calc(100% - 32px);
+  max-width: 1440px;
+  @include dFlex(column, flex-start, center);
+  z-index: 5;
+  padding: 16px 96px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 3px 0px #FFFFFF;
+  border-radius: 15px;
+
+  h2 {
     width: 100%;
     max-width: 1440px;
-    height: 165px;
-    @include dFlex(column, flex-start, center);
-    gap: 16px;
-    z-index: 5;
-    padding: 16px 96px;
-    box-sizing: border-box;
+    @include DMSans(700, 22px, 28.64px, $white);
+    margin-block-start: unset !important;
+    margin-block-end: unset !important;
+    text-align: start;
+  }
 
+  > .carousel-wrapper {
+    width: 100%;
+    max-width: 1440px;
+  }
 
-    h2 {
-        width: 100%;
-        max-width: 1440px;
-        @include DMSans(700, 22px, 28.64px, $white);
-        margin-block-start: unset !important;
-        margin-block-end: unset !important;
-        text-align: start;
+  .carousel-slide {
+    min-width: 220px !important;
+    min-height: 150px !important;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.1s ease-in;
+    border: solid 2px transparent;
+
+    &:hover {
+    //   transform: scale(1.025);
+      border-color: $white;
     }
 
-    >.carousel-wrapper {
-        width: 100%;
-        max-width: 1440px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px !important;
     }
 
-    .carousel-slide {
-        position: relative;
-        cursor: pointer;
-        transition: all 0.1s ease-in;
-        border: solid 2px transparent;
+    p {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      @include DMSans(700, 16px, 20.16px, $white);
+      margin-block-start: unset !important;
+      margin-block-end: unset !important;
+      text-align: center;
+      background-color: $main-blue-dark;
+      padding: 2px 0;
+      border-radius: 0 0 15px 15px;
+    }
+
+    .heart-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+
+      svg {
+        transform: all 0.1s ease-in-out;
 
         &:hover {
-            transform: scale(1.025);
-            border-color: $white;
+          transform: scale(1.1);
         }
-
-        img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        p {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            @include DMSans(700, 16px, 20.16px, $white);
-            margin-block-start: unset !important;
-            margin-block-end: unset !important;
-            text-align: center;
-            background-color: $main-blue-dark;
-            padding: 2px 0;
-            border-radius: 0 0 4px 4px;
-        }
-
-        .heart-icon {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-
-            svg {
-                transform: all 0.1s ease-in-out;
-
-                &:hover {
-                    transform: scale(1.1);
-                }
-            }
-        }
-
+      }
     }
+  }
 }
 
 .category-container:first-child {
-    margin-top: 64px;
+  margin-top: 16px;
 }
 
 .category-container:last-child {
-    margin-bottom: 64px;
+  margin-bottom: 64px;
 }
 
 .footer {
-    width: 100%;
-    height: 108px;
+  width: 100%;
+  height: 108px;
 }
 
 // loading spinner
 
-
 .loading-wrapper {
-    @include dFlex(column, center, center);
-    width: 100%;
-    height: 100vh;
-    padding: 24px 0;
-    background-color: $main-blue-dark;
-    gap: 16px;
-    position: relative;
-    z-index: 5;
+  @include dFlex(column, center, center);
+  width: 100%;
+  height: 100vh;
+  padding: 24px 0;
+  background-color: $main-blue-dark;
+  gap: 16px;
+  position: relative;
+  z-index: 5;
 
-    h1 {
-        @include DMSans(700, 22px, 28.64px, $white);
-    }
+  h1 {
+    @include DMSans(700, 22px, 28.64px, $white);
+  }
 }
 
 .logo {
-    width: 256px;
-    height: 128px;
+  width: 256px;
+  height: 128px;
 }
 
 .ip {
-    width: 256px;
-    height: 128px;
+  width: 256px;
+  height: 128px;
 }
 
 .ip__track {
-    stroke: hsl(var(--hue), 90%, 90%);
-    transition: stroke var(--trans-dur);
+  stroke: hsl(var(--hue), 90%, 90%);
+  transition: stroke var(--trans-dur);
 }
 
 .ip__worm1,
 .ip__worm2 {
-    animation: worm1 2s linear infinite;
+  animation: worm1 2s linear infinite;
 }
 
 .ip__worm2 {
-    animation-name: worm2;
+  animation-name: worm2;
 }
-
-
 
 /* Animation for main loading screen */
 @keyframes worm1 {
-    from {
-        stroke-dashoffset: 0;
-    }
+  from {
+    stroke-dashoffset: 0;
+  }
 
-    50% {
-        animation-timing-function: steps(1);
-        stroke-dashoffset: -358;
-    }
+  50% {
+    animation-timing-function: steps(1);
+    stroke-dashoffset: -358;
+  }
 
-    50.01% {
-        animation-timing-function: linear;
-        stroke-dashoffset: 358;
-    }
+  50.01% {
+    animation-timing-function: linear;
+    stroke-dashoffset: 358;
+  }
 
-    to {
-        stroke-dashoffset: 0;
-    }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes worm2 {
-    from {
-        stroke-dashoffset: 358;
-    }
+  from {
+    stroke-dashoffset: 358;
+  }
 
-    50% {
-        stroke-dashoffset: 0;
-    }
+  50% {
+    stroke-dashoffset: 0;
+  }
 
-    to {
-        stroke-dashoffset: -358;
-    }
+  to {
+    stroke-dashoffset: -358;
+  }
 }
-
 
 // category loading animation
 
-
-
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    >div {
-        width: 3vw;
-        height: 3vw;
-        border-radius: 100%;
-        margin: 2vw;
-        background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-        animation: bounce 1.5s 0.5s linear infinite;
-    }
+  > div {
+    width: 3vw;
+    height: 3vw;
+    border-radius: 100%;
+    margin: 2vw;
+    background-image: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    animation: bounce 1.5s 0.5s linear infinite;
+  }
 
-    p {
-        @include DMSans(700, 22px, 28.64px, $white);
-    }
+  p {
+    @include DMSans(700, 22px, 28.64px, $white);
+  }
 }
 
-
-
 .white {
-    background-color: $white;
+  background-color: $white;
 }
 
 .red {
-    background-color: $error-red;
-    animation-delay: 0.1s;
+  background-color: $error-red;
+  animation-delay: 0.1s;
 }
 
 .blue {
-    background-color: $main-blue-dark;
-    animation-delay: 0.2s;
+  background-color: $main-blue-dark;
+  animation-delay: 0.2s;
 }
 
 .black {
-    background-color: $black;
-    animation-delay: 0.3s;
+  background-color: $black;
+  animation-delay: 0.3s;
 }
 
 @keyframes bounce {
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+    filter: blur(0px);
+  }
 
-    0%,
-    50%,
-    100% {
-        transform: scale(1);
-        filter: blur(0px);
-    }
+  25% {
+    transform: scale(0.6);
+    filter: blur(3px);
+  }
 
-    25% {
-        transform: scale(0.6);
-        filter: blur(3px);
-    }
-
-    75% {
-        filter: blur(3px);
-        transform: scale(1.4);
-    }
+  75% {
+    filter: blur(3px);
+    transform: scale(1.4);
+  }
 }
 
 @media screen and (max-width: 950px) {
-    .category-section {
-        padding-top: 64px;
-    }
+  .category-section {
+    padding-top: 64px;
+  }
+  .category-container:first-child {
+    margin-top: 64px;
+  }
 }
 
 @media screen and (max-width: $responsive-breakpoint) {
-    .category-container {
-        padding: 10px 16px;
-    }
+  .category-container {
+    padding: 10px 16px;
+  }
 }
