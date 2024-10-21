@@ -18,12 +18,12 @@
     max-width: 1440px;
   }
 
-  > .video-container {
+  >.video-container {
     width: 100%;
     margin: 0 auto;
     position: relative;
 
-    > .preview-section {
+    >.preview-section {
       width: 100%;
       @include dFlex(row, center, center);
       position: absolute;
@@ -32,7 +32,7 @@
     }
   }
 
-  > .category-section {
+  >.category-section {
     width: 100%;
     background-color: $black;
     @include dFlex(column, flex-start, center);
@@ -88,23 +88,23 @@
     text-align: start;
   }
 
-  > .carousel-wrapper {
+  >.carousel-wrapper {
     width: 100%;
     max-width: 1440px;
   }
 
   .carousel-slide {
     width: 220px !important;
-    // height: 150px !important;
     border-radius: 15px;
     position: relative;
     cursor: pointer;
     transition: all 0.1s ease-in;
-    border: solid 2px transparent;
+    box-shadow: 0 0 0 2px transparent;
+    box-sizing: content-box;
+    overflow: hidden;
 
     &:hover {
-    //   transform: scale(1.025);
-      border-color: $main-blue-dark;
+      box-shadow: 0 0 0 2px $main-blue-dark;
     }
 
     img {
@@ -239,16 +239,14 @@
   justify-content: center;
   align-items: center;
 
-  > div {
+  >div {
     width: 3vw;
     height: 3vw;
     border-radius: 100%;
     margin: 2vw;
-    background-image: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    background-image: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(0, 0, 0, 0) 100%);
     animation: bounce 1.5s 0.5s linear infinite;
   }
 
@@ -277,6 +275,7 @@
 }
 
 @keyframes bounce {
+
   0%,
   50%,
   100% {
@@ -299,6 +298,7 @@
   .category-section {
     padding-top: 64px;
   }
+
   .category-container:first-child {
     margin-top: 64px;
   }
