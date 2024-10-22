@@ -160,4 +160,15 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     event.stopPropagation();
     this.databaseService.toggleFavourites(video);
   }
+
+  //todo : check mobile view if necessary
+  scrollToTop() {
+    let targetElement = document.querySelector('#top');
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }
 }
