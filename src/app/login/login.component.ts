@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
   }
 
   guestLogin() {
-    this.loginForm.value.email = 'guest@guest.com'; 
+    this.loginForm.value.email = 'guest@guest.com';
     this.loginForm.value.password = 'guest49408';
     this.login();
   }
@@ -87,7 +87,6 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
     } catch (error) {
       this.app.showDialog('Login Failed');
-      console.log(error);
     }
   }
 }

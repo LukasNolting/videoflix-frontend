@@ -46,14 +46,26 @@ export class SignupComponent {
     this.emailService.email = '';
   }
 
+  /**
+   * Toggles the visibility of the password input field.
+   */
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
+  /**
+   * Toggles the visibility of the confirm password input field.
+   */
   toggleConfirmPasswordVisibility(): void {
     this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
   }
 
+  /**
+   * Submits the signup form and sends a request to the server
+   * to sign up a new user. If the request is successful, the user
+   * is shown a success dialog and the signup form is hidden.
+   * If the request fails, the user is shown a failure dialog.
+   */
   async onSubmit() {
     try {
       let newUser = new SignupModel(

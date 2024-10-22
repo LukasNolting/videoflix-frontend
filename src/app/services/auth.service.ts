@@ -49,18 +49,25 @@ export class AuthService {
     return this.http.post(`${environment.baseUrl}/videoflix/signup/`, newUser);
   }
 
-  async forgotPassword(email: string): Promise<void> {
+  /**
+   * Sends a POST request to reset a user's password given a email.
+   * @param {string} email - The email of the user to reset.
+   * @returns {Promise<any>} - A promise that resolves with the response of the server.
+   */
+  async forgotPassword(email: string): Promise<any> {
     const body = { email };
     const link = `${environment.baseUrl}/videoflix/password-reset/`;
     try {
       const response = await firstValueFrom(
         this.httpClientWithoutInterceptor.post<any>(link, body, {
           headers: { 'Content-Type': 'application/json' },
+          observe: 'response',
         })
       );
-      console.log('Request erfolgreich:', response);
+      return response;
     } catch (error) {
       console.error('Request-Fehler:', error);
+      throw error;
     }
   }
 
