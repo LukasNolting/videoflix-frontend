@@ -1,5 +1,5 @@
 @if (this.communicationService.dataIsLoaded) {
-<section class="home-wrapper">
+<section class="home-wrapper" id="top">
   <app-header class="header"></app-header>
   <div class="video-container" [ngClass]="{
       'd-none':
@@ -34,7 +34,7 @@
         [autoPlay]="true" [slideWidth]="220" [autoPlayAtStart]="true" [autoPlayInterval]="5000" [slideToShow]="5"
         class="carousel-wrapper">
         @for (video of newVideos; track video; let index = $index) {
-        <div class="carousel-slide" (click)="
+        <div class="carousel-slide" (click)="scrollToTop();
             this.communicationService.showPreview(video.video_file, video)
           ">
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
@@ -59,7 +59,7 @@
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [maxDomSize]="1" [enableTouch]="true"
         [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.favoriteVideos.length" class="carousel-wrapper">
         @for (video of favoriteVideos; track video; let index = $index) {
-        <div class="carousel-slide" (click)="
+        <div class="carousel-slide" (click)="scrollToTop();
             this.communicationService.showPreview(video.video_file, video)
           ">
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
@@ -93,7 +93,7 @@
         [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.continueWatchingVideos.length"
         class="carousel-wrapper">
         @for (item of continueWatchingVideos; track item; let index = $index) {
-        <div class="carousel-slide" (click)="
+        <div class="carousel-slide" (click)="scrollToTop();
             this.communicationService.continueWatching(
               item.video,
               item.timestamp
@@ -130,7 +130,7 @@
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.actionVideos.length"
         class="carousel-wrapper">
         @for (video of actionVideos; track video; let index = $index) {
-        <div class="carousel-slide" (click)="
+        <div class="carousel-slide" (click)="scrollToTop();
             this.communicationService.showPreview(video.video_file, video)
           ">
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
@@ -154,7 +154,7 @@
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.documentaryVideos.length"
         class="carousel-wrapper">
         @for (video of documentaryVideos; track video; let index = $index) {
-        <div class="carousel-slide" (click)="
+        <div class="carousel-slide" (click)="scrollToTop();
             this.communicationService.showPreview(video.video_file, video)
           ">
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
@@ -178,7 +178,7 @@
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.animalVideos.length"
         class="carousel-wrapper">
         @for (video of animalVideos; track video; let index = $index) {
-        <div class="carousel-slide" (click)="
+        <div class="carousel-slide" (click)="scrollToTop();
             this.communicationService.showPreview(video.video_file, video)
           ">
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
@@ -202,7 +202,7 @@
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.horrorVideos.length"
         class="carousel-wrapper">
         @for (video of horrorVideos; track video; let index = $index) {
-        <div class="carousel-slide" (click)="
+        <div class="carousel-slide" (click)="scrollToTop();
             this.communicationService.showPreview(video.video_file, video)
           ">
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
