@@ -34,9 +34,6 @@ button {
 }
 
 @media screen and (max-width: 950px) {
-    .header-wrapper {
-        box-shadow: 0 4px 10px 0 rgba(255, 255, 255, 0.5);
-    }
 
     .header {
         padding: 10px 32px !important;
@@ -48,7 +45,5 @@ button {
         padding: 10px 16px !important;
     }
 
-    .header-wrapper {
-        box-shadow: 0 4px 10px 0 rgba(255, 255, 255, 0.5);
-    }
+
 }
