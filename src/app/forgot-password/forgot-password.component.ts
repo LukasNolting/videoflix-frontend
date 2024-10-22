@@ -10,6 +10,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { AppComponent } from '../app.component';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-forgot-password',
@@ -26,25 +28,45 @@ import { AuthService } from '../services/auth.service';
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  showForgotPasswordForm: boolean = false;
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private app: AppComponent
+  ) {
     this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], // todo validate email check if exists in db
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
-  onSubmit() {
+  /**
+   * Handles the form submission for the forgot password functionality.
+   *
+   * This function checks if the forgot password form is valid. If valid,
+   * it attempts to send a password reset email using the AuthService.
+   *
+   * Upon successful email dispatch, a success dialog is shown. If the
+   * email dispatch fails or an unexpected error occurs, appropriate error
+   * dialogs are displayed. If the form is invalid, prompts the user to
+   * enter a valid email address.
+   */
+  async onSubmit() {
     if (this.forgotPasswordForm.valid) {
       try {
-      console.log(this.forgotPasswordForm.value);
-      this.authService
-        .forgotPassword(this.forgotPasswordForm.value.email)
-          console.log('Email sent successfully', Response);
-     
-        } catch (error) {
-          
-          console.error('Error sending email', error);
+        const response = await this.authService.forgotPassword(
+          this.forgotPasswordForm.value.email
+        );
+        if (response.status === 200) {
+          this.app.showDialog('Email sent successfully.');
+        } else {
+          this.app.showDialog('Error sending email.');
         }
+      } catch (error) {
+        console.error('Error sending email', error);
+        this.app.showDialog('An unexpected error occurred. Please try again.');
+      }
+    } else {
+      this.app.showDialog('Please enter a valid email address.');
     }
-    // TODO: Toast anzeigen, wenn onSubmit ausgeführt wurde (Token läuft in 24 Stunden ab, Mails checken)
   }
 }
