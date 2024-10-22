@@ -12,17 +12,25 @@ import { CommunicationService } from '../../services/communication.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  routerLink: string = '/';
+  routerLink: string = '';
   url: string = '';
   constructor(
     private router: Router,
     public communicationService: CommunicationService
   ) {
     this.url = this.router.url;
-    console.log(this.router.url);
     if (this.router.url === '/home') {
       this.communicationService.showBigLogo = false;
       this.routerLink = '/home';
+    } else if (
+      (this.router.url === '/imprint' || this.router.url === '/privacy') &&
+      this.communicationService.isLoggedIn
+    ) {
+      this.communicationService.showBigLogo = true;
+      this.routerLink = '/home';
+    } else {
+      this.communicationService.showBigLogo = true;
+      this.routerLink = '/';
     }
   }
 
@@ -35,5 +43,6 @@ export class HeaderComponent {
     sessionStorage.removeItem('token');
     this.communicationService.isLoggedIn = false;
     this.router.navigate(['/']);
+    this.communicationService.showBigLogo = true;
   }
 }
