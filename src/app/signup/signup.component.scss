@@ -9,11 +9,13 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+
     .signup-header {
         width: 100%;
         max-width: 1440px;
     }
-    .signup-content{
+
+    .signup-content {
         @include dFlex(column, center, center);
         flex: 1;
     }
@@ -34,6 +36,32 @@
     }
 }
 
+.signup-success-container {
+    @include dFlex(column, center, center);
+    width: 520px;
+    height: 492px;
+    background-color: $white;
+    border-radius: 48px;
+    padding: 43px 56px;
+    gap: 32px;
+
+    h1 {
+        @include DMSans(700, 48px, 62.5px, $main-blue-dark);
+    }
+
+    p {
+        @include DMSans(500, 18px, 23.44px, $black);
+        text-align: center;
+    }
+
+    img {
+        width: 280px;
+        height: 280px;
+        margin-top: -40px;
+    }
+
+}
+
 form {
     @include dFlex(column, center, center);
     width: 408px;
@@ -42,6 +70,7 @@ form {
 
     button {
         @include buttonBlue(151px, 48px, 10px);
+        margin-top: 16px;
 
         &:hover {
             @include btnHover($main-blue-dark);
@@ -85,6 +114,26 @@ p {
 
         h1 {
             @include DMSans(700, 40px, 52.08px, $main-blue-dark);
+            text-align: center;
+        }
+    }
+
+    .signup-success-container {
+        max-width: 320px;
+        height: 466px;
+        padding: 43px 24px;
+
+        h1 {
+            @include DMSans(700, 40px, 52.08px, $main-blue-dark);
+            text-align: center;
+            margin-block-end: unset !important;
+            margin-block-start: unset !important;
+            padding: 16px;
+        }
+
+        img {
+            width: 200px;
+            margin-top: -40px;
         }
     }
 
