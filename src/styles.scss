@@ -207,7 +207,7 @@ option:focus {
 .slides-container {
 
     height: 170px !important;
-
+}
 
 
 .vjs-svg-icon {
@@ -2398,5 +2398,4 @@ video::-webkit-media-text-track-display {
 
 .video-js :focus:not(:focus-visible) {
     outline: 0
-}
 }
