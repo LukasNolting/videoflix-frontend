@@ -3,11 +3,13 @@
         <app-header class="header"></app-header>
     </section>
     <section class="signup-content">
+        @if (this.showSignupForm) {
         <div class="signup-container">
             <h1>Sign up</h1>
             <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
                 <div class="input-container">
-                    <input type="email" placeholder="Email Address" formControlName="email" value="test" autocomplete="email">
+                    <input type="email" placeholder="Email Address" formControlName="email" value="test"
+                        autocomplete="email">
                     @if (signupForm.controls['email'].touched && signupForm.controls['email'].invalid) {
                     <div class="error-message">
                         @if (signupForm.controls['email'].errors?.['required']) {
@@ -44,13 +46,20 @@
                         @if (signupForm.controls['confirmPassword'].value !== signupForm.controls['password'].value) {
                         <p>Passwords must match!</p>
                         }
-    
+
                     </div>
                     }
                 </div>
                 <button type="submit" [disabled]="signupForm.invalid">Get Started</button>
             </form>
         </div>
+        } @else {
+        <div class="signup-success-container">
+            <h1>Account created!</h1>
+            <p>Please check your emails for instructions on how to activate your account.</p>
+            <img src="img/icons/email.svg" alt="success">
+        </div>
+        }
     </section>
     <section>
         <app-footer class="footer"></app-footer>
