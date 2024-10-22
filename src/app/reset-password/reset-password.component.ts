@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-resetpassword',
@@ -30,7 +31,8 @@ export class ResetpasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private app: AppComponent
   ) {
     this.resetPasswordForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -42,7 +44,6 @@ export class ResetpasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.token = this.route.snapshot.paramMap.get('token');
-    console.log('Token:', this.token);
     this.authService.checkTokenValidity(this.token);
   }
 
@@ -61,7 +62,6 @@ export class ResetpasswordComponent implements OnInit {
     }
     // TODO: Toast anzeigen, wenn onSubmit ausgeführt wurde
   }
-
 
   togglePasswordVisibility(): void {
     console.log(this.isPasswordVisible);
