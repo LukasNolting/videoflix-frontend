@@ -29,6 +29,7 @@ export class ResetpasswordComponent implements OnInit {
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
   showResetPasswordForm: boolean = true;
+  token: string | null = null;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -36,13 +37,25 @@ export class ResetpasswordComponent implements OnInit {
     private app: AppComponent,
     private router: Router
   ) {
-    this.resetPasswordForm = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-    });
+    this.resetPasswordForm = this.fb.group(
+      {
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      },
+      { validator: this.passwordsMatchValidator }
+    );
   }
 
-  token: string | null = null;
+  /**
+   * Checks if the password and confirm password inputs match.
+   * @param formGroup the reset password form group
+   * @returns an object with a key 'mismatch' if the passwords do not match, null otherwise
+   */
+  passwordsMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
+  }
 
   /**
    * Called when the component is initialized.
