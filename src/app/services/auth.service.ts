@@ -102,18 +102,20 @@ export class AuthService {
    * @param {string} password - The new password of the user.
    * @returns {Promise<void>} - A promise that resolves when the request is finished.
    */
-  async resetPassword(token: any, password: string): Promise<void> {
+  async resetPassword(token: any, password: string): Promise<any> {
     const body = { password };
     const link = `${environment.baseUrl}/videoflix/password-reset/${token}/`;
     try {
       const response = await firstValueFrom(
         this.httpClientWithoutInterceptor.post<any>(link, body, {
           headers: { 'Content-Type': 'application/json' },
+          observe: 'response',
         })
       );
-      console.log('Request erfolgreich:', response);
+      return response;
     } catch (error) {
       console.error('Request-Fehler:', error);
+      throw error;
     }
   }
 

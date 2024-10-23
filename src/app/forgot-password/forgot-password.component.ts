@@ -28,7 +28,7 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
-  showForgotPasswordForm: boolean = false;
+  showForgotPasswordForm: boolean = true;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -58,6 +58,7 @@ export class ForgotPasswordComponent {
         );
         if (response.status === 200) {
           this.app.showDialog('Email sent successfully.');
+          this.showForgotPasswordForm = false;
         } else {
           this.app.showDialog('Error sending email.');
         }
