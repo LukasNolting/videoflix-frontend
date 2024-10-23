@@ -38,14 +38,27 @@ export class SignupComponent {
     private app: AppComponent
   ) {
     this.emailFromLanding = this.emailService.email;
-    this.signupForm = this.fb.group({
-      email: [this.emailFromLanding, [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-    });
+    this.signupForm = this.fb.group(
+      {
+        email: [this.emailFromLanding, [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      },
+      { validator: this.passwordsMatchValidator }
+    );
     this.emailService.email = '';
   }
 
+  /**
+   * Checks if the password and confirm password inputs match.
+   * @param formGroup the signup form group
+   * @returns an object with a key 'mismatch' if the passwords do not match, null otherwise
+   */
+  passwordsMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
+  }
   /**
    * Toggles the visibility of the password input field.
    */
