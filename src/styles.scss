@@ -139,6 +139,14 @@ option:focus {
     height: 100%;
     position: relative;
 
+    input {
+        @include DMSans(400, 18px, 23.44px, $black);
+    }
+
+    input::placeholder {
+        @include DMSans(400, 18px, 23.44px, $main-blue-dark);
+    }
+
     img {
         width: 24px;
         height: 24px;
@@ -205,10 +213,24 @@ option:focus {
 }
 
 .slides-container {
-
     height: 170px !important;
 }
 
+@media screen and (max-width: $responsive-breakpoint) {
+    .input-container {
+        input {
+            font-size: 16px !important;
+            line-height: 20.83px !important;
+        }
+
+        input::placeholder {
+            font-size: 16px !important;
+            line-height: 20.83px !important;
+        }
+    }
+}
+
+// todo : do we really need this below?
 
 .vjs-svg-icon {
     display: inline-block;
