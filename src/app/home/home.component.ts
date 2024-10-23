@@ -80,31 +80,65 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   }
 
   /**
-   * Retrieves all videos from the database and filters them based on their
-   * category. The newVideos property is set to videos that have been created
-   * after 2024-09-12T09:12:11Z. The actionVideos, documentaryVideos, animalVideos,
-   * and horrorVideos properties are set to videos of their respective categories.
-   * The setDataIsLoaded function is called with the retrieved videos as an
-   * argument.
+   * Loads videos from the database and sets properties for new, action, documentary,
+   * animal, and horror videos based on the retrieved data.
+   * Calls filterAndSortNewVideos and filterAndSortByCategory functions to process videos.
    */
   private loadVideos(): void {
     this.databaseService.loadVideos();
     this.databaseService.getVideos().subscribe((videos) => {
-      this.newVideos = videos.filter((video) => {
-        const createdAtDate = new Date(video.created_at);
-        const comparisonDate = new Date('2024-09-12T09:12:11Z');
-        return createdAtDate > comparisonDate;
-      });
-      this.actionVideos = videos.filter((video) => video.category === 'action');
-      this.documentaryVideos = videos.filter(
-        (video) => video.category === 'documentary'
+      this.newVideos = this.filterAndSortNewVideos(
+        videos,
+        '2024-09-12T09:12:11Z'
       );
-      this.animalVideos = videos.filter(
-        (video) => video.category === 'animals'
+      this.actionVideos = this.filterAndSortByCategory(videos, 'action');
+      this.documentaryVideos = this.filterAndSortByCategory(
+        videos,
+        'documentary'
       );
-      this.horrorVideos = videos.filter((video) => video.category === 'horror');
+      this.animalVideos = this.filterAndSortByCategory(videos, 'animals');
+      this.horrorVideos = this.filterAndSortByCategory(videos, 'horror');
       this.setDataIsLoaded(videos);
     });
+  }
+
+  /**
+   * Filters and sorts the given videos based on a comparison date.
+   *
+   * @param videos Array of VideoModel objects to filter and sort.
+   * @param date The comparison date in string format.
+   * @returns An array of VideoModel objects filtered and sorted based on the comparison date.
+   */
+  private filterAndSortNewVideos(
+    videos: VideoModel[],
+    date: string
+  ): VideoModel[] {
+    const comparisonDate = new Date(date);
+    return videos
+      .filter((video) => new Date(video.created_at) > comparisonDate)
+      .sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+  }
+
+  /**
+   * Filters and sorts the given videos based on a category.
+   *
+   * @param videos Array of VideoModel objects to filter and sort.
+   * @param category The category to filter videos by.
+   * @returns An array of VideoModel objects filtered and sorted based on the category.
+   */
+  private filterAndSortByCategory(
+    videos: VideoModel[],
+    category: string
+  ): VideoModel[] {
+    return videos
+      .filter((video) => video.category === category)
+      .sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
   }
 
   /**
