@@ -9,11 +9,13 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+
     .login-header {
         width: 100%;
         max-width: 1440px;
     }
-    .login-content{
+
+    .login-content {
         @include dFlex(column, center, center);
         flex: 1;
     }
@@ -47,7 +49,7 @@ form {
     @include dFlex(column, center, center);
     width: 408px;
     height: 187px;
-    gap: 16px;
+    gap: 24px;
 
     button {
         @include buttonBlue(unset, 48px, 10px);
@@ -135,7 +137,7 @@ p {
     }
 }
 
-.login-container-buttons{
+.login-container-buttons {
     @include dFlex(row, center, center);
     gap: 24px;
 }
