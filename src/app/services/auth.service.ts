@@ -97,10 +97,10 @@ export class AuthService {
   }
 
   /**
-   * Sends a POST request to reset the password of a user with the given token and password.
-   * @param {string} token - The token received via email.
-   * @param {string} password - The new password.
-   * @returns {Promise<Object>} - A promise with the response from the server.
+   * Sends a POST request to reset a user's password given a token.
+   * @param {string} token - The token given to the user via email.
+   * @param {string} password - The new password of the user.
+   * @returns {Promise<void>} - A promise that resolves when the request is finished.
    */
   async resetPassword(token: any, password: string): Promise<any> {
     const body = { password };
