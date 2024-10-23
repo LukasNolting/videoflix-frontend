@@ -18,6 +18,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   muted: boolean = true; // option:: muted
   loop: boolean = true; // option:: endlessloop
   currentPoster: string = ''; // option:: poster
+  private videoSubscription!: Subscription;
   private playVideosubscriptions: Subscription = new Subscription();
   private playPreviewSubscription: Subscription = new Subscription();
   player: any;
@@ -37,7 +38,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   ngOnInit(): void {
     this.checkBandwidthAndSetQuality();
-
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         if (playVideo === true) {
@@ -49,24 +49,24 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     );
     this.playPreviewSubscription.add(
       this.communicationService.showPreview$.subscribe((path) => {
-        if (path !== null && this.player) {
-          this.communicationService.showVideoDescription = true;
-          const replacePath = path.replace(
-            '.mp4',
-            `_${this.quality}_hls/index.m3u8`
-          );
-          this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
-          this.updateVideoQualities();
-          this.player.controls(false);
-          this.player.muted(true);
-          this.player.load();
-          this.player.ready(() => {
-            this.player.src({
-              src: this.currentVideoSource,
-              type: 'application/x-mpegURL',
+        if (path !== null && this.player) {  
+            this.communicationService.showVideoDescription = true;
+            const replacePath = path.replace(
+              '.mp4',
+              `_${this.quality}_hls/index.m3u8`
+            );
+            this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
+            this.updateVideoQualities();
+            this.player.controls(false);
+            this.player.muted(true);
+            this.player.load();
+            this.player.ready(() => {
+              this.player.src({
+                src: this.currentVideoSource,
+                type: 'application/x-mpegURL',
+              });
+              this.player.play();
             });
-            this.player.play();
-          });
         }
       })
     );
@@ -114,7 +114,15 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.playPreviewSubscription.unsubscribe();
       this.player.dispose();
     }
+    if (this.videoSubscription) {
+      this.videoSubscription.unsubscribe();  // Abmelden der Subscription
+    }
+    if (this.player) {
+      this.communicationService.showVideoDescription = true;
+      this.player.dispose();
+    }
   }
+  
 
   /**
    * Gets a random video from the database and sets the video source and video
@@ -126,7 +134,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   getRandomVideo() {
-    this.dataBaseService.videoSubject.subscribe((videos: VideoModel[]) => {
+    this.videoSubscription = this.dataBaseService.videoSubject.subscribe((videos: VideoModel[]) => {
       const randomIndex = Math.floor(Math.random() * videos.length);
       const randomVideoObject: VideoModel = videos[randomIndex];
       const randomVideo = videos[randomIndex]?.video_file;
