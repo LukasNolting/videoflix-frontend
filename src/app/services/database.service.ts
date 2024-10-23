@@ -7,12 +7,9 @@ import { VideoModel } from '../models/video.model';
 import { firstValueFrom } from 'rxjs';
 import { ContinueWatching } from '../models/continue-watching';
 
-
 @Injectable({
   providedIn: 'root',
 })
-
-
 export class DatabaseService {
   private videoUrl = `${environment.baseUrl}/videoflix/videos/`;
   public videoSubject = new BehaviorSubject<VideoModel[]>([]);
@@ -31,9 +28,7 @@ export class DatabaseService {
   public isFavCarouselRendered: boolean = false;
   public isContinueWatchingCarouselRendered: boolean = false;
 
-
   constructor(private http: HttpClient) {}
-
 
   /**
    * Loads all videos from the server and emits them through the `videos$`
@@ -55,14 +50,12 @@ export class DatabaseService {
       .subscribe();
   }
 
-
   /**
    * Returns an observable that emits an array of VideoModel objects.
    */
   public getVideos(): Observable<VideoModel[]> {
     return this.videos$;
   }
-
 
   /**
    * Toggles the favorite status of the given video. If the request fails, it
@@ -81,7 +74,6 @@ export class DatabaseService {
       console.error('Request-Fehler:', error);
     }
   }
-
 
   /**
    * Loads the favorite videos of the logged in user.
@@ -111,7 +103,6 @@ export class DatabaseService {
       });
   }
 
-
   /**
    * Returns an observable that emits the favorite videos of the logged in user.
    * If the user is not logged in, the observable will emit an empty array.
@@ -122,7 +113,6 @@ export class DatabaseService {
   public getFavoriteVideos(): Observable<VideoModel[]> {
     return this.favoriteVideos$;
   }
-
 
   /**
    * Loads the videos that the user has saved to continue watching.
@@ -147,7 +137,6 @@ export class DatabaseService {
     }
   }
 
-
   /**
    * Returns an observable that emits the videos that the user has saved to
    * continue watching. This observable will only emit a new value when the
@@ -158,7 +147,6 @@ export class DatabaseService {
   public getContinueWatchingVideos(): Observable<ContinueWatching[]> {
     return this.continueWatchingVideos$;
   }
-
 
   /**
    * Saves the given video to the continue watching list with the given played
@@ -183,28 +171,33 @@ export class DatabaseService {
     }
   }
 
-
-/**
- * Deletes a video from the continue watching list based on the provided video ID.
- */
+  /**
+   * Deletes a video from the continue watching list based on the provided video ID.
+   * It first checks if the video exists in the list and then sends a DELETE request
+   * to the server to remove it. If the video is successfully deleted, it reloads
+   * the updated continue watching list. Logs a warning if an error occurs during
+   * the process.
+   *
+   * @param videoId The ID of the video to be deleted from the continue watching list.
+   * @returns A promise that resolves when the operation is complete.
+   */
   public async deleteVideoFromContinueWatching(videoId: number): Promise<void> {
     const body = { video_id: videoId };
-    this.continueWatchingVideos$.pipe(
-      filter(videos => videos.some(video => video.video.id !== videoId))
-    ).subscribe(filteredVideos => {
-      if (filteredVideos) {
-        try {
-          firstValueFrom(
-            this.http.delete<any>(this.continueWatchingUrl, {body: body})
-          );
-          this.loadContinueWatchingVideos();
-        } catch (error) {
-          console.warn(
-            'Error deleting video from continue watching Videos:',
-            error
-          );
-        }
+
+    try {
+      const videos = await firstValueFrom(this.continueWatchingVideos$);
+      const videoExists = videos.some((video) => video.video.id === videoId);
+      if (videoExists) {
+        await firstValueFrom(
+          this.http.delete<any>(this.continueWatchingUrl, { body: body })
+        );
+        this.loadContinueWatchingVideos();
       }
-    });
+    } catch (error) {
+      console.warn(
+        'Error deleting video from continue watching Videos:',
+        error
+      );
+    }
   }
 }

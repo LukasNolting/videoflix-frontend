@@ -363,7 +363,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * Sets up event listeners for the video player.
+   * Sets up event listeners on the video player to save the current time when the video is paused and
+   * to delete the video from the continue watching list when the video has ended.
    */
   setupEventListeners() {
     this.player.off('pause');
@@ -372,11 +373,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
         this.saveCurrentTime();
       }
     });
-
     this.player.off('ended');
     this.player.on('ended', () => {
-      console.log('Video ended');
-      // todo : check if video is in continue watching list and delete it
       this.dataBaseService.deleteVideoFromContinueWatching(
         this.communicationService.currentVideoObj.id
       );
