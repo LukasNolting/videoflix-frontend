@@ -14,9 +14,9 @@ export class CommunicationService {
   showPreview$ = this.showPreviewSubject.asObservable(); // Observable to track play video changes
   isPreviewVideoPlaying: boolean = false;
   showVideoDescription: boolean = true;
-  // mobile view variables
+  // mobile view variable
   isMobileViewActive: boolean = false; // main flag to check if mobile view is active
-  isSmallScreenActive: boolean = false; // flag to indicate if the screen is small (mobile view < 1200px for tablets)
+  //header variables
   showBigLogo: boolean = true; // flag to show big logo
   isLoggedIn: boolean = false; // flag to indicate if the user is logged in
 

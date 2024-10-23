@@ -27,6 +27,10 @@ export class AppComponent implements OnInit {
     this.dialogOpen = false;
   }
 
+  /**
+   * Shows a dialog with the given message for 1 second.
+   * @param message The message to be shown in the dialog.
+   */
   public showDialog(message: string) {
     this.message = message;
     this.dialogOpen = true;
@@ -35,24 +39,12 @@ export class AppComponent implements OnInit {
     }, 1000);
   }
 
-  // todo : check for redundant code
   /**
    * Checks the current viewport dimensions and sets the isMobileViewActive flag.
    */
   checkViewport() {
     const height = window.innerHeight;
     const width = window.innerWidth;
-    // Flag for mobile view (height greater than width)
     this.communicationService.isMobileViewActive = height > width;
-    // Flag to show rotate device prompt (ratio greater than 1) only for smaller screens
-    const ratio = width / height;
-    const isSmartPhoneScreen = width < 1024;
-    //const shouldShowFullScreen = ratio > 1.3 && isSmartPhoneScreen;
-
-    //this.communicationService.setFullScreenVisible(shouldShowFullScreen);
-    //console.log('fullscreenmode', shouldShowFullScreen);
-    // Flag for small screen (tablet view)
-    const isTabletScreen = width < 1450;
-    this.communicationService.isSmallScreenActive = isTabletScreen;
   }
 }
