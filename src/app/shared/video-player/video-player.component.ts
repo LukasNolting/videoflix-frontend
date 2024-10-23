@@ -49,24 +49,24 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     );
     this.playPreviewSubscription.add(
       this.communicationService.showPreview$.subscribe((path) => {
-        if (path !== null && this.player) {  
-            this.communicationService.showVideoDescription = true;
-            const replacePath = path.replace(
-              '.mp4',
-              `_${this.quality}_hls/index.m3u8`
-            );
-            this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
-            this.updateVideoQualities();
-            this.player.controls(false);
-            this.player.muted(true);
-            this.player.load();
-            this.player.ready(() => {
-              this.player.src({
-                src: this.currentVideoSource,
-                type: 'application/x-mpegURL',
-              });
-              this.player.play();
+        if (path !== null && this.player) {
+          this.communicationService.showVideoDescription = true;
+          const replacePath = path.replace(
+            '.mp4',
+            `_${this.quality}_hls/index.m3u8`
+          );
+          this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
+          this.updateVideoQualities();
+          this.player.controls(false);
+          this.player.muted(true);
+          this.player.load();
+          this.player.ready(() => {
+            this.player.src({
+              src: this.currentVideoSource,
+              type: 'application/x-mpegURL',
             });
+            this.player.play();
+          });
         }
       })
     );
@@ -115,14 +115,13 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       this.player.dispose();
     }
     if (this.videoSubscription) {
-      this.videoSubscription.unsubscribe();  // Abmelden der Subscription
+      this.videoSubscription.unsubscribe();
     }
     if (this.player) {
       this.communicationService.showVideoDescription = true;
       this.player.dispose();
     }
   }
-  
 
   /**
    * Gets a random video from the database and sets the video source and video
@@ -134,30 +133,32 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   getRandomVideo() {
-    this.videoSubscription = this.dataBaseService.videoSubject.subscribe((videos: VideoModel[]) => {
-      const randomIndex = Math.floor(Math.random() * videos.length);
-      const randomVideoObject: VideoModel = videos[randomIndex];
-      const randomVideo = videos[randomIndex]?.video_file;
-      this.communicationService.currentVideoObj = randomVideoObject;
-      this.currentVideoSource = `${
-        environment.baseUrl
-      }/media/${randomVideo.replace('.mp4', '')}_${
-        this.quality
-      }_hls/index.m3u8`;
-      this.updateVideoQualities();
-      if (this.player) {
-        this.player.ready(() => {
-          this.player.src({
-            src: this.currentVideoSource,
-            type: 'application/x-mpegURL',
+    this.videoSubscription = this.dataBaseService.videoSubject.subscribe(
+      (videos: VideoModel[]) => {
+        const randomIndex = Math.floor(Math.random() * videos.length);
+        const randomVideoObject: VideoModel = videos[randomIndex];
+        const randomVideo = videos[randomIndex]?.video_file;
+        this.communicationService.currentVideoObj = randomVideoObject;
+        this.currentVideoSource = `${
+          environment.baseUrl
+        }/media/${randomVideo.replace('.mp4', '')}_${
+          this.quality
+        }_hls/index.m3u8`;
+        this.updateVideoQualities();
+        if (this.player) {
+          this.player.ready(() => {
+            this.player.src({
+              src: this.currentVideoSource,
+              type: 'application/x-mpegURL',
+            });
+            this.player.play();
           });
-          this.player.play();
-        });
-      } else {
-        console.warn();
-        ('Player is not initialized yet');
+        } else {
+          console.warn();
+          ('Player is not initialized yet');
+        }
       }
-    });
+    );
   }
 
   /**

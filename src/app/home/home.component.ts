@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     this.loadVideos();
     this.loadFavoriteVideos();
     this.loadContinueWatchingVideos();
-    // TODO: Videos nach Erstellungsdatum absteigend sortieren
   }
   /**
    * Lifecycle hook, after the component's view has been fully initialized.
