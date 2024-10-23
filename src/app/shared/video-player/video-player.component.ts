@@ -24,7 +24,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   currentVideoSource: string = '';
   videoQualities: any[] = [];
   playerOptions: any;
-  quality: string = '';
+  quality: string = '1080p';
   constructor(
     public communicationService: CommunicationService,
     private dataBaseService: DatabaseService
