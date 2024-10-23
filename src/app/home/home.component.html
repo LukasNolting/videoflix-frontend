@@ -40,11 +40,11 @@
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
           <p>{{ video.title }}</p>
           <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="
-                favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'
-              ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
               <path
-                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'" [attr.stroke]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#2E3EDF'" stroke-width="30"
+                />
             </svg>
           </div>
         </div>
@@ -66,11 +66,11 @@
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
           <p>{{ video.title }}</p>
           <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="
-                favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'
-              ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
               <path
-                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'" [attr.stroke]="favoriteVideoIds.includes(video.id) ? '#FFFFFF' : '#FF0000'" stroke-width="30" stroke-width="30"
+                />
             </svg>
           </div>
         </div>
@@ -103,11 +103,11 @@
           <img [src]="baseUrl + item.video.thumbnail" alt="{{ item.video.title }}" />
           <p>{{ item.video.title }}</p>
           <div (click)="handleAddToWishlist(item.video, $event)" event.stopPropagation class="heart-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="
-                favoriteVideoIds.includes(item.video.id) ? '#FF0000' : '#FFFFFF'
-              ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
               <path
-                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                [attr.fill]="favoriteVideoIds.includes(item.video.id) ? '#FF0000' : '#FFFFFF'" [attr.stroke]="favoriteVideoIds.includes(item.video.id) ? '#FFFFFF' : '#FF0000'" stroke-width="30" stroke-width="30"
+                />
             </svg>
           </div>
         </div>
@@ -137,11 +137,11 @@
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
           <p>{{ video.title }}</p>
           <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="
-                favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'
-              ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
               <path
-                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'" [attr.stroke]="favoriteVideoIds.includes(video.id) ? '#FFFFFF' : '#FF0000'" stroke-width="30" stroke-width="30"
+                />
             </svg>
           </div>
         </div>
@@ -161,11 +161,11 @@
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
           <p>{{ video.title }}</p>
           <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="
-                favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'
-              ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
               <path
-                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'" [attr.stroke]="favoriteVideoIds.includes(video.id) ? '#FFFFFF' : '#FF0000'" stroke-width="30" stroke-width="30"
+                />
             </svg>
           </div>
         </div>
@@ -185,11 +185,11 @@
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
           <p>{{ video.title }}</p>
           <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="
-                favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'
-              ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
               <path
-                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'" [attr.stroke]="favoriteVideoIds.includes(video.id) ? '#FFFFFF' : '#FF0000'" stroke-width="30" stroke-width="30"
+                />
             </svg>
           </div>
         </div>
@@ -209,11 +209,11 @@
           <img [src]="baseUrl + video.thumbnail" alt="{{ video.title }}" />
           <p>{{ video.title }}</p>
           <div (click)="handleAddToWishlist(video, $event)" event.stopPropagation class="heart-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="
-                favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'
-              ">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
               <path
-                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z" />
+                d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                [attr.fill]="favoriteVideoIds.includes(video.id) ? '#FF0000' : '#FFFFFF'" [attr.stroke]="favoriteVideoIds.includes(video.id) ? '#FFFFFF' : '#FF0000'" stroke-width="30" stroke-width="30"
+                />
             </svg>
           </div>
         </div>
