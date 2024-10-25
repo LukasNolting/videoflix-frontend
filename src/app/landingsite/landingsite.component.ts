@@ -40,7 +40,12 @@ export class LandingsiteComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.router.navigate(['/home']);
+    }
+  }
 
   emailToService(email: string) {
     this.emailService.setEmail(this.email);

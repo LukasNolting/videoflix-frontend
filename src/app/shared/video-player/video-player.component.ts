@@ -41,7 +41,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
         if (playVideo === true) {
-          this.player.controls(false);
           this.handlePlayVideo();
           this.communicationService.resetPlayVideo();
         }
@@ -57,8 +56,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
           );
           this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
           this.updateVideoQualities();
-          this.player.controls(false);
-          this.player.muted(true);
           this.player.load();
           this.player.ready(() => {
             this.player.src({
@@ -83,21 +80,48 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   ngAfterViewInit(): void {
-    const options = {
-      controls: this.controls,
-      autoplay: this.autoplay,
-      muted: this.muted,
-      loop: this.loop,
-      fluid: true,
-      poster: this.currentPoster,
-    };
-    setTimeout(() => {
-      if (!this.player) {
-        this.player = (window as any).videojs('my-player', options);
-      }
-      this.addQualityControlButton();
+    let options: any;
+    if (this.communicationService.showVideoPlayerPopup) {
+      this.currentVideoSource = `${
+        environment.baseUrl
+      }/media/${this.communicationService.currentVideoObj.video_file.replace(
+        '.mp4',
+        ''
+      )}_${this.quality}_hls/index.m3u8`;
+      options = {
+        controls: true,
+        autoplay: false,
+        muted: false,
+        loop: false,
+        fluid: true,
+        poster: `${environment.baseUrl}/media/${this.communicationService.currentVideoObj.thumbnail}`,
+      };
+    } else {
+      options = {
+        controls: this.controls,
+        autoplay: this.autoplay,
+        muted: this.muted,
+        loop: this.loop,
+        fluid: true,
+      };
+    }
+    if (!this.player) {
+      this.player = (window as any).videojs('my-player', options);
+    }
+    this.addQualityControlButton();
+    if (!this.communicationService.showVideoPlayerPopup) {
       this.getRandomVideo();
-    }, 100);
+    } else {
+      console.log('Show video player popup', options);
+      console.log('Show video player source', this.currentVideoSource);
+      this.player.ready(() => {
+        this.player.src({
+          src: this.currentVideoSource,
+          type: 'application/x-mpegURL',
+        });
+        //this.player.play();
+      });
+    }
   }
 
   /**
@@ -218,7 +242,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   updateMenuOptions(menu: HTMLElement): void {
-    menu.innerHTML = ''; // Leert vorhandene Optionen
+    menu.innerHTML = '';
     this.videoQualities.forEach((quality) => {
       const option = document.createElement('div');
       option.className = 'quality-option pointer';
@@ -349,7 +373,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
         src: this.currentVideoSource,
         type: 'application/x-mpegURL',
       });
-      this.player.play();
     });
     this.setupEventListeners();
   }
@@ -367,8 +390,9 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player.muted(false);
     this.player.volume(0.5);
     this.player.controls(true);
-    this.player.requestFullscreen();
+    //this.player.requestFullscreen();
     this.player.loop(false);
+    this.player.poster(this.currentPoster);
   }
 
   /**
