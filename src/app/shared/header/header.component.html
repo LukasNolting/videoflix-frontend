@@ -18,7 +18,9 @@
         </a>
         } @else {
         @if (!this.communicationService.isLoggedIn) {
+        @if (this.url !== '/login') {
         <button [routerLink]="['/login']">Login</button>
+        }
         } @else if (this.communicationService.isPreviewVideoPlaying && this.communicationService.isMobileViewActive) {
         <img class="back-btn pointer" src="../img/icons/back_arrow_btn.svg" alt="back_btn"
             (click)="this.communicationService.hidePreview()">
