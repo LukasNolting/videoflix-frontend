@@ -25,4 +25,4 @@ deploy_job:
     - echo "Starte den FTPS-Upload..."
     - curl -T ./dist/videoflix_frontend/browser/ --user "$ALEXUSERNAME:$ALEXPASSWORD" ftps://$ALEXHOST/
   only:
-    - alex  # Ausführen bei Push auf "alex"-Branch
+    - alex  # Ausführen bei Push auf "alex"-Branch test
