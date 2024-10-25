@@ -293,6 +293,15 @@
   }
 }
 
+// video player popup
+
+.video-player-popup {
+  @include dFlex(column, center, center);
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+}
+
 @media screen and (max-width: 950px) {
   .category-section {
     padding-top: 64px;
