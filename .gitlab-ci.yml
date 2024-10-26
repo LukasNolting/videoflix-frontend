@@ -18,12 +18,14 @@ build_job:
 
 deploy_job:
   stage: deploy
-  image: curlimages/curl:latest
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl
   dependencies:
     - build_job
   script:
     - echo "Starte den FTPS-Upload..."
     - echo "$ALEXHOST"
-    - curl --ssl-reqd -T ./dist/videoflix_frontend/browser/ --user "$ALEXUSERNAME:$ALEXPASSWORD" "$ALEXHOST"
+    - curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD"  "$ALEXHOST" -T "./dist/videoflix_frontend/browser/*" 
   only:
     - alex
