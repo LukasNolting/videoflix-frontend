@@ -33,38 +33,51 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   ngOnInit(): void {
     this.checkBandwidthAndSetQuality();
-    this.playVideosubscriptions.add(
-      this.communicationService.playVideo$.subscribe((playVideo) => {
-        console.log('playVideo triggered:', playVideo);
-        if (playVideo === true) {
-          this.handlePlayVideo();
-          this.communicationService.resetPlayVideo();
-        }
-      })
-    );
-    this.playPreviewSubscription.add(
-      this.communicationService.showPreview$.subscribe((path) => {
-        if (path !== null && this.player) {
-          this.communicationService.showVideoDescription = true;
-          const replacePath = path.replace(
-            '.mp4',
-            `_${this.quality}_hls/index.m3u8`
-          );
-          this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
-          this.updateVideoQualities();
-          this.player.controls(false);
-          this.player.muted(true);
-          this.player.load();
-          this.player.ready(() => {
-            this.player.src({
-              src: this.currentVideoSource,
-              type: 'application/x-mpegURL',
+    if (this.communicationService.showVideoPlayerPopup) {
+      this.playVideosubscriptions.add(
+        this.communicationService.playVideo$.subscribe((path) => {
+          console.log('playVideo triggered w path:', path);
+          if (path !== null) {
+            const replacePath = path.replace(
+              '.mp4',
+              `_${this.quality}_hls/index.m3u8`
+            );
+            this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
+            console.log(
+              'onint this.currentVideoSource',
+              this.currentVideoSource
+            );
+            this.updateVideoQualities();
+            this.handlePlayVideo();
+            //this.communicationService.resetPlayVideo();
+          }
+        })
+      );
+    } else {
+      this.playPreviewSubscription.add(
+        this.communicationService.showPreview$.subscribe((path) => {
+          if (path !== null && this.player) {
+            this.communicationService.showVideoDescription = true;
+            const replacePath = path.replace(
+              '.mp4',
+              `_${this.quality}_hls/index.m3u8`
+            );
+            this.currentVideoSource = `${environment.baseUrl}/media/${replacePath}`;
+            this.updateVideoQualities();
+            this.player.controls(false);
+            this.player.muted(true);
+            this.player.load();
+            this.player.ready(() => {
+              this.player.src({
+                src: this.currentVideoSource,
+                type: 'application/x-mpegURL',
+              });
+              this.player.play();
             });
-            this.player.play();
-          });
-        }
-      })
-    );
+          }
+        })
+      );
+    }
   }
 
   async checkBandwidthAndSetQuality() {
@@ -98,17 +111,30 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   initPlayVideoPlayer() {
+    console.log('playVideo Sub', this.communicationService.currentVideoObj);
+    // const videoPath = `${
+    //   environment.baseUrl
+    // }/media/${this.communicationService.currentVideoObj?.video_file.replace(
+    //   '.mp4',
+    //   `_${this.quality}_hls/index.m3u8`
+    // )}`;
     const poster =
       environment.baseUrl +
       '/media/' +
       this.communicationService.currentVideoObj.thumbnail;
     this.player = (window as any).videojs('my-player', {
       controls: true,
-      autoplay: true,
+      autoplay: false,
       muted: true,
-      loop: true,
+      loop: false,
       fluid: true,
       poster: poster,
+    });
+    this.player.ready(() => {
+      this.player.src({
+        src: this.currentVideoSource,
+        type: 'application/x-mpegURL',
+      });
     });
     this.addQualityControlButton();
   }
@@ -180,6 +206,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   addQualityControlButton(): void {
+    this.updateVideoQualities();
     const qualityButton = document.createElement('button');
     qualityButton.className =
       'vjs-quality-control vjs-control vjs-button pointer';
@@ -231,7 +258,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   updateMenuOptions(menu: HTMLElement): void {
-    menu.innerHTML = ''; // Leert vorhandene Optionen
+    menu.innerHTML = '';
     this.videoQualities.forEach((quality) => {
       const option = document.createElement('div');
       option.className = 'quality-option pointer';
@@ -291,6 +318,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * Update the video qualities dynamically based on the current video source.
    */
   updateVideoQualities() {
+    console.log('updateVideoQualities', this.currentVideoSource);
     const qualityLevels = ['240p', '360p', '480p', '720p', '1080p'];
     this.videoQualities = qualityLevels.map((quality) => ({
       label: quality,
@@ -355,15 +383,11 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * Handles the video playback by setting up the player and starting the video.
    */
   handlePlayVideo() {
-    console.log('playVideo triggered');
+    console.log('HandleplayVideo triggered');
     this.communicationService.showVideoDescription = false;
-    this.setupPlayer();
-    this.player.ready(() => {
-      this.player.src({
-        src: this.currentVideoSource,
-        type: 'application/x-mpegURL',
-      });
-    });
+    //this.setupPlayer();
+    console.log('HandleplayVideo111 src', this.currentVideoSource);
+    console.log('HandleplayVideo src', this.currentVideoSource);
     this.setupEventListeners();
   }
 
@@ -377,12 +401,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     } else {
       this.player.currentTime(0);
     }
-
-    this.player.muted(false);
-    this.player.volume(0.5);
-    this.player.controls(true);
-    //this.player.requestFullscreen();
-    this.player.loop(false);
   }
 
   /**

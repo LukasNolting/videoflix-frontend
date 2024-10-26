@@ -6,7 +6,7 @@ import { VideoModel } from '../models/video.model';
   providedIn: 'root',
 })
 export class CommunicationService {
-  private playVideoSubject = new BehaviorSubject<boolean>(false); // flag to indicate if video should be played
+  private playVideoSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
   playVideo$ = this.playVideoSubject.asObservable(); // Observable to track play video changes
 
   private showPreviewSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
@@ -36,8 +36,7 @@ export class CommunicationService {
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */
   handlePlayVideo(path: string, video: VideoModel): void {
-    this.playVideoSubject.next(true);
-    this.showPreviewSubject.next('');
+    this.playVideoSubject.next(path);
     this.showVideoPlayerPopup = true;
     this.currentVideoObj = video;
   }
@@ -46,7 +45,7 @@ export class CommunicationService {
    * Resets the play video state by setting the `playVideoSubject` to false.
    */
   resetPlayVideo(): void {
-    this.playVideoSubject.next(false);
+    this.playVideoSubject.next('');
   }
 
   /**
@@ -74,6 +73,6 @@ export class CommunicationService {
   continueWatching(video: VideoModel, timestamp: number): void {
     this.continuePlayTime = timestamp;
     this.currentVideoObj = video;
-    this.playVideoSubject.next(true);
+    //this.playVideoSubject.next(true);
   }
 }
