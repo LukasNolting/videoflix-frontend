@@ -26,6 +26,8 @@ deploy_job:
   script:
     - echo "Starte den FTPS-Upload..."
     - echo "$ALEXHOST"
-    - curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD"  "$ALEXHOST" -T "./dist/videoflix_frontend/browser/*" 
+    - for file in ./dist/videoflix_frontend/browser/*; do
+        curl --ftp-ssl --ssl-reqd --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" "$ALEXHOST" -T "$file";
+      done
   only:
     - alex
