@@ -25,11 +25,10 @@ deploy_job:
     - build_job
   script:
     - echo "Starte den FTPS-Upload..."
-    - echo "$ALEXHOST"
     - |
       find ./dist/videoflix_frontend/browser -type f | while read file; do
-        remote_path="${file#./dist/videoflix_frontend/browser/}"
-        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "$ALEXHOST/$remote_path"
+        remote_path="${file#./dist/videoflix_frontend/browser/}"  # Entfernt den dist-Pfad
+        curl --ssl-reqd --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftps://${ALEXHOST}:21/$remote_path"
       done
   only:
     - alex
