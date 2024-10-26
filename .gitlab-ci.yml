@@ -26,7 +26,7 @@ deploy_job:
     - |
       find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}"
-        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftpes://${ALEXHOST}:21/$remote_path"
+        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}:21/$remote_path"
       done
   only:
     - alex
