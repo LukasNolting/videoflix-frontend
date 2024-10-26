@@ -14,7 +14,8 @@
       <div class="video-description">
         <h1>{{ this.communicationService.currentVideoObj.title }}</h1>
         <p>{{ this.communicationService.currentVideoObj.description }}</p>
-        <button type="button">
+        <button type="button"
+          (click)="this.communicationService.handlePlayVideo(this.communicationService.currentVideoObj.video_file, this.communicationService.currentVideoObj)">
           <img src="../img/icons/play_btn.svg" alt="play_btn" />Play
         </button>
       </div>
