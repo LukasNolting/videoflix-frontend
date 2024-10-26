@@ -1,0 +1,34 @@
+<div class="video-player-popup-wrapper">
+    <div class="video-container">
+        <div class="close-btn" (click)="handleClosePopup()">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask0_79_408" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="48"
+                    height="48">
+                    <rect width="48" height="48" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_79_408)">
+                    <path
+                        d="M13.7001 25.5001L25.0501 36.8501C25.3501 37.1501 25.5001 37.5001 25.5001 37.9001C25.5001 38.3001 25.3501 38.6501 25.0501 38.9501C24.7501 39.2501 24.4001 39.4001 24.0001 39.4001C23.6001 39.4001 23.2501 39.2501 22.9501 38.9501L9.0501 25.0501C8.88343 24.8834 8.76676 24.7168 8.7001 24.5501C8.63343 24.3834 8.6001 24.2001 8.6001 24.0001C8.6001 23.8001 8.63343 23.6168 8.7001 23.4501C8.76676 23.2834 8.88343 23.1168 9.0501 22.9501L22.9501 9.0501C23.2501 8.7501 23.6001 8.6001 24.0001 8.6001C24.4001 8.6001 24.7501 8.7501 25.0501 9.0501C25.3501 9.3501 25.5001 9.7001 25.5001 10.1001C25.5001 10.5001 25.3501 10.8501 25.0501 11.1501L13.7001 22.5001H38.5001C38.9334 22.5001 39.2918 22.6418 39.5751 22.9251C39.8584 23.2084 40.0001 23.5668 40.0001 24.0001C40.0001 24.4334 39.8584 24.7918 39.5751 25.0751C39.2918 25.3584 38.9334 25.5001 38.5001 25.5001H13.7001Z"
+                        fill="white" />
+                </g>
+            </svg>
+        </div>
+        <app-video-player (click)="this.toggleDescription()"> </app-video-player>
+        @if (this.showInfoOverlay) {
+        <div class="video-description">
+            <h1>{{ this.communicationService.currentVideoObj.title }}</h1>
+            <p>{{ this.communicationService.currentVideoObj.description }}</p>
+        </div>
+        <div class="favorite-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
+                <path
+                    d="m480-120.67-46.67-42q-104.33-95-172.33-164-68-69-108.33-123.5-40.34-54.5-56.5-99.16Q80-594 80-640q0-91.33 61.33-152.67 61.34-61.33 152-61.33 55.34 0 103.34 25.33 48 25.34 83.33 72.67 39.33-49.33 86.33-73.67 47-24.33 100.34-24.33 90.66 0 152 61.33Q880-731.33 880-640q0 46-16.17 90.67-16.16 44.66-56.5 99.16Q767-395.67 699-326.67t-172.33 164l-46.67 42Z"
+                    [attr.fill]="favoriteVideoIds.includes(this.communicationService.currentVideoObj.id) ? '#FF0000' : '#FFFFFF'"
+                    [attr.stroke]="favoriteVideoIds.includes(this.communicationService.currentVideoObj.id) ? '#FF0000' : '#2E3EDF'"
+                    stroke-width="30" />
+            </svg>
+        </div>
+        }
+    </div>
+
+</div>
