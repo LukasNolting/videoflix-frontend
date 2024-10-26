@@ -130,6 +130,7 @@ export class DatabaseService {
         this.http.get<ContinueWatching[]>(this.continueWatchingUrl)
       );
       this.continueWatchingSubject.next(continueWatchingVideos);
+      console.log('Continue Watching Videos loaded:', continueWatchingVideos);
     } catch (error) {
       console.warn('Error loading continue watching videos:', error);
     } finally {
