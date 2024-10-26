@@ -73,6 +73,7 @@ export class CommunicationService {
   continueWatching(video: VideoModel, timestamp: number): void {
     this.continuePlayTime = timestamp;
     this.currentVideoObj = video;
-    //this.playVideoSubject.next(true);
+    this.playVideoSubject.next(this.currentVideoObj.video_file);
+    this.showVideoPlayerPopup = true;
   }
 }
