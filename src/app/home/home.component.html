@@ -2,11 +2,7 @@
 <section class="home-wrapper" id="top">
   <app-header class="header"></app-header>
   @if (!this.communicationService.showVideoPlayerPopup) {
-  <div class="video-container" [ngClass]="{
-      'd-none':
-        this.communicationService.isMobileViewActive &&
-        !this.communicationService.isPreviewVideoPlaying
-    }">
+  <div class="video-container">
     <app-video-player> </app-video-player>
     <div class="preview-section">
       <!-- video description START -->
