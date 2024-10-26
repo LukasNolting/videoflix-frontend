@@ -154,6 +154,16 @@
   height: 108px;
 }
 
+// video player popup
+
+.video-player-popup {
+  @include dFlex(column, center, center);
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+}
+
+
 // loading spinner
 
 .loading-wrapper {

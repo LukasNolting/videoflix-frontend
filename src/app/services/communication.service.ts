@@ -27,13 +27,19 @@ export class CommunicationService {
   public currentVideoObj: VideoModel = {} as VideoModel;
   public currentPlayedTime: number = 0;
   public continuePlayTime: number = 0;
+
+  // video player popup variables
+  showVideoPlayerPopup: boolean = false;
+
   constructor(private databaseService: DatabaseService) {}
 
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */
-  handlePlayVideo(): void {
+  handlePlayVideo(path: string, video: VideoModel): void {
     this.playVideoSubject.next(true);
+    this.showVideoPlayerPopup = true;
+    this.currentVideoObj = video;
   }
 
   /**

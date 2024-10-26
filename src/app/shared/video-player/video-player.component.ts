@@ -367,7 +367,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.player.muted(false);
     this.player.volume(0.5);
     this.player.controls(true);
-    this.player.requestFullscreen();
+    //this.player.requestFullscreen();
     this.player.loop(false);
   }
 

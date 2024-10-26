@@ -10,6 +10,7 @@ import { DatabaseService } from '../services/database.service';
 import { VideoModel } from '../models/video.model';
 import { ContinueWatching } from '../models/continue-watching';
 import { environment } from '../../environments/environment';
+import { VideoPlayerPopupComponent } from '../video-player-popup/video-player-popup.component';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import { environment } from '../../environments/environment';
     VideoPlayerComponent,
     VideoPlayerComponent,
     CarouselComponent,
+    VideoPlayerPopupComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -192,16 +194,5 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   handleAddToWishlist(video: VideoModel, event: Event) {
     event.stopPropagation();
     this.databaseService.toggleFavourites(video);
-  }
-
-  //todo : check mobile view if necessary
-  scrollToTop() {
-    let targetElement = document.querySelector('#top');
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
   }
 }
