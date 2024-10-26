@@ -38,7 +38,7 @@ export class CommunicationService {
   handlePlayVideo(path: string, video: VideoModel): void {
     this.playVideoSubject.next(path);
     this.showVideoPlayerPopup = true;
-    console.log('play video', this.currentVideoObj);
+    this.currentVideoObj = video;
   }
 
   /**

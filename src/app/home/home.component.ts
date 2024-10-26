@@ -10,7 +10,7 @@ import { DatabaseService } from '../services/database.service';
 import { VideoModel } from '../models/video.model';
 import { ContinueWatching } from '../models/continue-watching';
 import { environment } from '../../environments/environment';
-import { VideoPlayerPopupComponent } from '../shared/video-player-popup/video-player-popup.component';
+import { VideoPlayerPopupComponent } from '../video-player-popup/video-player-popup.component';
 
 @Component({
   selector: 'app-home',
