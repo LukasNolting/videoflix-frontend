@@ -13,11 +13,6 @@ import { environment } from '../../../environments/environment';
   styleUrl: './video-player.component.scss',
 })
 export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
-  autoplay: boolean = false; // option:: autoplay (start playing video on load)
-  controls: boolean = false; // option:: controls (show/hide controls)
-  muted: boolean = true; // option:: muted
-  loop: boolean = true; // option:: endlessloop
-  currentPoster: string = ''; // option:: poster
   private videoSubscription!: Subscription;
   private playVideosubscriptions: Subscription = new Subscription();
   private playPreviewSubscription: Subscription = new Subscription();
@@ -40,8 +35,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.checkBandwidthAndSetQuality();
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((playVideo) => {
+        console.log('playVideo triggered:', playVideo);
         if (playVideo === true) {
-          this.player.controls(false);
           this.handlePlayVideo();
           this.communicationService.resetPlayVideo();
         }
@@ -83,21 +78,39 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * @returns void
    */
   ngAfterViewInit(): void {
-    const options = {
-      controls: this.controls,
-      autoplay: this.autoplay,
-      muted: this.muted,
-      loop: this.loop,
+    if (!this.communicationService.showVideoPlayerPopup) {
+      this.initPreviewPlayer();
+    } else {
+      this.initPlayVideoPlayer();
+    }
+  }
+
+  initPreviewPlayer() {
+    this.player = (window as any).videojs('my-player', {
+      controls: false,
+      autoplay: true,
+      muted: true,
+      loop: true,
       fluid: true,
-      poster: this.currentPoster,
-    };
-    setTimeout(() => {
-      if (!this.player) {
-        this.player = (window as any).videojs('my-player', options);
-      }
-      this.addQualityControlButton();
-      this.getRandomVideo();
-    }, 100);
+    });
+    this.addQualityControlButton();
+    this.getRandomVideo();
+  }
+
+  initPlayVideoPlayer() {
+    const poster =
+      environment.baseUrl +
+      '/media/' +
+      this.communicationService.currentVideoObj.thumbnail;
+    this.player = (window as any).videojs('my-player', {
+      controls: true,
+      autoplay: true,
+      muted: true,
+      loop: true,
+      fluid: true,
+      poster: poster,
+    });
+    this.addQualityControlButton();
   }
 
   /**
@@ -342,6 +355,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    * Handles the video playback by setting up the player and starting the video.
    */
   handlePlayVideo() {
+    console.log('playVideo triggered');
     this.communicationService.showVideoDescription = false;
     this.setupPlayer();
     this.player.ready(() => {
@@ -349,7 +363,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
         src: this.currentVideoSource,
         type: 'application/x-mpegURL',
       });
-      this.player.play();
     });
     this.setupEventListeners();
   }
@@ -364,6 +377,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     } else {
       this.player.currentTime(0);
     }
+
     this.player.muted(false);
     this.player.volume(0.5);
     this.player.controls(true);

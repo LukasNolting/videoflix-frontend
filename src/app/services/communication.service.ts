@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { VideoModel } from '../models/video.model';
-import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,13 +30,14 @@ export class CommunicationService {
   // video player popup variables
   showVideoPlayerPopup: boolean = false;
 
-  constructor(private databaseService: DatabaseService) {}
+  constructor() {}
 
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */
   handlePlayVideo(path: string, video: VideoModel): void {
     this.playVideoSubject.next(true);
+    this.showPreviewSubject.next('');
     this.showVideoPlayerPopup = true;
     this.currentVideoObj = video;
   }
