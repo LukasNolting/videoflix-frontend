@@ -36,6 +36,7 @@ export class CommunicationService {
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */
   handlePlayVideo(path: string, video: VideoModel): void {
+    this.continuePlayTime = 0;
     this.playVideoSubject.next(path);
     this.showVideoPlayerPopup = true;
     this.currentVideoObj = video;
