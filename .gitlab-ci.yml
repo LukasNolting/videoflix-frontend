@@ -23,6 +23,6 @@ deploy_job:
     - build_job
   script:
     - echo "Starte den FTPS-Upload..."
-    - curl --ftp-ssl -T ./dist/videoflix_frontend/browser/ --user "$ALEXUSERNAME:$ALEXPASSWORD" "$ALEXHOST"
+    - curl --ssl-reqd -T ./dist/videoflix_frontend/browser/ --user "$ALEXUSERNAME:$ALEXPASSWORD" "$ALEXHOST"
   only:
     - alex
