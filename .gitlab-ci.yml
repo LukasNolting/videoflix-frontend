@@ -28,7 +28,7 @@ deploy_job:
     - |
       find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}"  # Entfernt den dist-Pfad
-        curl --ssl-reqd --tls-max 1.3 --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftps://${ALEXHOST}:21/$remote_path"
+        curl --ssl-reqd --tls-max 1.2 --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftps://${ALEXHOST}:21/$remote_path"
       done
   only:
     - alex
