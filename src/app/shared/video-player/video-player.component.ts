@@ -33,14 +33,9 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   ngOnInit(): void {
     this.checkBandwidthAndSetQuality();
-
     this.playVideosubscriptions.add(
       this.communicationService.playVideo$.subscribe((path) => {
         if (path !== null) {
-          const replacePath = path.replace(
-            '.mp4',
-            `_${this.quality}_hls/index.m3u8`
-          );
           this.setVideoSource(path);
           this.updateVideoQualities();
         }

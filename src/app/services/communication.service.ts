@@ -38,17 +38,11 @@ export class CommunicationService {
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */
-  handlePlayVideo(path: string, video: VideoModel): void {
-    this.playVideoSubject.next(path);
+  handlePlayVideo(video: VideoModel, timestamp: number): void {
+    this.continuePlayTime = timestamp;
+    this.playVideoSubject.next(video.video_file);
     this.showVideoPlayerPopup = true;
     this.currentVideoObj = video;
-  }
-
-  /**
-   * Resets the play video state by setting the `playVideoSubject` to false.
-   */
-  resetPlayVideo(): void {
-    this.playVideoSubject.next('');
   }
 
   /**
@@ -66,17 +60,5 @@ export class CommunicationService {
    */
   hidePreview(): void {
     this.isPreviewVideoPlaying = false;
-  }
-
-  /**
-   * Triggers the video player to continue watching a video from the specified timestamp.
-   * @param {VideoModel} video - The video object to continue watching.
-   * @param {number} timestamp - The timestamp in seconds to continue watching from.
-   */
-  continueWatching(video: VideoModel, timestamp: number): void {
-    this.continuePlayTime = timestamp;
-    this.currentVideoObj = video;
-    this.playVideoSubject.next(this.currentVideoObj.video_file);
-    this.showVideoPlayerPopup = true;
   }
 }
