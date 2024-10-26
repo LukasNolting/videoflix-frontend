@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { VideoModel } from '../models/video.model';
-import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommunicationService {
-  private playVideoSubject = new BehaviorSubject<boolean>(false); // flag to indicate if video should be played
+  private playVideoSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
   playVideo$ = this.playVideoSubject.asObservable(); // Observable to track play video changes
 
   private showPreviewSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
@@ -34,13 +33,13 @@ export class CommunicationService {
   // video player popup variables
   showVideoPlayerPopup: boolean = false;
 
-  constructor(private databaseService: DatabaseService) {}
+  constructor() {}
 
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */
   handlePlayVideo(path: string, video: VideoModel): void {
-    this.playVideoSubject.next(true);
+    this.playVideoSubject.next(path);
     this.showVideoPlayerPopup = true;
     console.log('play video', this.currentVideoObj);
   }
@@ -49,7 +48,7 @@ export class CommunicationService {
    * Resets the play video state by setting the `playVideoSubject` to false.
    */
   resetPlayVideo(): void {
-    this.playVideoSubject.next(false);
+    this.playVideoSubject.next('');
   }
 
   /**
@@ -77,6 +76,6 @@ export class CommunicationService {
   continueWatching(video: VideoModel, timestamp: number): void {
     this.continuePlayTime = timestamp;
     this.currentVideoObj = video;
-    this.playVideoSubject.next(true);
+    //this.playVideoSubject.next(true);
   }
 }
