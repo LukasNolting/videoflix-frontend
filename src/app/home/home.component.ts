@@ -1,5 +1,10 @@
 import { CarouselComponent } from 'ngx-carousel-ease';
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
@@ -42,7 +47,8 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
-    public databaseService: DatabaseService
+    public databaseService: DatabaseService,
+    private cdRef: ChangeDetectorRef
   ) {
     if (this.router.url === '/home') {
       this.communicationService.isLoggedIn = true;
@@ -78,6 +84,7 @@ export class HomeComponent implements OnInit, AfterViewChecked {
       this.databaseService.isContinueWatchingCarouselRendered = true;
       this.databaseService.reloadContinueWatchingVideos = false;
     }
+    this.cdRef.detectChanges();
   }
 
   /**
