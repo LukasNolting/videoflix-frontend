@@ -23,6 +23,9 @@ export class CommunicationService {
   // loading screen variables
   dataIsLoaded: boolean = false; // flag to indicate if the data is loaded
 
+  // video player popup variables
+  showVideoPlayerPopup: boolean = false;
+
   // video player variables
   public currentVideoObj: VideoModel = {} as VideoModel;
   public currentPlayedTime: number = 0;
@@ -39,7 +42,7 @@ export class CommunicationService {
   handlePlayVideo(path: string, video: VideoModel): void {
     this.playVideoSubject.next(true);
     this.showVideoPlayerPopup = true;
-    this.currentVideoObj = video;
+    console.log('play video', this.currentVideoObj);
   }
 
   /**
