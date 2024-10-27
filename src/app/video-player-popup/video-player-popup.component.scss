@@ -15,6 +15,7 @@
      @include dFlex(column, center, center);
      position: relative;
      width: 80%;
+     max-width: 1440px;
  }
 
  .video-container {
@@ -82,5 +83,15 @@
  @media screen and (max-width: $responsive-breakpoint) {
      .popup-content {
          width: 100%;
+     }
+
+     .video-description {
+         h1 {
+             @include DMSans(700, 20px, 24.83px, $white);
+         }
+
+         p {
+             @include DMSans(400, 16px, 20.83px, $white);
+         }
      }
  }
