@@ -27,6 +27,7 @@
      background-color: $main-blue-dark;
      border-radius: 15px 15px 0 0;
      position: relative;
+     width: 100%;
 
      h1 {
          @include DMSans(700, 48px, 40.5px, $white);
