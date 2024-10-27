@@ -54,6 +54,14 @@
      height: 48px;
      cursor: pointer;
      margin-left: 8px;
+
+     svg {
+         transform: all 0.1s ease-in-out;
+
+         &:hover {
+             transform: scale(1.1);
+         }
+     }
  }
 
  .close-btn {
@@ -67,11 +75,7 @@
 
      &:hover {
          background-color: $main-blue-dark;
-         scale: 1.05;
-     }
-
-     &:hover svg {
-         fill: red;
+         scale: 1.1;
      }
  }
 
