@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit, AfterViewChecked, OnDestroy {
   public favoriteVideos: VideoModel[] = [];
   public continueWatchingVideos: ContinueWatching[] = [];
   public baseUrl = `${environment.baseUrl}/media/`;
-  public favoriteVideoIds: number[] = [];
   private popupSubscription: Subscription | null = null;
 
   constructor(
@@ -180,7 +179,9 @@ export class HomeComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.databaseService.loadFavoriteVideos();
     this.databaseService.getFavoriteVideos().subscribe((favoriteVideos) => {
       this.favoriteVideos = favoriteVideos;
-      this.favoriteVideoIds = favoriteVideos.map((video) => video.id);
+      this.communicationService.favoriteVideoIds = favoriteVideos.map(
+        (video) => video.id
+      );
     });
   }
 

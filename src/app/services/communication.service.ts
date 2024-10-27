@@ -32,6 +32,8 @@ export class CommunicationService {
   private showVideoPlayerPopupSubject = new BehaviorSubject<boolean>(false);
   showVideoPlayerPopup$ = this.showVideoPlayerPopupSubject.asObservable();
 
+  // variables for favorites
+  public favoriteVideoIds: number[] = [];
   constructor() {}
 
   /**
