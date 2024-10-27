@@ -17,9 +17,10 @@ export class VideoPlayerPopupComponent {
 
   handleClosePopup() {
     this.communicationService.showVideoPlayerPopup = false;
+    this.communicationService.togglePopup(false);
   }
 
-  toggleDescription() {
-    this.showInfoOverlay = !this.showInfoOverlay;
+  hideDescription() {
+    this.showInfoOverlay = false;
   }
 }
