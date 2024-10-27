@@ -10,7 +10,6 @@ import { CommunicationService } from '../services/communication.service';
   styleUrl: './video-player-popup.component.scss',
 })
 export class VideoPlayerPopupComponent {
-  showInfoOverlay: boolean = true;
   @Input() favoriteVideoIds: number[] = [];
 
   constructor(public communicationService: CommunicationService) {}
@@ -18,9 +17,5 @@ export class VideoPlayerPopupComponent {
   handleClosePopup() {
     this.communicationService.showVideoPlayerPopup = false;
     this.communicationService.togglePopup(false);
-  }
-
-  hideDescription() {
-    this.showInfoOverlay = false;
   }
 }
