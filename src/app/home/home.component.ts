@@ -1,5 +1,11 @@
 import { CarouselComponent } from 'ngx-carousel-ease';
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
@@ -11,6 +17,7 @@ import { VideoModel } from '../models/video.model';
 import { ContinueWatching } from '../models/continue-watching';
 import { environment } from '../../environments/environment';
 import { VideoPlayerPopupComponent } from '../video-player-popup/video-player-popup.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +35,7 @@ import { VideoPlayerPopupComponent } from '../video-player-popup/video-player-po
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit, AfterViewChecked {
+export class HomeComponent implements OnInit, AfterViewChecked, OnDestroy {
   public newVideos: VideoModel[] = [];
   public actionVideos: VideoModel[] = [];
   public documentaryVideos: VideoModel[] = [];
@@ -37,12 +44,13 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   public favoriteVideos: VideoModel[] = [];
   public continueWatchingVideos: ContinueWatching[] = [];
   public baseUrl = `${environment.baseUrl}/media/`;
-  public favoriteVideoIds: number[] = [];
+  private popupSubscription: Subscription | null = null;
 
   constructor(
     private router: Router,
     public communicationService: CommunicationService,
-    public databaseService: DatabaseService
+    public databaseService: DatabaseService,
+    private cdRef: ChangeDetectorRef
   ) {
     if (this.router.url === '/home') {
       this.communicationService.isLoggedIn = true;
@@ -56,6 +64,10 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     this.loadVideos();
     this.loadFavoriteVideos();
     this.loadContinueWatchingVideos();
+    this.popupSubscription =
+      this.communicationService.showVideoPlayerPopup$.subscribe((show) => {
+        this.toggleBodyScroll(show);
+      });
   }
   /**
    * Lifecycle hook, after the component's view has been fully initialized.
@@ -78,6 +90,23 @@ export class HomeComponent implements OnInit, AfterViewChecked {
       this.databaseService.isContinueWatchingCarouselRendered = true;
       this.databaseService.reloadContinueWatchingVideos = false;
     }
+    this.cdRef.detectChanges();
+  }
+
+  ngOnDestroy() {
+    if (this.popupSubscription) {
+      this.popupSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Toggles the body element's overflow property based on the given boolean
+   * value. If true, sets the overflow to 'hidden', otherwise sets it to 'auto'.
+   * This is used to prevent scrolling when the video player popup is shown.
+   * @param show A boolean value indicating whether to set the overflow to 'hidden' or 'auto'.
+   */
+  toggleBodyScroll(show: boolean) {
+    document.body.style.overflowY = show ? 'hidden' : 'auto';
   }
 
   /**
@@ -150,7 +179,9 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     this.databaseService.loadFavoriteVideos();
     this.databaseService.getFavoriteVideos().subscribe((favoriteVideos) => {
       this.favoriteVideos = favoriteVideos;
-      this.favoriteVideoIds = favoriteVideos.map((video) => video.id);
+      this.communicationService.favoriteVideoIds = favoriteVideos.map(
+        (video) => video.id
+      );
     });
   }
 

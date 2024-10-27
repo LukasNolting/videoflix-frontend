@@ -29,24 +29,22 @@ export class CommunicationService {
 
   // video player popup variables
   showVideoPlayerPopup: boolean = false;
+  private showVideoPlayerPopupSubject = new BehaviorSubject<boolean>(false);
+  showVideoPlayerPopup$ = this.showVideoPlayerPopupSubject.asObservable();
 
+  // variables for favorites
+  public favoriteVideoIds: number[] = [];
   constructor() {}
 
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */
-  handlePlayVideo(path: string, video: VideoModel): void {
-    this.continuePlayTime = 0;
-    this.playVideoSubject.next(path);
+  handlePlayVideo(video: VideoModel, timestamp: number): void {
+    this.continuePlayTime = timestamp;
+    this.playVideoSubject.next(video.video_file);
     this.showVideoPlayerPopup = true;
+    this.togglePopup(true);
     this.currentVideoObj = video;
-  }
-
-  /**
-   * Resets the play video state by setting the `playVideoSubject` to false.
-   */
-  resetPlayVideo(): void {
-    this.playVideoSubject.next('');
   }
 
   /**
@@ -67,14 +65,12 @@ export class CommunicationService {
   }
 
   /**
-   * Triggers the video player to continue watching a video from the specified timestamp.
-   * @param {VideoModel} video - The video object to continue watching.
-   * @param {number} timestamp - The timestamp in seconds to continue watching from.
+   * Toggles the visibility of the video player popup by emitting the given state
+   * through the `showVideoPlayerPopupSubject`.
+   *
+   * @param {boolean} show - A flag indicating whether to show (true) or hide (false) the video player popup.
    */
-  continueWatching(video: VideoModel, timestamp: number): void {
-    this.continuePlayTime = timestamp;
-    this.currentVideoObj = video;
-    this.playVideoSubject.next(this.currentVideoObj.video_file);
-    this.showVideoPlayerPopup = true;
+  togglePopup(show: boolean) {
+    this.showVideoPlayerPopupSubject.next(show);
   }
 }

@@ -11,57 +11,87 @@
      background-color: rgba(0, 0, 0, 0.85);
  }
 
- .video-container {
-     width: 80%;
-     height: 80%;
-     margin-top: 96px;
+ .popup-content {
+     @include dFlex(column, center, center);
      position: relative;
+     width: 80%;
+     max-width: 1440px;
+ }
+
+ .video-container {
+     width: 100%;
+     height: 100%;
  }
 
  .video-description {
      @include dFlex(column, center, center);
-     background-color: rgba(0, 0, 0, 0.75);
-     position: absolute;
-     top: 0;
-     left: 0;
-     z-index: 1;
+     background-color: $main-blue-dark;
+     border-radius: 15px 15px 0 0;
+     position: relative;
+     width: 100%;
 
      h1 {
          @include DMSans(700, 48px, 40.5px, $white);
+         text-align: center;
+         padding: 16px;
      }
 
      p {
          @include DMSans(500, 18px, 23.44px, $white);
+         text-align: center;
+         padding: 16px;
      }
  }
 
+ .popup-top-section {
+     @include dFlex(row, space-between, center);
+     width: 100%;
+     height: 100%;
+     padding: 16px;
+ }
+
  .favorite-icon {
-     position: absolute;
-     top: 8px;
-     right: 8px;
      width: 48px;
      height: 48px;
      cursor: pointer;
+     margin-left: 8px;
+
+     svg {
+         transform: all 0.1s ease-in-out;
+
+         &:hover {
+             transform: scale(1.1);
+         }
+     }
  }
 
  .close-btn {
      @include dFlex(row, center, center);
-     position: absolute;
-     right: 0;
-     top: -56px;
-     z-index: 5;
-     width: 60px;
-     height: 60px;
+     width: 48px;
+     height: 48px;
      cursor: pointer;
      border-radius: 50%;
      transition: all 0.1s ease-in;
+     margin-right: 8px;
 
      &:hover {
          background-color: $main-blue-dark;
-         scale: 1.05;
+         scale: 1.1;
+     }
+ }
+
+ @media screen and (max-width: $responsive-breakpoint) {
+     .popup-content {
+         width: 100%;
      }
 
-     &:hover svg {
-         fill: red;
+     .video-description {
+         h1 {
+             @include DMSans(700, 20px, 24.83px, $white);
+         }
+
+         p {
+             @include DMSans(400, 16px, 20.83px, $white);
+         }
      }
  }
