@@ -13,7 +13,7 @@
                 </g>
             </svg>
         </div>
-        <app-video-player (click)="this.toggleDescription()"> </app-video-player>
+        <app-video-player (click)="this.hideDescription()"> </app-video-player>
         @if (this.showInfoOverlay) {
         <div class="video-description">
             <h1>{{ this.communicationService.currentVideoObj.title }}</h1>

@@ -32,6 +32,8 @@ export class CommunicationService {
 
   // video player popup variables
   showVideoPlayerPopup: boolean = false;
+  private showVideoPlayerPopupSubject = new BehaviorSubject<boolean>(false);
+  showVideoPlayerPopup$ = this.showVideoPlayerPopupSubject.asObservable();
 
   constructor() {}
 
@@ -42,6 +44,7 @@ export class CommunicationService {
     this.continuePlayTime = timestamp;
     this.playVideoSubject.next(video.video_file);
     this.showVideoPlayerPopup = true;
+    this.togglePopup(true);
     this.currentVideoObj = video;
   }
 
@@ -60,5 +63,15 @@ export class CommunicationService {
    */
   hidePreview(): void {
     this.isPreviewVideoPlaying = false;
+  }
+
+  /**
+   * Toggles the visibility of the video player popup by emitting the given state
+   * through the `showVideoPlayerPopupSubject`.
+   *
+   * @param {boolean} show - A flag indicating whether to show (true) or hide (false) the video player popup.
+   */
+  togglePopup(show: boolean) {
+    this.showVideoPlayerPopupSubject.next(show);
   }
 }

@@ -157,10 +157,14 @@
 // video player popup
 
 .video-player-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
   @include dFlex(column, center, center);
   width: 100vw;
   height: 100vh;
   z-index: 5;
+  overflow: hidden;
 }
 
 
