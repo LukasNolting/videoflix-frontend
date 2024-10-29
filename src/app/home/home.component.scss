@@ -120,7 +120,7 @@
       margin-block-start: unset !important;
       margin-block-end: unset !important;
       text-align: center;
-      background-color: $main-blue-dark;
+      background-color: #2e3edfb5;
       padding: 2px 0;
       border-radius: 0 0 15px 15px;
     }
@@ -305,6 +305,15 @@
     filter: blur(3px);
     transform: scale(1.4);
   }
+}
+
+// video player popup
+
+.video-player-popup {
+  @include dFlex(column, center, center);
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
 }
 
 @media screen and (max-width: 950px) {
