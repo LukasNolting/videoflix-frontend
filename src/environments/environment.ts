@@ -1,4 +1,8 @@
+import { config } from "dotenv";
+
+config();
+
 export const environment = {
   production: true,
-  baseUrl: 'http://127.0.0.1:8000',
+  baseUrl: process.env["BASE_URL"],
 };
