@@ -29,7 +29,6 @@ export class AuthService {
       .post<any>(`${environment.baseUrl}/videoflix/login/`, user)
       .pipe(
         tap((response) => {
-          console.log(user.remember);
           const storage = user.remember ? localStorage : sessionStorage;
           storage.setItem('token', response.token);
         })
@@ -75,22 +74,14 @@ export class AuthService {
     this.httpClientWithoutInterceptor
       .get(`${environment.baseUrl}/videoflix/password-reset/${token}`)
       .subscribe({
-        next: (response) => {
-          console.log('Token is valid:', response);
-        },
         error: (error) => {
           if (
             error.error === 'Token expired' ||
             error.error === 'Invalid token'
           ) {
             console.error(
-              'Das Token ist abgelaufen oder ungültig. Bitte fordere einen neuen Link an.'
+              'The Token has expired or is invalid. Please try again.'
             );
-            //  TODO: Fehlermeldung & Benutzer wird auf die Startseite weitergeleitet
-            // console.error(
-            //   'Das Token ist abgelaufen oder ungültig. Bitte fordere einen neuen Link an.'
-            // );
-            // this.router.navigate(['/password-reset']);
           }
         },
       });
@@ -114,7 +105,7 @@ export class AuthService {
       );
       return response;
     } catch (error) {
-      console.error('Request-Fehler:', error);
+      console.error('Request-Error:', error);
       throw error;
     }
   }

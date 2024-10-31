@@ -66,7 +66,7 @@ form {
     @include dFlex(column, center, center);
     width: 408px;
     height: 167px;
-    gap: 16px;
+    gap: 24px;
 
     button {
         @include buttonBlue(151px, 48px, 10px);
