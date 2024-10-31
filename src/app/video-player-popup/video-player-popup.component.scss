@@ -15,8 +15,8 @@
 
  .popup-content {
      @include dFlex(column, center, center);
-     width: 80%;
-     max-width: 1440px;
+     width: 70%;
+     max-width: 1000px;
      border: solid 16px $main-blue-dark;
      border-radius: 15px;
      background-color: $main-blue-dark;
