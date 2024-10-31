@@ -112,6 +112,7 @@ body {
 ::-webkit-scrollbar {
     width: 6px;
     border-radius: 8px;
+    background-color: $black;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -122,7 +123,6 @@ body {
 ::-webkit-scrollbar-track {
     background-color: $black;
     border-radius: 8px;
-    margin: 10px;
 }
 
 // global classes for inputfields
@@ -216,6 +216,30 @@ option:focus {
     height: 170px !important;
 }
 
+@media screen and (max-width: 650px) {
+    .carousel-container {
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+    }
+
+    .banner-container {
+        order: 2 !important;
+        width: 100% !important;
+    }
+
+    .slides-container {
+        order: 1 !important;
+    }
+
+    .btn-container {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-top: 8px !important;
+    }
+}
+
 @media screen and (max-width: $responsive-breakpoint) {
     .input-container {
         input {
@@ -231,6 +255,39 @@ option:focus {
 }
 
 // todo : do we really need this below?
+
+.btn-container {
+
+    >.next {
+        background-image: url("../src/assets/img/icons/arrow_right.png") !important;
+    }
+
+    >.prev {
+        background-image: url("../src/assets/img/icons/arrow_left.png") !important;
+    }
+
+    button {
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        border: none !important;
+        background-color: white !important;
+        box-shadow: none !important;
+        width: 32px;
+        height: 32px;
+        border-radius: 50% !important;
+        margin-right: unset !important;
+        margin-left: unset !important;
+        transition: all 0.1s ease-in;
+
+        svg {
+            display: none !important;
+        }
+
+        &:hover {
+            background-color: lighten($main-blue-dark, 15%) !important;
+        }
+    }
+}
 
 .vjs-svg-icon {
     display: inline-block;
