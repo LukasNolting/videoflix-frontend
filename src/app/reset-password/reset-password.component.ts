@@ -81,7 +81,6 @@ export class ResetpasswordComponent implements OnInit {
   async onSubmit() {
     if (this.resetPasswordForm.valid) {
       try {
-        console.log(this.resetPasswordForm.value);
         const response = await this.authService.resetPassword(
           this.token,
           this.resetPasswordForm.value.password
@@ -108,7 +107,6 @@ export class ResetpasswordComponent implements OnInit {
    * Logs the current visibility state for debugging purposes.
    */
   togglePasswordVisibility(): void {
-    console.log(this.isPasswordVisible);
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
@@ -117,7 +115,6 @@ export class ResetpasswordComponent implements OnInit {
    * Logs the current visibility state for debugging purposes.
    */
   toggleConfirmPasswordVisibility(): void {
-    console.log(this.isConfirmPasswordVisible);
     this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
   }
 }
