@@ -272,8 +272,8 @@ option:focus {
         border: none !important;
         background-color: white !important;
         box-shadow: none !important;
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         border-radius: 50% !important;
         margin-right: unset !important;
         margin-left: unset !important;
@@ -2477,4 +2477,20 @@ video::-webkit-media-text-track-display {
 
 .video-js :focus:not(:focus-visible) {
     outline: 0
+}
+
+
+@media screen and (max-height: 540px) {
+
+  .video-player-popup-wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    overflow-y: scroll;
+    height: 100%;
+    justify-content: flex-start !important;
+    padding: 8px 8px !important;
+  }
 }
