@@ -14,7 +14,6 @@ export const authGuard: CanActivateFn = async (route, state) => {
       const response = await lastValueFrom(
         authService.getAndValidateToken(token)
       );
-      console.log('Status:', response);
       if (response.status === 200) {
         return true;
       } else {

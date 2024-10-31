@@ -40,7 +40,6 @@ export class DatabaseService {
       .pipe(
         tap((videos) => {
           this.videoSubject.next(videos);
-          console.log('Videos loaded:', videos);
         }),
         catchError((error) => {
           console.error('Error loading videos:', error);
@@ -71,7 +70,7 @@ export class DatabaseService {
       );
       await this.loadFavoriteVideos();
     } catch (error) {
-      console.error('Request-Fehler:', error);
+      console.error('Request-Error:', error);
     }
   }
 
@@ -89,7 +88,6 @@ export class DatabaseService {
       .pipe(
         tap((favoriteVideos) => {
           this.videoFavoriteSubject.next(favoriteVideos);
-          console.log('Favorite Videos loaded:', favoriteVideos);
         }),
         catchError((error) => {
           console.error('Error loading favorite videos:', error);
@@ -130,7 +128,6 @@ export class DatabaseService {
         this.http.get<ContinueWatching[]>(this.continueWatchingUrl)
       );
       this.continueWatchingSubject.next(continueWatchingVideos);
-      console.log('Continue Watching Videos loaded:', continueWatchingVideos);
     } catch (error) {
       console.warn('Error loading continue watching videos:', error);
     } finally {
@@ -166,7 +163,7 @@ export class DatabaseService {
         this.http.post<any>(this.continueWatchingUrl, body)
       );
     } catch (error) {
-      console.warn('Request-Fehler:', error);
+      console.warn('Request-Error:', error);
     } finally {
       this.loadContinueWatchingVideos();
     }
