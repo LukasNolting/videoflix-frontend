@@ -68,7 +68,6 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    console;
     try {
       let user = new LoginModel(
         this.loginForm.value.email,
