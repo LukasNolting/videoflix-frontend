@@ -1,0 +1,32 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: "21"
+
+build_job:
+  stage: build
+  image: node:${NODE_VERSION}-alpine
+  script:
+    - echo "Verwende Node.js Version ${NODE_VERSION}"
+    - npm install
+    - npm run build --if-present
+  artifacts:
+    paths:
+      - dist/videoflix_frontend/browser
+
+deploy_job:
+  stage: deploy
+  image: curlimages/curl:latest
+  dependencies:
+    - build_job
+  script:
+    - echo "Starte den FTPS-Upload..."
+    - |
+      find ./dist/videoflix_frontend/browser -type f | while read file; do
+        remote_path="${file#./dist/videoflix_frontend/browser/}"
+        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}:21/$remote_path"
+      done
+  only:
+    - alex
