@@ -82,7 +82,7 @@
     max-width: 1440px;
     @include DMSans(700, 22px, 28.64px, $white);
     margin-block-start: unset !important;
-    margin-block-end: unset !important;
+    margin-block-end: 16px !important;
     text-align: start;
   }
 
@@ -319,14 +319,6 @@
 @media screen and (max-width: 950px) {
   .video-container {
     margin-top: 96px !important;
-  }
-
-  .category-section {
-    padding-top: 64px;
-  }
-
-  .category-container:first-child {
-    margin-top: 64px;
   }
 
   .video-description {
