@@ -36,7 +36,7 @@
     <!-- categories START -->
     <div class="category-container">
       <h2>New on Videoflix</h2>
-      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
+      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="true" [dots]="false" [counter]="false"
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [enableTouch]="true" [slideMaxWidth]="220"
         [autoPlay]="true" [slideWidth]="220" [autoPlayAtStart]="true" [autoPlayInterval]="5000" [slideToShow]="5"
         class="carousel-wrapper">
@@ -62,7 +62,7 @@
     <div class="category-container">
       <h2>Favorites</h2>
       @if (!this.databaseService.reloadFavoriteVideos) {
-      <carousel [maxWidthCarousel]="1440" [arrows]="false" [responsive]="true" [dots]="false" [counter]="false"
+      <carousel [maxWidthCarousel]="1440" [arrows]="true" [responsive]="true" [dots]="false" [counter]="false"
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [maxDomSize]="1" [enableTouch]="true"
         [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.favoriteVideos.length"
         [slideToScroll]="this.favoriteVideos.length" class="carousel-wrapper">
@@ -96,7 +96,7 @@
     <div class="category-container">
       <h2>Continue watching</h2>
       @if (!this.databaseService.reloadContinueWatchingVideos) {
-      <carousel [maxWidthCarousel]="1440" [arrows]="false" [responsive]="true" [dots]="false" [counter]="false"
+      <carousel [maxWidthCarousel]="1440" [arrows]="true" [responsive]="true" [dots]="false" [counter]="false"
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [maxDomSize]="1" [enableTouch]="true"
         [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.continueWatchingVideos.length"
         [slideToScroll]="this.continueWatchingVideos.length" class="carousel-wrapper">
@@ -133,7 +133,7 @@
     }
     <div class="category-container">
       <h2>Action</h2>
-      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
+      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="true" [dots]="false" [counter]="false"
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [maxDomSize]="this.actionVideos.length"
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.actionVideos.length"
         class="carousel-wrapper">
@@ -157,7 +157,7 @@
     </div>
     <div class="category-container">
       <h2>Documentary</h2>
-      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
+      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="true" [dots]="false" [counter]="false"
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [maxDomSize]="this.documentaryVideos.length"
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.documentaryVideos.length"
         class="carousel-wrapper">
@@ -181,7 +181,7 @@
     </div>
     <div class="category-container">
       <h2>Animals</h2>
-      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
+      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="true" [dots]="false" [counter]="false"
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [maxDomSize]="this.animalVideos.length"
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.animalVideos.length"
         class="carousel-wrapper">
@@ -205,7 +205,7 @@
     </div>
     <div class="category-container">
       <h2>Horror</h2>
-      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="false" [dots]="false" [counter]="false"
+      <carousel [maxWidthCarousel]="1440" [responsive]="true" [arrows]="true" [dots]="false" [counter]="false"
         [displayAutoPlayControls]="false" [gapBetweenSlides]="16" [maxDomSize]="this.horrorVideos.length"
         [enableTouch]="true" [slideMaxWidth]="220" [slideWidth]="220" [slideToShow]="this.horrorVideos.length"
         class="carousel-wrapper">
