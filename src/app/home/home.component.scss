@@ -20,6 +20,7 @@
     width: 100%;
     margin: 0 auto;
     position: relative;
+    max-height: 100vh;
 
     >.preview-section {
       width: 100%;
@@ -317,9 +318,9 @@
 }
 
 @media screen and (max-width: 950px) {
-  .video-container {
-    margin-top: 96px !important;
-  }
+  // .video-container {
+  //   margin-top: 96px !important;
+  // }
 
   .video-description {
     padding: 16px !important;
@@ -339,12 +340,25 @@
     position: unset !important;
   }
 
+  .video-container {
+    margin-top: 90px !important;
+  }
+
+  .home-wrapper {
+    overflow-x: hidden;
+  }
+
   .category-container {
     padding: 10px 16px;
   }
 
   .video-description {
     padding: 16px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: -4px -10px 15px 10px rgba(0, 0, 0, 0.8901960784), 4px -10px 20px 10px rgba(0, 0, 0, 0.8901960784);
+    z-index: 5;
 
     h1 {
       @include DMSans(700, 20px, 24.83px, $white);

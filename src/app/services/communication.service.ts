@@ -6,36 +6,27 @@ import { VideoModel } from '../models/video.model';
   providedIn: 'root',
 })
 export class CommunicationService {
-  private playVideoSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
-  playVideo$ = this.playVideoSubject.asObservable(); // Observable to track play video changes
+  private playVideoSubject = new BehaviorSubject<string>('');
+  playVideo$ = this.playVideoSubject.asObservable();
 
-  private showPreviewSubject = new BehaviorSubject<string>(''); // flag to indicate if video should be played
-  showPreview$ = this.showPreviewSubject.asObservable(); // Observable to track play video changes
+  private showPreviewSubject = new BehaviorSubject<string>('');
+  showPreview$ = this.showPreviewSubject.asObservable();
   isPreviewVideoPlaying: boolean = false;
   showVideoDescription: boolean = true;
-  // mobile view variable
-  isMobileViewActive: boolean = false; // main flag to check if mobile view is active
-  //header variables
-  showBigLogo: boolean = true; // flag to show big logo
-  isLoggedIn: boolean = false; // flag to indicate if the user is logged in
+  isMobileViewActive: boolean = false;
+  showBigLogo: boolean = true;
+  isLoggedIn: boolean = false;
+  dataIsLoaded: boolean = false;
 
-  // loading screen variables
-  dataIsLoaded: boolean = false; // flag to indicate if the data is loaded
-
-
-  // video player variables
   public currentVideoObj: VideoModel = {} as VideoModel;
   public currentPlayedTime: number = 0;
   public continuePlayTime: number = 0;
 
-  // video player popup variables
   showVideoPlayerPopup: boolean = false;
   private showVideoPlayerPopupSubject = new BehaviorSubject<boolean>(false);
   showVideoPlayerPopup$ = this.showVideoPlayerPopupSubject.asObservable();
 
-  // variables for favorites
   public favoriteVideoIds: number[] = [];
-  constructor() {}
 
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
