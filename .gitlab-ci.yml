@@ -61,7 +61,7 @@ build_job_alex:
 # Deploy Job für den Server "alex" test
 deploy_job_alex_frontend:
   stage: deploy
-  image: alpine:latest
+  image: curlimages/curl:latest
   dependencies:
     - build_job_alex
   script:
