@@ -68,8 +68,7 @@ deploy_job_alex_frontend:
     - echo "Starte den FTPS-Upload für 'alex'..."
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}";
-        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXSHOST}:21/$remote_path/home/videofix_frontend/";
-      done
+curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}/home/videofix_frontend/$remote_path";      done
   only:
     - alex
 
