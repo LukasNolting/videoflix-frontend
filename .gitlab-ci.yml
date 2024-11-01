@@ -69,7 +69,9 @@ deploy_job_alex_frontend:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
+    - ls -la ~/.ssh  # Überprüft, ob die id_rsa-Datei vorhanden ist
     - ssh-keyscan -H "$ALEXHOST" >> ~/.ssh/known_hosts
+
   script:
     - echo "Starte den SFTP-Upload für 'alex'..."
     - scp -r dist/videoflix_frontend/browser/* "$ALEXUSERNAME@$ALEXHOST:/home/videoflix_frontend/"
