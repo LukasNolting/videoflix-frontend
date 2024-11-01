@@ -78,7 +78,6 @@ build_job_benjamin:
   stage: build
   image: node:${NODE_VERSION}-alpine
   before_script:
-    # Spezifische environment.ts für den Server "benjamin" anlegen
     - mkdir -p src/environments
     - |
       echo "export const environment = { production: true, baseUrl: 'https://backend-benjamin-tietz.de' };" > src/environments/environment.ts
