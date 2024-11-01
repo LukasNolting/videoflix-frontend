@@ -70,10 +70,17 @@ deploy_job_alex_frontend:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
   script:
-    - echo "Starte den Upload auf den Server 'alex'..."
-    - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_ALEX:$REMOTE_PATH"
+    - echo "Starte den FTPS-Upload für 'lukas'..."
+    - find ./dist/videoflix_frontend/browser -type f | while read file; do
+        remote_path="${file#./dist/videoflix_frontend/browser/}";
+        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXSHOST}:21/$remote_path/home/videofix_frontend/";
+      done
   only:
     - alex
+
+  only:
+    - alex
+
 
 # Build Job für den Server "benjamin"
 build_job_benjamin:
