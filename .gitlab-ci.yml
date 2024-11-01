@@ -68,7 +68,7 @@ deploy_job_alex_frontend:
     - echo "Starte den FTPS-Upload für 'alex'...${ALEXHOST}"
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}";
-        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}:21/$remote_path";
+        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}/$remote_path";
       done
   only:
     - alex
@@ -101,7 +101,7 @@ deploy_job_benjamin:
     - echo "Starte den FTPS-Upload für 'benjamin'..."
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}";
-        curl --ftp-ssl --ftp-create-dirs --user "$BENJAMINUSERNAME:$BENJAMINPASSWORD" -T "$file" "ftp://${BENJAMINHOST}:21/$remote_path";
+        curl --ftp-ssl --ftp-create-dirs --user "$BENJAMINUSERNAME:$BENJAMINPASSWORD" -T "$file" "ftp://${BENJAMINHOST}/$remote_path";
       done
   only:
     - alex
