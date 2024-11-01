@@ -66,12 +66,15 @@ deploy_job_alex_frontend:
     - build_job_alex
   before_script:
     - apk add --no-cache openssh
-    - ssh-keyscan -H "$SSH_HOST_ALEX" >> ~/.ssh/known_hosts
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
   script:
     - echo "Starte den Upload auf den Server 'alex'..."
     - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_ALEX:$REMOTE_PATH"
   only:
-    - alex
+    - prod
+
 
 # Build Job für den Server "benjamin"
 build_job_benjamin:
@@ -101,7 +104,7 @@ deploy_job_benjamin:
     - echo "Starte den FTPS-Upload..."
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}";
-        curl --ftp-ssl --ftp-create-dirs --user "$BEN_USERNAME:$BEN_PASSWORD" -T "$file" "ftp://${SSH_FRONTEND_BEN_HOST}:21/$remote_path";
+        curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path";
       done
   only:
     - alex
