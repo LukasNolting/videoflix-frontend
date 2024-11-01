@@ -5,7 +5,7 @@ stages:
 variables:
   NODE_VERSION: "21"
 
-# Build Job für den Server "lukas" test
+# Build Job für den Server "lukas"
 build_job_lukas:
   stage: build
   image: node:${NODE_VERSION}-alpine
