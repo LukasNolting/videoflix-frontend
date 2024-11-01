@@ -12,8 +12,7 @@ build_job_lukas:
   before_script:
     # Spezifische environment.ts für den Server "lukas" anlegen
     - mkdir -p src/environments
-    - |
-      echo "export const environment = { production: true, baseUrl: 'https://backend.lukas-nolting.eu' };" > src/environments/environment.ts
+    - echo "export const environment = { production: true, baseUrl: 'https://backend.lukas-nolting.eu' };" > src/environments/environment.ts
   script:
     - echo "Verwende Node.js Version ${NODE_VERSION} für den Server 'lukas'"
     - npm install
@@ -32,10 +31,9 @@ deploy_job_lukas_frontend:
     - build_job_lukas
   script:
     - echo "Starte den FTPS-Upload..."
-    - |
-      find ./dist/videoflix_frontend/browser -type f | while read file; do
-        remote_path="${file#./dist/videoflix_frontend/browser/}"
-        curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path"
+    - find ./dist/videoflix_frontend/browser -type f | while read file; do
+        remote_path="${file#./dist/videoflix_frontend/browser/}";
+        curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path";
       done
   only:
     - prod
@@ -47,8 +45,7 @@ build_job_alex:
   before_script:
     # Spezifische environment.ts für den Server "alex" anlegen
     - mkdir -p src/environments
-    - |
-      echo "export const environment = { production: true, baseUrl: 'https://alex-luft.de' };" > src/environments/environment.ts
+    - echo "export const environment = { production: true, baseUrl: 'https://alex-luft.de' };" > src/environments/environment.ts
   script:
     - echo "Verwende Node.js Version ${NODE_VERSION} für den Server 'alex'"
     - npm install
@@ -81,8 +78,7 @@ build_job_benjamin:
   before_script:
     # Spezifische environment.ts für den Server "benjamin" anlegen
     - mkdir -p src/environments
-    - |
-      echo "export const environment = { production: true, baseUrl: 'https://backend-benjamin-tietz.de' };" > src/environments/environment.ts
+    - echo "export const environment = { production: true, baseUrl: 'https://backend-benjamin-tietz.de' };" > src/environments/environment.ts
   script:
     - echo "Verwende Node.js Version ${NODE_VERSION} für den Server 'benjamin'"
     - npm install
@@ -101,10 +97,9 @@ deploy_job_benjamin:
     - build_job_benjamin
   script:
     - echo "Starte den FTPS-Upload..."
-    - |
-      find ./dist/videoflix_frontend/browser -type f | while read file; do
-        remote_path="${file#./dist/videoflix_frontend/browser/}"
-        curl --ftp-ssl --ftp-create-dirs --user "$BEN_USERNAME:$BEN_PASSWORD" -T "$file" "ftp://${SSH_FRONTEND_BEN_HOST}:21/$remote_path"
+    - find ./dist/videoflix_frontend/browser -type f | while read file; do
+        remote_path="${file#./dist/videoflix_frontend/browser/}";
+        curl --ftp-ssl --ftp-create-dirs --user "$BEN_USERNAME:$BEN_PASSWORD" -T "$file" "ftp://${SSH_FRONTEND_BEN_HOST}:21/$remote_path";
       done
   only:
     - prod
