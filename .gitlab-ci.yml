@@ -30,10 +30,16 @@ deploy_job_lukas_frontend:
   image: curlimages/curl:latest
   dependencies:
     - build_job_lukas
+  before_script:
+    - echo "Bereite die Dateien für den Upload vor..."
+    # Kopiere den Inhalt von dist in einen temporären Ordner zur Vorbereitung
+    - mkdir -p tmp_deployment && cp -R dist/videoflix_frontend/browser/* tmp_deployment/
+    # Entferne alle Dateien und Ordner außer den Ausnahmen
+    - find tmp_deployment -type f ! -name "robots.txt" ! -name ".htaccess" ! -path "*/pytest/*" ! -path "*/docs/*" ! -path "*/cgi-bin/*" -exec rm -rf {} +
   script:
     - echo "Starte den FTPS-Upload..."
-    - find ./dist/videoflix_frontend/browser -type f | while read file; do
-        remote_path="${file#./dist/videoflix_frontend/browser/}";
+    - find ./tmp_deployment -type f | while read file; do
+        remote_path="${file#./tmp_deployment/}";
         curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path";
       done
   only:
@@ -66,12 +72,17 @@ deploy_job_alex_frontend:
     - build_job_alex
   before_script:
     - apk add --no-cache openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H "$SSH_HOST_ALEX" >> ~/.ssh/known_hosts
   script:
+    - echo "Bereinige Zielverzeichnis auf dem Server 'alex'..."
+    - ssh "$SSH_USER@$SSH_HOST_ALEX" 'find /home/videoflix_frontend/ -mindepth 1 ! -name "robots.txt" ! -name ".htaccess" ! -name "pytest" ! -name "docs" ! -name "cgi-bin" -exec rm -rf {} +'
     - echo "Starte den Upload auf den Server 'alex'..."
-    - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_ALEX:$REMOTE_PATH"
+    - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_ALEX:/home/videoflix_frontend/"
   only:
-    - alex
+    - prod
 
 # Build Job für den Server "benjamin"
 build_job_benjamin:
