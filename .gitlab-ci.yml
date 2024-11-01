@@ -81,7 +81,8 @@ build_job_benjamin:
   before_script:
     # Spezifische environment.ts für den Server "benjamin" anlegen
     - mkdir -p src/environments
-    - echo "export const environment = { production: true, baseUrl: 'https://backend-benjamin-tietz.de' };" > src/environments/environment.ts
+    - |
+      echo "export const environment = { production: true, baseUrl: 'https://backend-benjamin-tietz.de' };" > src/environments/environment.ts
   script:
     - echo "Verwende Node.js Version ${NODE_VERSION} für den Server 'benjamin'"
     - npm install
