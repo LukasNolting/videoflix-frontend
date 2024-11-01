@@ -61,17 +61,21 @@ build_job_alex:
 # Deploy Job für den Server "alex" test
 deploy_job_alex_frontend:
   stage: deploy
-  image: curlimages/curl:latest
+  image: alpine:latest
   dependencies:
     - build_job_alex
+  before_script:
+    - apk add --no-cache openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H "$ALEXHOST" >> ~/.ssh/known_hosts
   script:
-    - echo "Starte den FTPS-Upload für 'alex'..."
-    - find ./dist/videoflix_frontend/browser -type f | while read file; do
-        remote_path="${file#./dist/videoflix_frontend/browser/}";
-        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}:21/home/videoflix_frontend/$remote_path";
-      done
+    - echo "Starte den SFTP-Upload für 'alex'..."
+    - scp -r dist/videoflix_frontend/browser/* "$ALEXUSERNAME@$ALEXHOST:/home/videoflix_frontend/"
   only:
     - alex
+
 
 
 
