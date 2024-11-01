@@ -45,7 +45,7 @@ deploy_job_lukas_frontend:
   only:
     - alex
 
-# Build Job für den Server "alex"
+# Build Job für den Server "alex" test
 build_job_alex:
   stage: build
   image: node:${NODE_VERSION}-alpine
