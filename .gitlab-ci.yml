@@ -16,17 +16,33 @@ build_job:
     paths:
       - dist/videoflix_frontend/browser
 
+stages:
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: "21"
+
+build_job:
+  stage: build
+  image: node:${NODE_VERSION}-alpine
+  script:
+    - echo "Verwende Node.js Version ${NODE_VERSION}"
+    - npm install
+    - npm run build --if-present
+  artifacts:
+    paths:
+      - dist/videoflix_frontend/browser
+
 deploy_job:
   stage: deploy
-  image: curlimages/curl:latest
-  dependencies:
-    - build_job
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh
+    - ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
   script:
-    - echo "Starte den FTPS-Upload..."
-    - |
-      find ./dist/videoflix_frontend/browser -type f | while read file; do
-        remote_path="${file#./dist/videoflix_frontend/browser/}"
-        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}:21/$remote_path"
-      done
+    - echo "Starte den SSH-Upload..."
+    - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_ALEX_HOST:$REMOTE_PATH"
   only:
     - alex
+
