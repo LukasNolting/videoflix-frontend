@@ -7,15 +7,18 @@
     background-color: $black;
     overflow-y: auto;
     overflow-x: hidden;
-    .privacy-container{
+
+    .privacy-container {
         flex: 1;
         max-width: 1440px;
         padding: 0 96px 64px 96px;
     }
+
     .header {
         width: 100%;
         max-width: 1440px;
     }
+
     .footer {
         width: 100%;
         max-width: 1440px;
@@ -37,6 +40,7 @@ h3 {
 ul {
     @include DMSans(400, 16px, 20.83px, $white);
     margin-bottom: 8px;
+    margin-left: 16px;
 }
 
 li {
@@ -47,4 +51,33 @@ li {
 p {
     @include DMSans(400, 16px, 20.83px, $white);
     margin-bottom: 8px;
+}
+
+
+@media screen and (max-width: 950px) {
+    .privacy-container {
+        padding: 0 32px 64px 32px !important;
+    }
+
+    h1 {
+        @include DMSans(700, 78px, 104.58px, $white);
+    }
+
+    h2 {
+        @include DMSans(700, 38px, 52.5px, $white);
+    }
+}
+
+@media screen and (max-width: $responsive-breakpoint) {
+    .privacy-container {
+        padding: 0 16px 64px 16px !important;
+    }
+
+    h1 {
+        @include DMSans(700, 40px, 66.58px, $white);
+    }
+
+    h2 {
+        @include DMSans(700, 28px, 42.5px, $white);
+    }
 }
