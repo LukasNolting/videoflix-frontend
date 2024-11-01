@@ -20,11 +20,6 @@
         Sign Up <img src="../img/icons/chevron_right.svg" alt="" />
       </button>
     </form>
-    <p [ngStyle]="{'color': !emailfield.valid && (emailfield.touched || emailfield.dirty) ? 'red' : '#fff'}">
-      @if (!emailfield.valid && emailfield.touched) {
-      <span class="validation">auf den button legen und popup einblenden</span>
-      }
-    </p>
   </section>
   <section>
     <app-footer class="footer"></app-footer>
