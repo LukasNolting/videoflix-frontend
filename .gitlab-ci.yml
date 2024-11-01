@@ -5,7 +5,7 @@ stages:
 variables:
   NODE_VERSION: "21"
 
-# Build Job für den Server "lukas" test
+# Build Job für den Server "lukas"
 build_job_lukas:
   stage: build
   image: node:${NODE_VERSION}-alpine
@@ -31,7 +31,7 @@ deploy_job_lukas_frontend:
   dependencies:
     - build_job_lukas
   script:
-    - echo "Starte den FTPS-Upload..."
+    - echo "Starte den FTPS-Upload für 'lukas'..."
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}";
         curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path";
@@ -73,8 +73,7 @@ deploy_job_alex_frontend:
     - echo "Starte den Upload auf den Server 'alex'..."
     - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_ALEX:$REMOTE_PATH"
   only:
-    - prod
-
+    - alex
 
 # Build Job für den Server "benjamin"
 build_job_benjamin:
@@ -101,10 +100,10 @@ deploy_job_benjamin:
   dependencies:
     - build_job_benjamin
   script:
-    - echo "Starte den FTPS-Upload..."
+    - echo "Starte den FTPS-Upload für 'benjamin'..."
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}";
-        curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path";
+        curl --ftp-ssl --ftp-create-dirs --user "$BENJAMINUSERNAME:$BENJAMINPASSWORD" -T "$file" "ftp://${BENJAMINHOST}:21/$remote_path";
       done
   only:
     - alex
