@@ -45,7 +45,6 @@
 form {
     @include dFlex(column, center, center);
     width: 408px;
-    height: 187px;
     gap: 24px;
 
     button {
@@ -128,7 +127,6 @@ p {
     form {
         @include dFlex(column, center, center);
         width: 310px;
-        height: 159px;
         margin-top: 16px;
     }
 
@@ -138,6 +136,7 @@ p {
 
     .remember-me-container {
         width: 310px !important;
+        margin-left: 8px !important;
     }
 
     input::placeholder {

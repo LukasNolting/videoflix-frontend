@@ -29,7 +29,6 @@
 
     h1 {
         @include DMSans(700, 48px, 62.5px, $main-blue-dark);
-        padding-bottom: 48px;
     }
 }
 
@@ -62,7 +61,6 @@
 form {
     @include dFlex(column, center, center);
     width: 408px;
-    height: 167px;
     gap: 24px;
 
     button {
@@ -122,6 +120,8 @@ p {
         h1 {
             @include DMSans(700, 40px, 52.08px, $main-blue-dark);
             text-align: center;
+            margin-block-end: unset !important;
+            margin-block-start: unset !important;
         }
     }
 
@@ -147,7 +147,6 @@ p {
     form {
         @include dFlex(column, center, center);
         width: 310px;
-        height: 159px;
         gap: 24px;
     }
 
