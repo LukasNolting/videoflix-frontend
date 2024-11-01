@@ -71,7 +71,7 @@ deploy_job_alex_frontend:
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
         remote_path="${file#./dist/videoflix_frontend/browser/}";
         |
-          echo "Lade Datei hoch nach: ftp://${ALEXHOST}:21/$remote_path"
+        echo "Lade Datei hoch nach: ftp://${ALEXHOST}:21/$remote_path"
         curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}:21/$remote_path";
       done
   only:
