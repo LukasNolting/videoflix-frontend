@@ -4,11 +4,8 @@
     @include dFlex(column, center, center);
     height: 100vh;
     width: 100vw;
-    background-color: $black;
     @include background-image("backgrounds/background_1.webp");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    overflow-y: auto;
 
     .login-header {
         width: 100%;
@@ -106,9 +103,18 @@ p {
     @include DMSans(500, 18px, 23.44px, $black);
 }
 
+@media screen and (max-height: 450px) {
+    .login-wrapper {
+        display: block !important;
+    }
+
+    .footer {
+        margin-top: 32px !important;
+    }
+}
+
 @media screen and (max-width: $responsive-breakpoint) {
     .login-container {
-
         max-width: 320px;
         height: 505px;
         padding: 43px 24px;
@@ -127,14 +133,12 @@ p {
     }
 
     input {
-        width: 280px;
+        width: 310px;
     }
 
     .remember-me-container {
-        width: 280px;
+        width: 310px !important;
     }
-
-
 
     input::placeholder {
         @include DMSans(400, 16px, 20.83px, $main-blue-dark);

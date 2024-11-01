@@ -4,11 +4,8 @@
     @include dFlex(column, center, center);
     height: 100vh;
     width: 100vw;
-    background-color: $black;
     @include background-image("backgrounds/background_2.webp");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    overflow-y: auto;
 
     .signup-header {
         width: 100%;
@@ -102,6 +99,16 @@ input::placeholder {
 
 p {
     @include DMSans(500, 18px, 23.44px, $black);
+}
+
+@media screen and (max-height: 450px) {
+    .signup-wrapper {
+        display: block !important;
+    }
+
+    .footer {
+        margin-top: 32px !important;
+    }
 }
 
 
