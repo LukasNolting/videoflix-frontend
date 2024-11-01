@@ -84,10 +84,17 @@ body {
 
 @font-face {
   font-family: "DMSans";
-  src: url("assets/fonts/DMSans-VariableFont_wght.ttf") format("truetype");
+  src: url("/assets/fonts/DMSans-VariableFont_wght.ttf") format("truetype");
   font-weight: 125 950;
   font-stretch: 75% 125%;
   font-style: normal;
+}
+
+@mixin background-image($image-url) {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/assets/img/#{$image-url}");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 //global classes
@@ -255,11 +262,11 @@ option:focus {
 
 .btn-container {
   > .next {
-    background-image: url("../src/assets/img/icons/arrow_right.png") !important;
+    background-image: url("/assets/img/icons/arrow_right.png") !important;
   }
 
   > .prev {
-    background-image: url("../src/assets/img/icons/arrow_left.png") !important;
+    background-image: url("/assets/img/icons/arrow_left.png") !important;
   }
 
   button {
