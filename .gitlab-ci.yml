@@ -22,7 +22,7 @@ build_job_lukas:
     paths:
       - dist/videoflix_frontend/browser
   only:
-    - prod
+    - alex
 
 # Deploy Job für den Server "lukas" via FTPS
 deploy_job_lukas_frontend:
@@ -37,7 +37,7 @@ deploy_job_lukas_frontend:
         curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path";
       done
   only:
-    - prod
+    - alex
 
 # Build Job für den Server "alex"
 build_job_alex:
@@ -56,7 +56,7 @@ build_job_alex:
     paths:
       - dist/videoflix_frontend/browser
   only:
-    - prod
+    - alex
 
 # Deploy Job für den Server "alex"
 deploy_job_alex_frontend:
@@ -71,7 +71,7 @@ deploy_job_alex_frontend:
     - echo "Starte den Upload auf den Server 'alex'..."
     - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_ALEX:$REMOTE_PATH"
   only:
-    - prod
+    - alex
 
 # Build Job für den Server "benjamin"
 build_job_benjamin:
@@ -89,7 +89,7 @@ build_job_benjamin:
     paths:
       - dist/videoflix_frontend/browser
   only:
-    - prod
+    - alex
 
 # Deploy Job für den Server "benjamin"
 deploy_job_benjamin:
@@ -104,4 +104,4 @@ deploy_job_benjamin:
         curl --ftp-ssl --ftp-create-dirs --user "$BEN_USERNAME:$BEN_PASSWORD" -T "$file" "ftp://${SSH_FRONTEND_BEN_HOST}:21/$remote_path";
       done
   only:
-    - prod
+    - alex
