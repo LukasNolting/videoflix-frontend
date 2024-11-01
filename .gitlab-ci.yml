@@ -64,7 +64,7 @@ build_job_alex:
   only:
     - alex
 
-# Deploy Job für den Server "alex"
+# Deploy Job für den Server "alex" test
 deploy_job_alex_frontend:
   stage: deploy
   image: alpine:latest
