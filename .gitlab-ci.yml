@@ -23,12 +23,12 @@ build_job_lukas:
   only:
     - prod
 
-# Deploy Job für den Server "lukas"
+# Deploy Job für den Server "lukas" via FTPS
 deploy_job_lukas_frontend:
   stage: deploy
   image: curlimages/curl:latest
   dependencies:
-    - build_job
+    - build_job_lukas
   script:
     - echo "Starte den FTPS-Upload..."
     - |
@@ -36,19 +36,6 @@ deploy_job_lukas_frontend:
         remote_path="${file#./dist/videoflix_frontend/browser/}"
         curl --ftp-ssl --ftp-create-dirs --user "$LUKASUSERNAME:$LUKASPASSWORD" -T "$file" "ftp://${LUKASHOST}:21/$remote_path"
       done
-  only:
-    - prod
-deploy_job_lukas:
-  stage: deploy
-  image: alpine:latest
-  dependencies:
-    - build_job_lukas
-  before_script:
-    - apk add --no-cache openssh
-    - ssh-keyscan -H "$SSH_HOST_LUKAS" >> ~/.ssh/known_hosts
-  script:
-    - echo "Starte den Upload auf den Server 'lukas'..."
-    - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_LUKAS:$REMOTE_PATH"
   only:
     - prod
 
@@ -106,14 +93,15 @@ build_job_benjamin:
 # Deploy Job für den Server "benjamin"
 deploy_job_benjamin:
   stage: deploy
-  image: alpine:latest
+  image: curlimages/curl:latest
   dependencies:
-    - build_job_benjamin
-  before_script:
-    - apk add --no-cache openssh
-    - ssh-keyscan -H "$SSH_HOST_BENJAMIN" >> ~/.ssh/known_hosts
+    - build_job_lukas
   script:
-    - echo "Starte den Upload auf den Server 'benjamin'..."
-    - scp -r dist/videoflix_frontend/browser/* "$SSH_USER@$SSH_HOST_BENJAMIN:$REMOTE_PATH"
+    - echo "Starte den FTPS-Upload..."
+    - |
+      find ./dist/videoflix_frontend/browser -type f | while read file; do
+        remote_path="${file#./dist/videoflix_frontend/browser/}"
+        curl --ftp-ssl --ftp-create-dirs --user "$BEN_USERNAME:$BEN_PASSWORD" -T "$file" "ftp://${SSH_FRONTEND_BEN_HOST}:21/$remote_path"
+      done
   only:
     - prod
