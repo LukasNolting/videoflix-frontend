@@ -65,13 +65,14 @@ deploy_job_alex_frontend:
   dependencies:
     - build_job_alex
   script:
-    - echo "Starte den FTPS-Upload für 'alex'...${ALEXHOST}"
+    - echo "Starte den FTPS-Upload für 'alex'..."
     - find ./dist/videoflix_frontend/browser -type f | while read file; do
-        remote_path="${file#./dist/videoflix_frontend/browser/}";
-        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://${ALEXHOST}/$remote_path";
+        remote_path="${file#./dist/videoflix_frontend/browser/}"
+        curl --ftp-ssl --ftp-create-dirs --user "$ALEXUSERNAME:$ALEXPASSWORD" -T "$file" "ftp://luft-alex.de/$remote_path"
       done
   only:
     - alex
+
 
 # Build Job für den Server "benjamin"
 build_job_benjamin:
