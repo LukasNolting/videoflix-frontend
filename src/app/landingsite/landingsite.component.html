@@ -17,7 +17,7 @@
               : '#fff'
         }" />
       <button type="submit" [disabled]="!emailfield.valid">
-        Sign Up <img src="../img/icons/chevron_right.svg" alt="" />
+        Sign Up <img src="/assets/img/icons/chevron_right.svg" alt="" />
       </button>
     </form>
     <p [ngStyle]="{'color': !emailfield.valid && (emailfield.touched || emailfield.dirty) ? 'red' : '#fff'}">
