@@ -28,6 +28,30 @@ export class CommunicationService {
 
   public favoriteVideoIds: number[] = [];
 
+  private showImprintSubject = new BehaviorSubject<boolean>(false);
+  private showPrivacySubject = new BehaviorSubject<boolean>(false);
+
+  showImprint$ = this.showImprintSubject.asObservable();
+  showPrivacy$ = this.showPrivacySubject.asObservable();
+
+  /**
+   * Updates the visibility state of the imprint overlay.
+   *
+   * @param {boolean} value - A flag indicating whether to show (true) or hide (false) the imprint overlay.
+   */
+  setShowImprint(value: boolean): void {
+    this.showImprintSubject.next(value);
+  }
+
+  /**
+   * Updates the visibility state of the privacy overlay.
+   *
+   * @param {boolean} value - A flag indicating whether to show (true) or hide (false) the privacy overlay.
+   */
+  setShowPrivacy(value: boolean): void {
+    this.showPrivacySubject.next(value);
+  }
+
   /**
    * Triggers the play video functionality by setting the `playVideoSubject` to true.
    */

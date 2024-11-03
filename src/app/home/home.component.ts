@@ -17,7 +17,9 @@ import { VideoModel } from '../models/video.model';
 import { ContinueWatching } from '../models/continue-watching';
 import { environment } from '../../environments/environment';
 import { VideoPlayerPopupComponent } from '../video-player-popup/video-player-popup.component';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
+import { ImprintComponent } from '../imprint/imprint.component';
+import { PrivacyComponent } from '../privacy/privacy.component';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +33,8 @@ import { Subscription } from 'rxjs';
     VideoPlayerComponent,
     CarouselComponent,
     VideoPlayerPopupComponent,
+    ImprintComponent,
+    PrivacyComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -68,6 +72,13 @@ export class HomeComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.communicationService.showVideoPlayerPopup$.subscribe((show) => {
         this.toggleBodyScroll(show);
       });
+    combineLatest([
+      this.communicationService.showImprint$,
+      this.communicationService.showPrivacy$,
+    ]).subscribe(([showImprint, showPrivacy]) => {
+      const shouldHideScroll = showImprint || showPrivacy;
+      this.toggleBodyScroll(shouldHideScroll);
+    });
   }
   /**
    * Lifecycle hook, after the component's view has been fully initialized.

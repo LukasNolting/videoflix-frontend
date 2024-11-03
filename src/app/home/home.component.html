@@ -280,3 +280,21 @@
 </div>
 }
 <!-- loading spinner END -->
+
+<!-- Imprint Popup START -->
+@if (this.communicationService.showImprint$ | async) {
+<div class="legal-popup">
+  <app-imprint></app-imprint>
+</div>
+}
+
+<!-- Imprint Popup END -->
+
+<!-- Privacy Popup START -->
+@if (this.communicationService.showPrivacy$ | async) {
+<div class="legal-popup">
+  <app-privacy></app-privacy>
+</div>
+}
+
+<!-- Privacy Popup END -->
