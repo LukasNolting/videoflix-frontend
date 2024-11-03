@@ -7,6 +7,7 @@
     background-color: $black;
     overflow-y: auto;
     overflow-x: hidden;
+    position: relative;
 
     .imprint-container {
         flex: 1;
@@ -25,6 +26,7 @@
     }
 }
 
+
 h1 {
     @include DMSans(700, 88px, 114.58px, $white);
 }
@@ -38,6 +40,7 @@ p {
     margin-bottom: 8px;
 }
 
+
 @media screen and (max-width: 950px) {
     .imprint-container {
         padding: 0 32px 64px 32px !important;
@@ -49,6 +52,13 @@ p {
 
     h2 {
         @include DMSans(700, 38px, 52.5px, $white);
+    }
+
+    .close-btn {
+        svg {
+            width: 24px;
+            height: 24px;
+        }
     }
 }
 

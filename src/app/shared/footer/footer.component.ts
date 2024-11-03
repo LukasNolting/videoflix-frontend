@@ -3,6 +3,7 @@ import { PrivacyComponent } from '../../privacy/privacy.component';
 import { ImprintComponent } from '../../imprint/imprint.component';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CommunicationService } from '../../services/communication.service';
 
 @Component({
   selector: 'app-footer',
@@ -16,15 +17,20 @@ export class FooterComponent {
   privacyActive: boolean = false;
   imprintActive: boolean = false;
 
-  constructor(private router: Router) {
-    if (this.router.url === '/home'||this.router.url === '/imprint'||this.router.url === '/privacy') {
+  constructor(
+    private router: Router,
+    public communicationService: CommunicationService
+  ) {
+    if (
+      this.router.url === '/home' ||
+      this.router.url === '/imprint' ||
+      this.router.url === '/privacy'
+    ) {
       this.rightAlignFooter = true;
 
-      if (this.router.url === '/privacy')
-        this.privacyActive = true;
-  
-      if (this.router.url === '/imprint')
-        this.imprintActive = true;
+      if (this.router.url === '/privacy') this.privacyActive = true;
+
+      if (this.router.url === '/imprint') this.imprintActive = true;
     }
   }
 }
