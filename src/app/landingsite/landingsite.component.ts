@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { Router } from '@angular/router';
-import { SignupComponent } from '../signup/signup.component';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -19,7 +18,6 @@ import { FormGroup } from '@angular/forms';
   imports: [
     HeaderComponent,
     FooterComponent,
-    SignupComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
